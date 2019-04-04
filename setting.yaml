@@ -1,4 +1,2 @@
 setting_device:
   device: emulator-5554
-  # adb_server_host: 192.168.1.68
-  # adb_server_port: 5037
