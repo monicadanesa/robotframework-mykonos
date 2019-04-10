@@ -1,0 +1,6 @@
+alog
+attrs
+uiautomator
+ipkernerl
+pyyaml
+pytest
