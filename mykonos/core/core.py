@@ -1,4 +1,3 @@
-from abc import ABC, abstractmethod
 from uiautomator import Device
 
 class Core(object):
