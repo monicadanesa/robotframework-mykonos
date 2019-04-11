@@ -1,21 +1,10 @@
 from abc import ABC, abstractmethod
 from uiautomator import Device
 
-
-class Decorator(ABC):
-
-    def __init__(self, component):
-        self._component = component
-
-    @abstractmethod
-    def device(self):
-        print('decorator')
-
-
-class Core(Decorator):
+class Core(object):
     """ add responsibility to the component
-    how to call : sample_a = Core(Decorator)
-    sample_a.device(data_result)
+    how to call :  self.device_mobile = self.device(self.data)
+    data is from yaml file
     """
     def device(self, data):
         data_result = data['setting_device']

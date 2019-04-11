@@ -1,14 +1,13 @@
 import attr
 from alog import debug, error, info
-from mykonos.core.core import Core, Decorator
+from mykonos.core.core import Core
 
 @attr.s
-class ManagementDevice():
+class ManagementDevice(Core):
     data = attr.ib()
 
     def __attrs_post_init__(self):
-        self.core = Core(Decorator)
-        self.device_mobile = self.core.device(self.data)
+        self.device_mobile = self.device(self.data)
 
     def device_info(self):
         """ Call keyword_device_info
