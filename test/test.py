@@ -1,7 +1,8 @@
 import pytest
 import os
 from yaml import load
-from mykonos.orcestrator import Orcestrator
+from mykonos.keywords.key_event import KeyEvent
+from mykonos.keywords.management_device import ManagementDevice
 
 def scan_current_device():
     global sc
@@ -32,21 +33,10 @@ def open_file():
 
 def test_device_info():
     data = open_file()
-    orc = Orcestrator(data)
-    result = orc.device_info()
+    cls = ManagementDevice(data)
+    result = cls.device_info()
 
     if len(result)==10:
         return True
     else:
         return False
-
-def test_turn_on_screen():
-    data = open_file()
-    orc = Orcestrator(data)
-    result = orc.turn_on_screen()
-    return result
-
-def test_press_key_home():
-    data = open_file()
-    orc = Orcestrator(data)
-    result = orc.press_key('home')
