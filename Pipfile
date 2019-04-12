@@ -12,6 +12,7 @@ uiautomator = "*"
 attrs = "*"
 pyyaml = "*"
 pytest = "*"
+pytest-html = "*"
 
 [requires]
 python_version = "3.7"

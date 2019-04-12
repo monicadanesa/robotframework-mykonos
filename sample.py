@@ -10,7 +10,12 @@ data
 
 data_result = data['setting_device']
 
-key_event = ManagementDevice(data)
+key_event = KeyEvent(data)
+
+key_event
+key_event.press_navigation('menu()')
+
+key_event.press_menu()
 
 key_event.device_info()
 orc.turn_on_screen()

@@ -4,3 +4,4 @@ mykonos/__pycache__/__init__.cpython-37.pyc
 mykonos/__pycache__/orcestrator.cpython-37.pyc
 sample.py
 __pycache__
+*.html

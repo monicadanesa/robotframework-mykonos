@@ -3,7 +3,7 @@ from alog import debug, info, error
 from mykonos.core.core import Core
 
 @attr.s
-class KeyEvent:
+class KeyEvent(Core):
     data = attr.ib()
 
     def __attrs_post_init__(self):
@@ -62,7 +62,7 @@ class KeyEvent:
     def press_recent(self):
         """
         Press recent Button on Device"""
-        return self.device_mobile.press.right()
+        return self.device_mobile.press.recent()
 
     def press_volume_up(self):
         """
@@ -88,3 +88,8 @@ class KeyEvent:
         """
         Press power Button on Device"""
         return self.device_mobile.press.power()
+
+    def press_key(self, *keys):
+        """
+        Press any keys that support with android on Device """
+        return self.device_mobile.press(*keys)

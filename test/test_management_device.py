@@ -1,7 +1,6 @@
 import pytest
 import os
 from yaml import load
-from mykonos.keywords.key_event import KeyEvent
 from mykonos.keywords.management_device import ManagementDevice
 
 def scan_current_device():
