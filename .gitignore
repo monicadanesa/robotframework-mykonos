@@ -6,3 +6,5 @@ sample.py
 __pycache__
 *.html
 .pytest_cache
+assets
+.DS_Store

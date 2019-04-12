@@ -5,7 +5,7 @@ class Core(object):
     how to call :  self.device_mobile = self.device(self.data)
     data is from yaml file
     """
-    def device(self, data):
+    def device(self, data, **locator):
         data_result = data['setting_device']
         try:
             for i in data_result:

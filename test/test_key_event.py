@@ -88,10 +88,16 @@ def test_press_camera():
     print(result)
     assert result == True
 
-
 def test_press_back():
     data = open_file()
     cls = KeyEvent(data)
     result = cls.press_back()
+    print(result)
+    assert result == True
+
+def test_press():
+    data = open_file()
+    cls = KeyEvent(data)
+    result = cls.press_key(0x07, 0x02)
     print(result)
     assert result == True
