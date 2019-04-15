@@ -13,6 +13,7 @@ attrs = "*"
 pyyaml = "*"
 pytest = "*"
 pytest-html = "*"
+robotframework = "*"
 
 [requires]
 python_version = "3.7"
