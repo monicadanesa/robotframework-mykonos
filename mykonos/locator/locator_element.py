@@ -32,8 +32,8 @@ class LocatorElement(Core):
         """ access child locator from device
         example:
         cls = LocatorElement(data)
-        locator = cls.get_locator(text='')
-        child = cls.get_child(locator, text='')
+        parent = cls.get_locator(text='')
+        child = cls.get_child(parent, text='')
         """
         return parent.child(*argument, **locator)
 
@@ -41,7 +41,43 @@ class LocatorElement(Core):
         """ access sibling locator from device
         example:
         cls = LocatorElement(data)
-        locator = cls.get_locator(text='')
-        sibling = cls.get_sibling(locator, text='')
+        parent = cls.get_locator(text='')
+        sibling = cls.get_sibling(parent, text='')
         """
         return parent.sibling(*argument, **locator)
+
+    def left_postion(self, parent, *argument, **locator):
+        """ access left position from device
+        example:
+        cls = LocatorElement(data)
+        parent = cls.get_locator(text='')
+        left = cls.left_postion(parent, text='')
+        """
+        return parent.left(*argument, **locator)
+
+    def right_postion(self, parent, *argument, **locator):
+        """ access left position from device
+        example:
+        cls = LocatorElement(data)
+        parent = cls.get_locator(text='')
+        right = cls.right_postion(parent, text='')
+        """
+        return parent.right(*argument, **locator)
+
+    def up_postion(self, parent, *argument, **locator):
+        """ access left position from device
+        example:
+        cls = LocatorElement(data)
+        parent = cls.get_locator(text='')
+        up = cls.up_postion(parent, text='')
+        """
+        return parent.up(*argument, **locator)
+
+    def down_postion(self, parent, *argument, **locator):
+        """ access left position from device
+        example:
+        cls = LocatorElement(data)
+        parent = cls.get_locator(text='')
+        down = cls.up_postion(parent, text='')
+        """
+        return parent.down(*argument, **locator)

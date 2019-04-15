@@ -1,5 +1,4 @@
 import pytest
-import os
 from yaml import load
 from mykonos.keywords.key_event import KeyEvent
 
@@ -8,6 +7,19 @@ def open_file():
         data = load(f)
     return data
 
+def test_press_back():
+    data = open_file()
+    cls = KeyEvent(data)
+    result = cls.press_keycode("back")
+    print(result)
+    assert result == True
+
+def test_press_home():
+    data = open_file()
+    cls = KeyEvent(data)
+    result = cls.press_keycode("home")
+    print(result)
+    assert result == True
 
 def test_press_menu():
     data = open_file()
@@ -52,13 +64,6 @@ def test_press_center():
     print(result)
     assert result == True
 
-def test_press_home():
-    data = open_file()
-    cls = KeyEvent(data)
-    result = cls.press_keycode("home")
-    print(result)
-    assert result == True
-
 def test_press_search():
     data = open_file()
     cls = KeyEvent(data)
@@ -86,6 +91,7 @@ def test_press_camera():
     result = cls.press_keycode("camera")
     print(result)
     assert result == True
+
 
 def test_press_back():
     data = open_file()
