@@ -39,8 +39,8 @@ class Element(LocatorElement):
         except ValueError as error:
              raise ValueError('element cannot be clear' + error)
 
-    def input_text(self, parent=None, text=None, *argument, **locator):
-        """ clear text on text field base on locator """
+    def input_text(self, text=None,  parent=None, *argument, **locator):
+        """ input text on text field base on locator """
         try:
             if parent!=None:
                 return parent.set_text(text)
