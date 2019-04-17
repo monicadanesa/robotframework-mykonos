@@ -4,12 +4,10 @@ from mykonos.core.core import Core
 
 @attr.s
 class KeyEvent(Core):
-    data = attr.ib()
-
     def __attrs_post_init__(self):
         self.device_mobile = self.device(self.data)
 
-    def press_keycode(self, *args, **kwargs):
+    def press_keycode(self, device=None, *args, **kwargs):
         """ press key on android device
         keysupport :
         home, back, left, right

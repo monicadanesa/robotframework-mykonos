@@ -1,15 +1,38 @@
 import attr
+import os
 from alog import debug, error, info
 from mykonos.core.core import Core
 
 @attr.s
 class ManagementDevice(Core):
-    data = attr.ib()
 
     def __attrs_post_init__(self):
-        self.device_mobile = self.device(self.data)
+        pass
 
-    def device_info(self):
+    def scan_current_device(self, *args, **data_result):
+        global sc
+        sc = os.system('adb devices')
+
+        if sc==0:
+            debug(True)
+        else:
+            debug(False)
+
+        return self.device(*args, **data_result)
+
+    def reset_application(self, app_package):
+        rs = os.system('adb -s '+sc+' shell pm clear '+app_package+'')
+        return rs
+
+    def open_application(self, app_activity):
+        op = os.system('adb -s '+sc+' shell am start -W '+app_activity+'')
+        return op
+
+    def close_application(self, app_package):
+        cl = os.system('adb -s '+sc+' am force-stop '+app_package+'')
+        return cl
+
+    def info_device(self, **device_setting):
         """ Call keyword_device_info
         and will return dictionary
         Example :
@@ -32,16 +55,16 @@ class ManagementDevice(Core):
          'naturalOrientation': True}
         """
 
-        return self.device_mobile.info
+        return self.device(*args, **data_result).info
 
-    def turn_on_screen(self):
+    def turn_on_screen(self, **device_setting):
         """ Call keyword_turn_on_screen
         and screen device will be on
         """
-        return self.device_mobile.screen.on()
+        return self.device(*args, **data_result).screen.on()
 
-    def turn_off_screen(self):
+    def turn_off_screen(self, **device_setting):
         """ Call keyword_turn_off_screen
         and screen device will be on
         """
-        return self.device_mobile.screen.off()
+        return self.device(*args, **data_result).screen.off()

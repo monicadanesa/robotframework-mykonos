@@ -3,31 +3,31 @@ from mykonos.keywords.key_event import KeyEvent
 from mykonos.keywords.management_device import ManagementDevice
 from mykonos.keywords.element import Element
 from mykonos.keywords.touch import Touch
+from mykonos.locator.locator_element import LocatorElement
+
+# scan device
+md = ManagementDevice()
+md.scan_current_device()
+md.info_device()
 
 
-with open('test/setting.yaml') as f:
-    data = load(f)
+result
+# get element
 
-el = LocatorElement(data)
-parent = el.get_locator(text="Messages")
-right = el.up_postion(parent, text="Play Store")
-right.info
+# click
+el = Element()
+el.click_element(element)
+
+md =  ManagementDevice()
+d1 = md.scan_current_device("emulator-5554")
+d2 = md.scan_current_device("emulator-5556")
 
 
-le = LocatorElement(data)
-parent = le.get_locator(text="Messages")
-result = le.up_postion(parent, text="Maps")
-debug(result.info)
-assert len(result.info)!=0
+le = LocatorElement()
+le.get_locator(text="Messaging").click()
+le.get_locator(d1, text="Messaging").click()
 
-el = Element(data)
-el.device_mobile(className="android.widget.MultiAutoCompleteTextView").set_text('hey')
-el.input_text('hay',className="android.widget.MultiAutoCompleteTextView")
-el.clear_text(className="android.widget.MultiAutoCompleteTextView")
-locator = el.get_locator(className="android.widget.MultiAutoCompleteTextView")
-el.input_text('hello',locator)
-el.clear_text(locator)
-el.device_mobile(className="android.widget.MultiAutoCompleteTextView").clear_text()
-
-tc = Touch(data)
-tc.swipe_screen(0,0,1080,1794, step=5)
+el = Element()
+locator = el.get_locator(text="Messages")
+el.click_element(None,locator)
+el.click_element(text="Messaging")

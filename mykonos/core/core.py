@@ -5,21 +5,9 @@ class Core(object):
     how to call :  self.device_mobile = self.device(self.data)
     data is from yaml file
     """
-    def device(self, data, **locator):
-        data_result = data['setting_device']
+    def device(self, *args, **data_result):
         try:
-            for i in data_result:
-                if ('device' in data_result and
-                    'adb_server_host' in data_result and
-                    'adb_server_port' in data_result):
-                    return Device(data_result['device'], adb_server_host=data_result['adb_server_host'], adb_server_port=data_result['adb_server_port'])
-
-                elif ('device' in data_result and
-                    'adb_server_host' in data_result):
-                    return Device(data_result['device'], adb_server_host=data_result['adb_server_host'])
-
-                elif 'device' in data_result:
-                    return Device(data_result['device'])
+            return Device(*args, **data_result)
 
         except Exception as Argument:
             raise ValueError(Argument)
