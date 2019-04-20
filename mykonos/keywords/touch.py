@@ -1,11 +1,11 @@
 import attr
 from alog import debug, error, info
-from mykonos.locator.locator_element import LocatorElement
+from mykonos.core.core import Core
 
 @attr.s
-class Touch(LocatorElement):
+class Touch(Core):
     def __attrs_post_init__(self):
-        self.device_mobile = self.scan_current_device()
+        self.device_mobile = self.device()
 
     def swipe_screen(self, sx, sy, ex, ey, step=None, device=None):
         """ geasture swipe interanction of Android Device

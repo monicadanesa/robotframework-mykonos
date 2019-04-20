@@ -1,38 +1,38 @@
-import attr
 import os
 from alog import debug, error, info
 from mykonos.core.core import Core
 
-@attr.s
 class ManagementDevice(Core):
 
-    def __attrs_post_init__(self):
+    def __init__(self):
         pass
 
-    def scan_current_device(self, *args, **data_result):
-        global sc
+    def scan_current_device(self,  *args, **data_result):
         sc = os.system('adb devices')
 
         if sc==0:
-            debug(True)
+            result = 'device is available'
         else:
-            debug(False)
+            result = 'device is not available'
 
         return self.device(*args, **data_result)
 
-    def reset_application(self, app_package):
-        rs = os.system('adb -s '+sc+' shell pm clear '+app_package+'')
+    def reset_application(self, device, app_package):
+        rs = os.system('adb -s '+device+' shell pm clear '+app_package+'')
         return rs
 
-    def open_application(self, app_activity):
-        op = os.system('adb -s '+sc+' shell am start -W '+app_activity+'')
-        return op
+    def open_application(self, device, app_package):
+        try:
+            op = os.system('adb -s '+device+' shell am start -W '+app_package+'')
+            return self.device(device)
+        except ValueError as error:
+            raise ValueError('open device is failed')
 
-    def close_application(self, app_package):
-        cl = os.system('adb -s '+sc+' am force-stop '+app_package+'')
+    def close_application(self, device_name, app_package):
+        cl = os.system('adb shell am force-stop '+app_package+'')
         return cl
 
-    def info_device(self, **device_setting):
+    def info_device(self, *args, **device_setting):
         """ Call keyword_device_info
         and will return dictionary
         Example :
@@ -55,16 +55,16 @@ class ManagementDevice(Core):
          'naturalOrientation': True}
         """
 
-        return self.device(*args, **data_result).info
+        return self.device(*args, **device_setting).info
 
     def turn_on_screen(self, **device_setting):
         """ Call keyword_turn_on_screen
         and screen device will be on
         """
-        return self.device(*args, **data_result).screen.on()
+        return self.device(*args, **device_setting).screen.on()
 
     def turn_off_screen(self, **device_setting):
         """ Call keyword_turn_off_screen
         and screen device will be on
         """
-        return self.device(*args, **data_result).screen.off()
+        return self.device(*args, **device_setting).screen.off()

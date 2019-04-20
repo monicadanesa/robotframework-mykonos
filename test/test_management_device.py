@@ -25,15 +25,10 @@ def close_application(app_package):
     cl = os.system('adb -s '+sc+' am force-stop '+app_package+'')
     return cl
 
-def open_file():
-    with open('setting.yaml') as f:
-        data = load(f)
-    return data
 
 def test_device_info():
-    data = open_file()
-    cls = ManagementDevice(data)
-    result = cls.device_info()
+    cls = ManagementDevice()
+    result = cls.info_device()
 
     if len(result)==10:
         return True

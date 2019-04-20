@@ -1,16 +1,13 @@
-import attr
 from alog import debug, info, error
-from mykonos.keywords.management_device import ManagementDevice
+from mykonos.core.core import Core
 
-@attr.s
-class LocatorElement(ManagementDevice):
+class LocatorElement(Core):
 
-    def __attrs_post_init__(self):
-        self.device_mobile = self.scan_current_device()
+    def __init__(self):
+        self.device_mobile = self.device()
 
     def get_locator(self, device=None, *argument, **locator):
         """ access locator from device
-
         selector support :
         text, textContains, textMatches, textStartsWith
         className, classNameMatches
@@ -20,15 +17,17 @@ class LocatorElement(ManagementDevice):
         packageName, packageNameMatches
         resourceId, resourceIdMatches
         index, instance
-
         example :
         cls = LocatorElement(data)
         locator = cls.get_locator(text='')
         """
+        print(locator)
+
         if device!=None:
             return device(*argument, **locator)
         else:
             return self.device_mobile(*argument, **locator)
+
 
     def get_child(self, parent, *argument, **locator):
         """ access child locator from device

@@ -1,12 +1,10 @@
-import attr
 from alog import debug, info, error
-from mykonos.locator.locator_element import LocatorElement
+from mykonos.core.core import Core
 
-@attr.s
-class Element(LocatorElement):
+class Element(Core):
 
     def __attrs_post_init__(self):
-        self.device_mobile = self.scan_current_device()
+        self.device_mobile = self.device()
 
     def click_element(self, device=None, parent=None, *argument, **locator):
         """ click on UI base on locator """
@@ -60,5 +58,6 @@ class Element(LocatorElement):
                     return device(*argument, **locator).set_text(text)
                 else:
                     return self.device_mobile(*argument, **locator).set_text(text)
+
         except ValueError as error:
              raise ValueError('element cannot be input' + error)
