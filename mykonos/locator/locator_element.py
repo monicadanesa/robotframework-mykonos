@@ -18,7 +18,7 @@ class LocatorElement(Core):
         resourceId, resourceIdMatches
         index, instance
         example :
-        cls = LocatorElement(data)
+        cls = LocatorElement()
         locator = cls.get_locator(text='')
         """
         print(locator)
@@ -32,7 +32,7 @@ class LocatorElement(Core):
     def get_child(self, parent, *argument, **locator):
         """ access child locator from device
         example:
-        cls = LocatorElement(data)
+        cls = LocatorElement()
         parent = cls.get_locator(text='')
         child = cls.get_child(parent, text='')
         """
@@ -41,7 +41,7 @@ class LocatorElement(Core):
     def get_sibling(self, parent, *argument, **locator):
         """ access sibling locator from device
         example:
-        cls = LocatorElement(data)
+        cls = LocatorElement()
         parent = cls.get_locator(text='')
         sibling = cls.get_sibling(parent, text='')
         """
@@ -50,7 +50,7 @@ class LocatorElement(Core):
     def left_postion(self, parent, *argument, **locator):
         """ access left position from device
         example:
-        cls = LocatorElement(data)
+        cls = LocatorElement()
         parent = cls.get_locator(text='')
         left = cls.left_postion(parent, text='')
         """
@@ -59,7 +59,7 @@ class LocatorElement(Core):
     def right_postion(self, parent, *argument, **locator):
         """ access left position from device
         example:
-        cls = LocatorElement(data)
+        cls = LocatorElement()
         parent = cls.get_locator(text='')
         right = cls.right_postion(parent, text='')
         """
@@ -68,7 +68,7 @@ class LocatorElement(Core):
     def up_postion(self, parent, *argument, **locator):
         """ access left position from device
         example:
-        cls = LocatorElement(data)
+        cls = LocatorElement()
         parent = cls.get_locator(text='')
         up = cls.up_postion(parent, text='')
         """
@@ -77,7 +77,7 @@ class LocatorElement(Core):
     def down_postion(self, parent, *argument, **locator):
         """ access left position from device
         example:
-        cls = LocatorElement(data)
+        cls = LocatorElement()
         parent = cls.get_locator(text='')
         down = cls.up_postion(parent, text='')
         """

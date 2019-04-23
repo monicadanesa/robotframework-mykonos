@@ -18,7 +18,7 @@ class Touch(Core):
             if device!=None:
                 return device(*argument, **locator).swipe(sx, sy, ex, ey, step)
             else:
-                return self.device_mobile().swipe(sx, sy, ex, ey, step)
+                return self.device_mobile(*argument, **locator).swipe(sx, sy, ex, ey, step)
         except ValueError as error:
              raise ValueError('device cannot be swipe' + error)
 

@@ -8,3 +8,5 @@ __pycache__
 .pytest_cache
 assets
 .DS_Store
+.Pipfile
+.Pipfile.lock

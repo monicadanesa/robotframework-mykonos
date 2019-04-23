@@ -32,7 +32,7 @@ class ManagementDevice(Core):
         cl = os.system('adb shell am force-stop '+app_package+'')
         return cl
 
-    def info_device(self, *args, **device_setting):
+    def info_device(self, device=None, *args, **device_setting):
         """ Call keyword_device_info
         and will return dictionary
         Example :
@@ -54,8 +54,10 @@ class ManagementDevice(Core):
          'sdkInt': 25,
          'naturalOrientation': True}
         """
-
-        return self.device(*args, **device_setting).info
+        if device!=None:
+            return device(*args, **device_setting).info
+        else:
+            return self.device(*args, **device_setting).info
 
     def turn_on_screen(self, **device_setting):
         """ Call keyword_turn_on_screen
@@ -68,3 +70,7 @@ class ManagementDevice(Core):
         and screen device will be on
         """
         return self.device(*args, **device_setting).screen.off()
+
+    def dump_xml(self):
+        """ dump hierarchy of ui and will be saved as hierarchy.xml """
+        return self.device().dump()
