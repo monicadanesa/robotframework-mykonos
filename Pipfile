@@ -9,7 +9,6 @@ verify_ssl = true
 ipykernel = "*"
 alog = "*"
 uiautomator = "*"
-attrs = "*"
 pyyaml = "*"
 pytest = "*"
 pytest-html = "*"

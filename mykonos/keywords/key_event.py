@@ -1,10 +1,8 @@
-import attr
 from alog import debug, info, error
 from mykonos.core.core import Core
 
-@attr.s
 class KeyEvent(Core):
-    def __attrs_post_init__(self):
+    def __init__(self):
         self.device_mobile = self.device()
 
     def press_keycode(self, *args, **kwargs):
@@ -20,8 +18,15 @@ class KeyEvent(Core):
         ke = KeyEvent(data)
         ke.press_keyword("back")
         """
-
-        if 'device' in kwargs:
-            return device.press(*args, **kwargs)
+        if 'locator' in kwargs:
+            locator = setting['locator']
+            del kwargs['locator']
+            return locator.press(*args, **kwargs)
         else:
-            return self.device_mobile.press(*args, **kwargs)
+            if 'device' in kwargs:
+                device = kwargs['device']
+                del kwargs['device']
+
+                return device.press(*args, **kwargs)
+            else:
+                return self.device_mobile.press(*args, **kwargs)

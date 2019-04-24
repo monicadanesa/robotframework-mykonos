@@ -10,3 +10,5 @@ assets
 .DS_Store
 .Pipfile
 .Pipfile.lock
+output.xml
+test_open_apps.robot

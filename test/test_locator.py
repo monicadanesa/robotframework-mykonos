@@ -1,19 +1,21 @@
 import pytest
-from yaml import load
+from pytest_mock import mocker
 from alog import debug, info, error
+from mock import MagicMock, call, patch
 from mykonos.locator.locator_element import LocatorElement
 
 
 def test_get_locator():
     le = LocatorElement()
-    result = le.get_locator(className="android.widget.ImageView")
-    debug(result.info)
-    assert len(result.info)!=0
+    le.get_locator = MagicMock()
+    le.get_locator.return_value != 0
+    assert le.get_locator(className="android.widget.TextView").info != 0
+
 
 def test_get_child():
     le = LocatorElement()
     parent = le.get_locator(className="android.widget.FrameLayout")
-    result = le.get_child(parent, className="android.widget.ImageView")
+    result = le.get_child(parent, className="android.widget.LinearLayout")
     debug(result.info)
     assert len(result.info)!=0
 

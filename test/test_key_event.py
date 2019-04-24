@@ -1,18 +1,18 @@
 import pytest
 from yaml import load
 from mykonos.keywords.key_event import KeyEvent
+from mykonos.keywords.management_device import ManagementDevice
 
-
-
-def test_press_home():
-    cls = KeyEvent()
-    result = cls.press_keycode("home")
-    print(result)
-    assert result == True
 
 def test_press_menu():
     cls = KeyEvent()
     result = cls.press_keycode("menu")
+    print(result)
+    assert result == True
+
+def test_press_back():
+    cls = KeyEvent()
+    result = cls.press_keycode("back")
     print(result)
     assert result == True
 
@@ -53,6 +53,11 @@ def test_press_search():
     print(result)
     assert result == True
 
+def test_press_home():
+    cls = KeyEvent()
+    result = cls.press_keycode("home")
+    print(result)
+
 def test_press_volume_up():
     cls = KeyEvent()
     result = cls.press_keycode("volume_up")
@@ -70,15 +75,16 @@ def test_press_camera():
     result = cls.press_keycode("camera")
     print(result)
     assert result == True
-    
-def test_press_back():
-    cls = KeyEvent()
-    result = cls.press_keycode("back")
-    print(result)
-    assert result == True
 
 def test_press():
     cls = KeyEvent()
     result = cls.press_keycode(0x07, 0x02)
     print(result)
+    assert result == True
+
+def test_press_with_device():
+    cls = KeyEvent()
+    mg = ManagementDevice()
+    d1 = mg.scan_current_device("emulator-5554")
+    result = cls.press_keycode("volume_down", device=d1)
     assert result == True

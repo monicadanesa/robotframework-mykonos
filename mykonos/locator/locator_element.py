@@ -6,7 +6,7 @@ class LocatorElement(Core):
     def __init__(self):
         self.device_mobile = self.device()
 
-    def get_locator(self, device=None, *argument, **locator):
+    def get_locator(self, *argument, **locator):
         """ access locator from device
         selector support :
         text, textContains, textMatches, textStartsWith
@@ -21,10 +21,10 @@ class LocatorElement(Core):
         cls = LocatorElement()
         locator = cls.get_locator(text='')
         """
-        print(locator)
-
-        if device!=None:
-            return device(*argument, **locator)
+        if 'device' in locator:
+             device = locator['device']
+             del locator['device']
+             return device(*argument, **locator)
         else:
             return self.device_mobile(*argument, **locator)
 

@@ -1,10 +1,8 @@
-import attr
 from alog import debug, error, info
 from mykonos.core.core import Core
 
-@attr.s
 class Touch(Core):
-    def __attrs_post_init__(self):
+    def __init__(self):
         self.device_mobile = self.device()
 
     def swipe_screen(self, sx, sy, ex, ey, step=None, device=None):
