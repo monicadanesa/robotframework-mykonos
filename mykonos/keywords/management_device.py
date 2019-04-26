@@ -5,7 +5,7 @@ from mykonos.core.core import Core
 class ManagementDevice(Core):
 
     def __init__(self):
-        pass
+        self.index = 0
 
     def scan_current_device(self,  *args, **data_result):
         sc = os.system('adb devices')
@@ -74,3 +74,11 @@ class ManagementDevice(Core):
     def dump_xml(self):
         """ dump hierarchy of ui and will be saved as hierarchy.xml """
         return self.device().dump()
+
+    def capture_screen(self, file=None):
+        if file !=None:
+            return self.device().screenshot(file+'.png')
+        else:
+            self.index += 1
+            filename = 'mykonos-screenshot-%d.png' % self.index
+            return self.device().screenshot(filename)
