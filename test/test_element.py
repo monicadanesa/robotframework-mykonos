@@ -1,5 +1,5 @@
 import pytest
-from yaml import load
+# from yaml import load
 from mykonos.keywords.element import Element
 from mykonos.keywords.key_event import KeyEvent
 from mykonos.locator.locator_element import LocatorElement
@@ -11,6 +11,13 @@ def test_long_click_element():
     cls = KeyEvent()
     result = el.long_click_element(text="Messaging")
     cls.press_keycode("home")
+    print(result)
+    assert result == True
+
+def test_click_a_point():
+    el = Element()
+    cls = KeyEvent()
+    result = el.click_a_point(546, 893)
     print(result)
     assert result == True
 
