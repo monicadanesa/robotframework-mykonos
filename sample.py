@@ -5,12 +5,11 @@ from mykonos.keywords.element import Element
 from mykonos.keywords.touch import Touch
 from mykonos.locator.locator_element import LocatorElement
 
-
 md = ManagementDevice()
-le = Element()
 
-le.input_text(className="android.widget.Spinner", input="hello")
 
-sample = le.get_locator(text="Browser")
+from uiautomator import Device
 
-md.capture_screen()
+d = Device()
+
+sample = d(resourceId="com.android.launcher3:id/apps_view")

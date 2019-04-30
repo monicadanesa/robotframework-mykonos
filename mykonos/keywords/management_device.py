@@ -71,9 +71,9 @@ class ManagementDevice(Core):
         """
         return self.device(*args, **device_setting).screen.off()
 
-    def dump_xml(self):
+    def dump_xml(self,*args):
         """ dump hierarchy of ui and will be saved as hierarchy.xml """
-        return self.device().dump()
+        return self.device().dump(*args)
 
     def capture_screen(self, file=None):
         if file !=None:
