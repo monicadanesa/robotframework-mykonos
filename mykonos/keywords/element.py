@@ -150,50 +150,22 @@ class Element(Core):
         except ValueError as error:
             return ValueError('get error when get element attribute')
 
-    def get_element(self, *argument, **setting):
-        """ Call keyword_device_info
-        and will return dictionary
-        Example :
-        Example_Code:orcestrator = Orcestrator(data)
-        orcestrator.device_info
-        Example_robot_framework:
-        | ${device_info} | Device Info |
-        | Log Dictionary | ${device_info}  |
-
-        Return:
-        {'currentPackageName': 'com.google.android.apps.nexuslauncher',
-         'displayHeight': 1794,
-         'displayRotation': 0,
-         'displaySizeDpX': 411,
-         'displaySizeDpY': 731,
-         'displayWidth': 1080,
-         'productName': 'sdk_google_phone_x86',
-         'screenOn': True,
-         'sdkInt': 25,
-         'naturalOrientation': True}
-        """
-        try:
-            if 'locator' in setting:
-                locator = setting['locator']
-                return locator.info
-            else:
-                if 'device' in setting:
-                    device = setting['device']
-                    del setting['device']
-
-                    return device(*argument, **setting).info
-                else:
-                    return self.device_mobile(*argument, **setting).info
-        except ValueError as error:
-            return ValueError('get error when get element attribute')
-
     def click_a_point(self, *argument, **setting):
         """Click into target target pointer location
         example :
-        tc.click(x, y)
+        click_a_point(x=value, y=value)
         """
         try:
-            if device!=None:
+            if 'x' in setting and 'y' in setting:
+                x = setting['x']
+                y = setting['y']
+                del setting['x']
+                del setting['y']
+            else:
+                raise ValueError('pointer x or y refused')
+            if 'device' in setting:
+                device = setting['device']
+                del setting['device']
                 return device(*argument, **locator).click(x, y)
             else:
                 return self.device_mobile().click(x, y)
