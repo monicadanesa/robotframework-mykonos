@@ -150,15 +150,24 @@ class Element(Core):
         except ValueError as error:
             return ValueError('get error when get element attribute')
 
-        def click_a_point(self, *argument, **setting):
-            """Click into target target pointer location
-            example :
-            tc.click(x, y)
-            """
-            try:
-                if device!=None:
-                    return device(*argument, **locator).click(x, y)
-                else:
-                    return self.device_mobile().click(x, y)
-            except ValueError as error:
-                raise ValueError('pointer location is refused')
+    def click_a_point(self, *argument, **setting):
+        """Click into target target pointer location
+        example :
+        click_a_point(x=value, y=value)
+        """
+        try:
+            if 'x' in setting and 'y' in setting:
+                x = setting['x']
+                y = setting['y']
+                del setting['x']
+                del setting['y']
+            else:
+                raise ValueError('pointer x or y refused')
+            if 'device' in setting:
+                device = setting['device']
+                del setting['device']
+                return device(*argument, **locator).click(x, y)
+            else:
+                return self.device_mobile().click(x, y)
+        except ValueError as error:
+            raise ValueError('pointer location is refused')
