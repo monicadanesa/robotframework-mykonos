@@ -14,13 +14,6 @@ def test_long_click_element():
     print(result)
     assert result == True
 
-def test_click_a_point():
-    el = Element()
-    cls = KeyEvent()
-    result = el.click_a_point(546, 893)
-    print(result)
-    assert result == True
-
 def test_click_element():
     el = Element()
     cls = KeyEvent()

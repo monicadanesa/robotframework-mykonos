@@ -32,33 +32,6 @@ class ManagementDevice(Core):
         cl = os.system('adb shell am force-stop '+app_package+'')
         return cl
 
-    def info_device(self, device=None, *args, **device_setting):
-        """ Call keyword_device_info
-        and will return dictionary
-        Example :
-        Example_Code:orcestrator = Orcestrator(data)
-        orcestrator.device_info
-        Example_robot_framework:
-        | ${device_info} | Device Info |
-        | Log Dictionary | ${device_info}  |
-
-        Return:
-        {'currentPackageName': 'com.google.android.apps.nexuslauncher',
-         'displayHeight': 1794,
-         'displayRotation': 0,
-         'displaySizeDpX': 411,
-         'displaySizeDpY': 731,
-         'displayWidth': 1080,
-         'productName': 'sdk_google_phone_x86',
-         'screenOn': True,
-         'sdkInt': 25,
-         'naturalOrientation': True}
-        """
-        if device!=None:
-            return device(*args, **device_setting).info
-        else:
-            return self.device(*args, **device_setting).info
-
     def turn_on_screen(self, **device_setting):
         """ Call keyword_turn_on_screen
         and screen device will be on

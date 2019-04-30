@@ -150,15 +150,72 @@ class Element(Core):
         except ValueError as error:
             return ValueError('get error when get element attribute')
 
-        def click_a_point(self, *argument, **setting):
-            """Click into target target pointer location
-            example :
-            tc.click(x, y)
-            """
-            try:
-                if device!=None:
-                    return device(*argument, **locator).click(x, y)
+    def get_element(self, *argument, **setting):
+        """ Call keyword_device_info
+        and will return dictionary
+        Example :
+        Example_Code:orcestrator = Orcestrator(data)
+        orcestrator.device_info
+        Example_robot_framework:
+        | ${device_info} | Device Info |
+        | Log Dictionary | ${device_info}  |
+
+        Return:
+        {'currentPackageName': 'com.google.android.apps.nexuslauncher',
+         'displayHeight': 1794,
+         'displayRotation': 0,
+         'displaySizeDpX': 411,
+         'displaySizeDpY': 731,
+         'displayWidth': 1080,
+         'productName': 'sdk_google_phone_x86',
+         'screenOn': True,
+         'sdkInt': 25,
+         'naturalOrientation': True}
+        """
+        try:
+            if 'locator' in setting:
+                locator = setting['locator']
+                return locator.info
+            else:
+                if 'device' in setting:
+                    device = setting['device']
+                    del setting['device']
+
+                    return device(*argument, **setting).info
                 else:
-                    return self.device_mobile().click(x, y)
-            except ValueError as error:
-                raise ValueError('pointer location is refused')
+                    return self.device_mobile(*argument, **setting).info
+        except ValueError as error:
+            return ValueError('get error when get element attribute')
+
+    def click_a_point(self, *argument, **setting):
+        """Click into target target pointer location
+        example :
+        tc.click(x, y)
+        """
+        try:
+            if device!=None:
+                return device(*argument, **locator).click(x, y)
+            else:
+                return self.device_mobile().click(x, y)
+        except ValueError as error:
+            raise ValueError('pointer location is refused')
+
+    def count_elements(self, *argument, **setting):
+        """ Count total element from the page
+        - locator is used for user who want to get locator first before count element
+        example :
+        element = get_locator("className=name of class ")
+        total_element = count_elements(locator=element)
+
+        - device mobile is used for user who input element directly on device
+        total_element = count_elements("className=name of class ")
+
+        """
+        try:
+            if 'locator' in setting:
+                locator = setting['locator']
+                return locator.count
+            else:
+                return self.device_mobile(*argument, **setting).count
+        except ValueError as error:
+             raise ValueError('element cannot be click')
