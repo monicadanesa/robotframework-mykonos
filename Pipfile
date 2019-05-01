@@ -16,7 +16,6 @@ robotframework = "*"
 selenium = "*"
 pytest-mock = "*"
 mock = "*"
-pywebview = "*"
 
 [requires]
 python_version = "3.7"

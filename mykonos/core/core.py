@@ -7,9 +7,6 @@ class Core(object):
     """
     def device(self, *args, **data_result):
         try:
-            for i in data_result.keys():
-                data_result[i] = data_result[i].lower()
-
             return Device(*args, **data_result)
 
         except Exception as Argument:

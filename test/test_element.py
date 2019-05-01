@@ -107,21 +107,21 @@ def test_clear_text_with_device_and_parent():
 def test_get_text():
     el = Element()
     result = el.get_text(className="android.widget.TextView")
-    assert result == 'Camera'
+    assert len(result) != 0
 
 def test_get_text_with_device():
     el = Element()
     md = ManagementDevice()
     device_1 = md.scan_current_device("emulator-5554")
     result = el.get_text(device=device_1, className="android.widget.TextView")
-    assert result == 'Camera'
+    assert len(result) != 0
 
 def test_get_text_with_parents():
     el = Element()
     le = LocatorElement()
     parent = le.get_locator(className="android.widget.TextView")
     result = el.get_text(locator=parent)
-    assert result == 'Camera'
+    assert len(result) != 0
 
 def test_get_text_with_parents_device():
     el = Element()
@@ -130,23 +130,64 @@ def test_get_text_with_parents_device():
     device_1 = md.scan_current_device("emulator-5554")
     parent = le.get_locator(className="android.widget.TextView")
     result = el.get_text(device=device_1, locator=parent)
-    assert result == 'Camera'
+    assert len(result) != 0
 
 def test_get_attribute():
     el = Element()
     result = el.get_element_attribute(element='text', className="android.widget.TextView")
-    assert result == 'Camera'
+    assert len(result) != 0
 
 def test_get_attribute_with_device():
     el = Element()
     md = ManagementDevice()
     device_1 = md.scan_current_device("emulator-5554")
     result = el.get_element_attribute(device=device_1, element='text', className="android.widget.TextView")
-    assert result == 'Camera'
+    assert len(result) != 0
 
 def test_get_attribute_with_parent():
     el = Element()
     le = LocatorElement()
     parent = le.get_locator(className="android.widget.TextView")
     result = el.get_element_attribute(locator=parent, element='text')
-    assert result == 'Camera'
+    assert len(result) != 0
+
+def test_get_element():
+    el = Element()
+    result = el.get_element(className="android.widget.TextView")
+    assert len(result) != 0
+
+def test_get_element_with_device():
+    el = Element()
+    md = ManagementDevice()
+    device_1 = md.scan_current_device("emulator-5554")
+    result = el.get_element(device=device_1, className="android.widget.TextView")
+    assert len(result) != 0
+
+def test_get_element_with_parent():
+    el = Element()
+    le = LocatorElement()
+    parent = le.get_locator(className="android.widget.TextView")
+    result = el.get_element(locator=parent)
+    assert len(result) != 0
+
+def test_count_element():
+    el = Element()
+    result = el.count_elements(className="android.widget.TextView")
+    assert result != 0
+
+def test_count_element_with_parent():
+    el = Element()
+    le = LocatorElement()
+    parent = le.get_locator(className="android.widget.TextView")
+    result = el.count_elements(locator=parent)
+    assert result != 0
+
+def test_get_height():
+    el = Element()
+    result = el.get_height()
+    assert result!=0
+
+def test_get_width():
+    el = Element()
+    result = el.get_width()
+    assert result!=0
