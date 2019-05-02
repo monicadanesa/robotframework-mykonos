@@ -18,7 +18,7 @@ class Element(Core):
             else:
                 return self.device_mobile.open.notification()
 
-    def open_quick_settingss(self, **settings):
+    def open_quick_settings(self, **settings):
         """ open quick settingss of Android"""
         if 'locator' in settings:
             locator = settings['locator']

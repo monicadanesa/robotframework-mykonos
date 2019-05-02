@@ -198,3 +198,11 @@ def test_click_a_point():
     result = el.click_a_point(x=537, y=955)
     print(result)
     assert result == True
+
+def test_close_all_applicatioins():
+    md =  ManagementDevice()
+    result = md.close_all_applicatioins("192.168.56.101:5555")
+
+def test_reset_application():
+    md =  ManagementDevice()
+    result = md.reset_application("192.168.56.101:5555", "com.android.messaging")

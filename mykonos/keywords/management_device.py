@@ -8,6 +8,10 @@ class ManagementDevice(Core):
         self.index = 0
 
     def scan_current_device(self,  *args, **data_result):
+        """
+        scan current device on the workstation, and consume
+        to open application
+        """
         sc = os.system('adb devices')
 
         if sc==0:
@@ -29,8 +33,31 @@ class ManagementDevice(Core):
             raise ValueError('open device is failed')
 
     def close_application(self, device_name, app_package):
-        cl = os.system('adb shell am force-stop '+app_package+'')
+        """
+        Close running application
+        """
+        cl = os.system('adb -s '+device_name+' shell am force-stop '+app_package+'')
         return cl
+
+    def close_all_applicatioins(self, device_name):
+        """
+        Close all task on the device, and kill all application
+        """
+        try:
+            op = os.system('adb -s '+device_name+' shell am kill-all')
+            return self.device(device_name)
+        except ValueError as error:
+            raise ValueError('device can not be opened')
+
+    def reset_application(self, device_name, app_package):
+        """
+        clear data current application
+        """
+        try:
+            op = os.system('adb -s '+device_name+' shell pm clear '+app_package+'')
+            return self.device(device_name)
+        except ValueError as error:
+            raise ValueError('device can not be opened')
 
     def turn_on_screen(self, **device_setting):
         """ Call keyword_turn_on_screen
