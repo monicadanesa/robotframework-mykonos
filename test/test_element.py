@@ -191,3 +191,10 @@ def test_get_width():
     el = Element()
     result = el.get_width()
     assert result!=0
+
+def test_click_a_point():
+    el = Element()
+    cls = KeyEvent()
+    result = el.click_a_point(x=537, y=955)
+    print(result)
+    assert result == True
