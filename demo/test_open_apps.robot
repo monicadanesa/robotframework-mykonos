@@ -2,40 +2,50 @@
 Library    ../mykonos/
 
 *** Variables ***
-${emulator}               192.168.56.101:5555
-${apk}                    com.android.messaging/com.android.messaging.ui.conversationlist.ConversationListActivity
-${sender_number}          0812345678
-${message}                helllo
+${emulator}               192.168.56.103:5555
+${apk}                    kudo.mobile.app.test/kudo.mobile.app.onboarding.FirstInstallTutorialActivity_
+${element_locator}        android.widget.Button
+${email}                  dedy.suryadi@kudo.co.id
+${password}               Testing@123
 
 *** keywords ***
-Scan Device and Open Application Messaging
-    [Arguments]                                               ${input_emulator}   ${input_apk}
-    Scan Current Device                                       ${input_emulator}
-    Open Application                                          ${input_emulator}     ${input_apk}
+Scan Device and Open Aplication
+    ${device}=  Scan Current Device           ${emulator}
+    Open Application                          ${emulator}     ${apk}
 
-Click Plus Icon on the Messaging Menu
-    Click Element                                             resourceId=com.android.messaging:id/start_new_conversation_button
+Click Slide Lanjut and Mengerti
+    : FOR         ${index}          IN RANGE       0    3
+    \             Click Element                             text=LANJUT
 
-Type Sender Number
-    [Arguments]                                               ${input_sender_number}
-    Input Text                                                resourceId=com.android.messaging:id/recipient_text_view     input=${input_sender_number}
+    Click Element                                           text=MENGERTI
 
-Press Enter
-    Press Keycode                                             enter
+Click Mengerti on Popup Root
+    Click Element                                           text=MENGERTI
 
-Input Message on the Text Area
-    [Arguments]                                             ${input_message}
-    Input Text                                              resourceId=com.android.messaging:id/compose_message_text      input=${input_message}
+Click Button Masuk Sebagai Agent
+    Click Element                                           text=MASUK SEBAGAI AGEN
 
-Click Button Send
-    Click Element                                          resourceId=com.android.messaging:id/self_send_icon
+Input HP or Email
+    [Arguments]                                             ${input_hp_email}
+    Input Text                                              input=${input_hp_email}   resourceId=kudo.mobile.app.test:id/activity_login_et_username
 
+Click Button Mulai Berjualan
+    Click Element                                           text=Mulai Berjualan
+
+Input Password
+    [Arguments]                                             ${input_password}
+    Input Text                                              input=${input_password}     resourceId=kudo.mobile.app.test:id/login_et_password
+
+Click Masuk as Agent
+    Click Element                                           text=MASUK
 
 *** Test Cases ***
-Test Case Input Phone Number on Application Messaging
-    Scan Device and Open Application Messaging                ${emulator}       ${apk}
-    Click Plus Icon on the Messaging Menu
-    Type Sender Number                                        ${sender_number}
-    Press Enter
-    Input Message on the Text Area                            ${message}
-    Click Button Send
+Test Open Apps
+  Scan Device and Open Aplication
+  Click Slide Lanjut and Mengerti
+  # Click Mengerti on Popup Root
+  Click Button Masuk Sebagai Agent
+  Input HP or Email                                       ${email}
+  Click Button Mulai Berjualan
+  Input Password                                          ${password}
+  Click Masuk as Agent

@@ -55,3 +55,7 @@ class ManagementDevice(Core):
             self.index += 1
             filename = 'mykonos-screenshot-%d.png' % self.index
             return self.device().screenshot(filename)
+
+    def hide_keyword(self):
+        rs = os.system('adb shell input keyevent 111')
+        return rs
