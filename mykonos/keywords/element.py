@@ -130,7 +130,7 @@ class Element(Core):
                 return self.device_mobile(*argument, **settings).info[element]
 
     def click_a_point(self, *argument, **settings):
-        """Click into target target pointer location
+        """Click into pointer target location
         example :
         click_a_point(x=value, y=value)
         """
