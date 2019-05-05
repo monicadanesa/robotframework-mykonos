@@ -5,35 +5,38 @@ from mykonos.keywords.touch import Touch
 from mykonos.locator.locator_element import LocatorElement
 from mykonos.core.core import Core
 
+el = Element()
+sample = el.get_element_by_coordinate_y(text='All contacts')
 
+sample
+test = el.get_element_by_coordinate_x(text='All contacts')
 
-# scroll forward(default) vertically(default)
-d(scrollable=True).scroll(steps=10)
-# scroll forward horizentally
-d(scrollable=True).scroll.horiz.forward(steps=100)
-# scroll backward vertically
-d(scrollable=True).scroll.vert.backward()
-# scroll to beginning horizentally
-d(scrollable=True).scroll.horiz.toBeginning(steps=100, max_swipes=1000)
-# scroll to end vertically
-d(scrollable=True).scroll.toEnd()
-# scroll forward vertically until specific ui object appears
-d(scrollable=True).scroll.to(text="Security")
+test
 
+from uiautomator import Device
 
+d = Device()
+tc  = d(text='All contacts').info['bounds']
 
-scroll                              step = 10
-scroll                              step = 1000     action = horizontal forward
-scroll horizontal backward          step = 1000
-scroll vertical backward
-scroll vertical forward
-scroll horizontal to begining      step = 100 max_swipes=1000
-scroll to end
-scroll to                          text=Security   className=Apaja
+width = d.info['displayWidth']
+height = d.info['displayHeight']
+bottom = d(text='All contacts').info['bounds']['bottom']
+right = d(text='All contacts').info['bounds']['right']
+left = d(text='All contacts').info['bounds']['left']
+top = d(text='All contacts').info['bounds']['top']
 
+d
 
-el.get_element_attribute(element='displaySizeDpY', className='packageName')
+top
+width
+height
+left
 
-tc = Touch()
+right
+bottom
 
-result = tc.scoll(action='horizontal to end')
+elm_y = height-(right+left)
+elm_x = (top+bottom)+top
+
+elm_x
+elm_y

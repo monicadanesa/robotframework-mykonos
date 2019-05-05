@@ -34,7 +34,7 @@ class Touch(Core):
         except ValueError as error:
              raise ValueError('device cannot be drag' + error)
 
-    
+
     def __get_device_scroll(self, *argument, **settings):
         if 'device' in settings:
             device = settings['device']
@@ -85,7 +85,7 @@ class Touch(Core):
            | scroll horizontal to end       |
 
          how to use scroll vertical:
-            | scroll                         | steps=100
+            | scroll                       | steps=100
             | scroll vertical forward      | steps=100
             | scroll vertical to begining  | steps=100, max_swipes=1
             | scroll vertical to           | textName='Calculator', clasName='sampleClass'

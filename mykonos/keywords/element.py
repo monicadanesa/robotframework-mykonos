@@ -181,6 +181,30 @@ class Element(Core):
             else:
                 return self.device_mobile(*argument, **settings).info
 
+    def get_element_by_coordinate_x(self, *argument, **settings):
+        """
+        get element by coorditane x
+        """
+        bound = self.get_element_attribute(element='bounds', *argument, **settings)
+        right = bound['right']
+        left = bound['left']
+        bottom = bound['bottom']
+        top = bound['top']
+        elm_x = (top+bottom)+top
+        return elm_x
+
+    def get_element_by_coordinate_y(self, *argument, **settings):
+        """
+        get element by coorditane y
+        """
+        bound = self.get_element_attribute(element='bounds', *argument, **settings)
+        display_height = self.get_height()
+        height = display_height
+        left = bound['left']
+        right = bound['right']
+        elm_y = height-(right+left)
+        return elm_y
+
     def count_elements(self, *argument, **settings):
         """ Count total element from the page
         - locator is used for user who want to get locator first before count element
