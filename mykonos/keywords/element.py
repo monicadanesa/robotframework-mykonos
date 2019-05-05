@@ -7,31 +7,78 @@ class Element(Core):
         self.device_mobile = self.device()
 
     def open_notification(self, **settings):
-        """ open notification of Android"""
-        if 'locator' in settings:
-            locator = settings['locator']
-            return locator.open.notification()
+        """ open notification of Android
+
+        HOW TO CALL IN ROBOT FRAMEWORK
+
+        | Open notification                  |
+
+        with device:
+        | ${device_1}=  Scan Current Device  |  ${emulator}
+        | Open notification                  |  device=${device_1}
+
+        Return:
+        True or False
+        """
+
+        if 'device' in settings:
+            device = settings['device']
+            return device.open.notification()
         else:
-            if 'device' in settings:
-                device = settings['device']
-                return device.open.notification()
-            else:
-                return self.device_mobile.open.notification()
+            return self.device_mobile.open.notification()
 
     def open_quick_settings(self, **settings):
-        """ open quick settingss of Android"""
-        if 'locator' in settings:
-            locator = settings['locator']
-            return locator.open.quick_settingss()
+        """ open quick settingss of Android
+        HOW TO CALL IN ROBOT FRAMEWORK
+
+        | Open Quick Notification                  |
+
+        with device:
+        | ${device_1}=  Scan Current Device        |  ${emulator}
+        | Open Quick Notification                  |  device=${device_1}
+
+        Return:
+        True or False
+        """
+
+        if 'device' in settings:
+            device = settings['device']
+            return device.open.quick_settings()
         else:
-            if 'device' in settings:
-                device = settings['device']
-                return device.open.quick_settingss()
-            else:
-                return self.device_mobile.open.quick_settingss()
+            return self.device_mobile.open.quick_settings()
 
     def click_element(self, *argument, **settings):
-        """ click on UI base on locator """
+        """ click on UI base on locator
+        selector support :
+        text, textContains, textMatches, textStartsWith
+        className, classNameMatches
+        description, descriptionContains, descriptionMatches, descriptionStartsWith
+        checkable, checked, clickable, longClickable
+        scrollable, enabled,focusable, focused, selected
+        packageName, packageNameMatches
+        resourceId, resourceIdMatches
+        index, instance
+
+        HOW TO CALL IN ROBOT FRAMEWORK
+
+        |  Click Element                    | className=sample class
+
+        with locator:
+        | ${get_locator}= Get Locator       | text=sample text
+        |  Click Element                    | locator=${get_locator}
+
+        with device:
+        | ${device_1}=  Scan Current Device  | ${emulator}
+        |  Click Element                     | device=${device_1}    text=sample text
+
+        with locator and device
+        | ${get_locator}= Get Locator        | text=sample text
+        | ${device_1}=  Scan Current Device  | ${emulator}
+        |  Click Element                     | device=${device_1}    locator=${get_locator}
+
+        Return:
+        True or False
+         """
         if 'locator' in settings:
             locator = settings['locator']
             return locator.click()
@@ -45,7 +92,37 @@ class Element(Core):
                 return self.device_mobile(*argument, **settings).click()
 
     def long_click_element(self, *argument, **settings):
-        """ long click on UI base on locator """
+        """ long click on UI base on locator
+        selector support :
+        text, textContains, textMatches, textStartsWith
+        className, classNameMatches
+        description, descriptionContains, descriptionMatches, descriptionStartsWith
+        checkable, checked, clickable, longClickable
+        scrollable, enabled,focusable, focused, selected
+        packageName, packageNameMatches
+        resourceId, resourceIdMatches
+        index, instance
+
+        HOW TO CALL IN ROBOT FRAMEWORK
+
+        |  Long Click Element                    | className=sample class
+
+        with locator:
+        | ${get_locator}= Get Locator            | text=sample text
+        |  Long Click Element                    | locator=${get_locator}
+
+        with device:
+        | ${device_1}=  Scan Current Device      | ${emulator}
+        |  Long Click Element                    | device=${device_1}    text=sample text
+
+        with locator and device
+        | ${get_locator}= Get Locator           | text=sample text
+        | ${device_1}=  Scan Current Device     | ${emulator}
+        |  Long Click Element                   | device=${device_1}    locator=${get_locator}
+
+        Return:
+        True or False
+         """
         if 'locator' in settings:
             locator = settings['locator']
             return locator.long_click()
@@ -59,7 +136,35 @@ class Element(Core):
 
 
     def clear_text(self, *argument, **settings):
-        """ clear text on text field base on locator """
+        """ clear text on text field base on locator
+        selector support :
+        text, textContains, textMatches, textStartsWith
+        className, classNameMatches
+        description, descriptionContains, descriptionMatches, descriptionStartsWith
+        checkable, checked, clickable, longClickable
+        scrollable, enabled,focusable, focused, selected
+        packageName, packageNameMatches
+        resourceId, resourceIdMatches
+        index, instance
+
+        HOW TO CALL IN ROBOT FRAMEWORK
+
+        |  Clear Text                            |  className=sample class
+
+        with locator:
+        | ${get_locator}= Get Locator            | text=sample text
+        | Clear Text                             | locator=${get_locator}
+
+        with device:
+        | ${device_1}=  Scan Current Device      | ${emulator}
+        |  Clear Text                            | device=${device_1}    text=sample text
+
+        with locator and device
+        | ${get_locator}= Get Locator           | text=sample text
+        | ${device_1}=  Scan Current Device     | ${emulator}
+        |  Clear Text                           | device=${device_1}    locator=${get_locator}
+
+        """
         if 'locator' in settings:
             locator = settings['locator']
             return locator.clear_text()
@@ -72,7 +177,37 @@ class Element(Core):
                 return self.device_mobile(*argument, **settings).clear_text()
 
     def input_text(self, *argument, **settings):
-        """ input text on text field base on locator """
+        """ input text on text field base on locator
+        selector support :
+        text, textContains, textMatches, textStartsWith
+        className, classNameMatches
+        description, descriptionContains, descriptionMatches, descriptionStartsWith
+        checkable, checked, clickable, longClickable
+        scrollable, enabled,focusable, focused, selected
+        packageName, packageNameMatches
+        resourceId, resourceIdMatches
+        index, instance
+
+        HOW TO CALL IN ROBOT FRAMEWORK
+
+        |  Input Text                            |  className=sample class    input=Sampling text for input
+
+        with locator:
+        | ${get_locator}= Get Locator            | text=sample text
+        | Input Text                             | locator=${get_locator}     input=Sampling text for input
+
+        with device:
+        | ${device_1}=  Scan Current Device      | ${emulator}
+        |  Input Text                            | device=${device_1}    text=sample text   input=Sampling text for input
+
+        with locator and device
+        | ${get_locator}= Get Locator           | text=sample text
+        | ${device_1}=  Scan Current Device     | ${emulator}
+        |  Input Text                           | device=${device_1}    locator=${get_locator}      input=Sampling text for input
+
+        return:
+        True or False
+        """
         input = settings['input']
         del settings['input']
 
@@ -90,7 +225,38 @@ class Element(Core):
 
 
     def get_text(self, *argument, **settings):
-        """ get text from element base on locator """
+        """ get text from element base on locator
+        selector support :
+        text, textContains, textMatches, textStartsWith
+        className, classNameMatches
+        description, descriptionContains, descriptionMatches, descriptionStartsWith
+        checkable, checked, clickable, longClickable
+        scrollable, enabled,focusable, focused, selected
+        packageName, packageNameMatches
+        resourceId, resourceIdMatches
+        index, instance
+
+        HOW TO CALL IN ROBOT FRAMEWORK
+
+        |  Get Text                              |  className=sample class
+
+        with locator:
+        | ${get_locator}= Get Locator            | text=sample text
+        | Get Text                               | locator=${get_locator}
+
+        with device:
+        | ${device_1}=  Scan Current Device      | ${emulator}
+        |  Get Text                              | device=${device_1}    className=sample class
+
+        with locator and device
+        | ${get_locator}= Get Locator           | text=sample text
+        | ${device_1}=  Scan Current Device     | ${emulator}
+        |  Get Text                             | device=${device_1}    locator=${get_locator}
+
+        return:
+        String
+
+        """
         if 'locator' in settings:
             locator = settings['locator']
             return locator.info['text']
@@ -98,6 +264,7 @@ class Element(Core):
             if 'device' in settings:
                 device = settings['device']
                 del settings['device']
+
                 return device(*argument, **settings).info['text']
             else:
                 return self.device_mobile(*argument, **settings).info['text']
@@ -140,7 +307,8 @@ class Element(Core):
             del settings['x']
             del settings['y']
         else:
-            raise ValueError('pointer x or y refused')
+            raise ValueError('pointer x or y is refused')
+
         if 'device' in settings:
             device = settings['device']
             del settings['device']

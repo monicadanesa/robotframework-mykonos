@@ -40,3 +40,11 @@ elm_x = (top+bottom)+top
 
 elm_x
 elm_y
+
+mg = ManagementDevice()
+device_1 = mg.scan_current_device()
+device_1
+tc = Touch()
+check = tc.scoll(action='vertical to end', device=device_1)
+
+check
