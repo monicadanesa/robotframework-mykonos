@@ -25,11 +25,13 @@ class ManagementDevice(Core):
 
         return self.device(*args, **data_result)
 
-    def reset_application(self, device, app_package):
-        rs = os.system('adb -s '+device+' shell pm clear '+app_package+'')
-        return rs
 
     def open_application(self, device, app_package):
+        """ Open Application on Device
+        HOW TO CALL IN ROBOT FRAMEWORK
+
+        |  Open Application                        |  emulator=emulator-554   |  sampleapk
+        """
         try:
             op = os.system('adb -s '+device+' shell am start -W '+app_package+'')
             return self.device(device)
@@ -54,8 +56,10 @@ class ManagementDevice(Core):
             raise ValueError('device can not be opened')
 
     def reset_application(self, device_name, app_package):
-        """
-        clear data current application
+        """ Reset Application on Device
+        HOW TO CALL IN ROBOT FRAMEWORK
+
+        |  Reset Application                        |  emulator=emulator-554   |  sampleapk
         """
         try:
             op = os.system('adb -s '+device_name+' shell pm clear '+app_package+'')
@@ -66,20 +70,51 @@ class ManagementDevice(Core):
     def turn_on_screen(self, **device_setting):
         """ Call keyword_turn_on_screen
         and screen device will be on
+
+        HOW TO CALL IN ROBOT FRAMEWORK
+
+        |  Turn On Screen
+
+        return : True or False
         """
         return self.device(*args, **device_setting).screen.on()
 
     def turn_off_screen(self, **device_setting):
         """ Call keyword_turn_off_screen
         and screen device will be on
+
+        HOW TO CALL IN ROBOT FRAMEWORK
+
+        |  Turn Off Screen
+
+        return : True or False
         """
         return self.device(*args, **device_setting).screen.off()
 
     def dump_xml(self,*args):
-        """ dump hierarchy of ui and will be saved as hierarchy.xml """
+        """ dump hierarchy of ui and will be saved as hierarchy.xml
+
+        HOW TO CALL IN ROBOT FRAMEWORK
+
+        |  Dump Xml
+
+        return : xml file of device
+        """
         return self.device().dump(*args)
 
     def capture_screen(self, file=None):
+
+        """ capture screen of device testing
+
+        HOW TO CALL IN ROBOT FRAMEWORK
+
+        |  Capture Screen
+
+        with file name:
+        | Capture Screen        | file='sample'
+
+        return : screen capture of device(*.png)
+        """
         if file !=None:
             return self.device().screenshot(file+'.png')
         else:
@@ -88,5 +123,13 @@ class ManagementDevice(Core):
             return self.device().screenshot(filename)
 
     def hide_keyword(self):
+        """ Hide Keyword of Device
+
+        HOW TO CALL IN ROBOT FRAMEWORK
+
+        |  Hide Keyword
+
+        return : True or False
+        """
         rs = os.system('adb shell input keyevent 111')
         return rs
