@@ -280,6 +280,27 @@ class Element(Core):
 
          example :
          get_element_attribute(element="text", className="")
+
+
+         HOW TO CALL IN ROBOT FRAMEWORK
+
+         |  Get Element Attribute                             |  className=sample class
+
+         with locator:
+         | ${get_locator}= Get Locator                        | text=sample text
+         | Get Element Attribute                              | locator=${get_locator}
+
+         with device:
+         | ${device_1}=  Scan Current Device                  | ${emulator}
+         |  Get Element Attribute                             | device=${device_1}    className=sample class
+
+         with locator and device
+         | ${get_locator}= Get Locator                        | text=sample text
+         | ${device_1}=  Scan Current Device                  | ${emulator}
+         | Get Element Attribute                              | device=${device_1}    locator=${get_locator}
+
+         return:
+         attribute from element device
          """
         element = settings['element']
         del settings['element']
@@ -300,6 +321,18 @@ class Element(Core):
         """Click into pointer target location
         example :
         click_a_point(x=value, y=value)
+
+         HOW TO CALL IN ROBOT FRAMEWORK
+
+         |  CLick A Point                            |  className=sample class                        | x=100     |  y=200
+
+         with device:
+         | ${device_1}=  Scan Current Device         | ${emulator}
+         |  Click A Point                            | device=${device_1}   | className=sample class  | x=100     |  y=200
+
+         return:
+         True or False
+
         """
         if 'x' in settings and 'y' in settings:
             x = settings['x']
@@ -309,10 +342,11 @@ class Element(Core):
         else:
             raise ValueError('pointer x or y is refused')
 
+
         if 'device' in settings:
             device = settings['device']
             del settings['device']
-            return device(*argument, **locator).click(x, y)
+            return device(*argument, **settings).click(x, y)
         else:
             return self.device_mobile().click(x, y)
 
@@ -322,9 +356,15 @@ class Element(Core):
         Example :
         Example_Code:orcestrator = Orcestrator(data)
         orcestrator.device_info
-        Example_robot_framework:
-        | ${device_info} | Device Info |
-        | Log Dictionary | ${device_info}  |
+
+        HOW TO CALL IN ROBOT FRAMEWORK:
+        without device :
+        | Get Element    |
+
+        with device :
+        | ${device_1}=  Scan Current Device         | ${emulator}
+        | Get Element                               | device=${device_1}
+
         Return:
         {'currentPackageName': 'com.google.android.apps.nexuslauncher',
          'displayHeight': 1794,
@@ -337,33 +377,44 @@ class Element(Core):
          'sdkInt': 25,
          'naturalOrientation': True}
         """
-        if 'locator' in settings:
-            locator = settings['locator']
-            return locator.info
-        else:
-            if 'device' in settings:
-                device = settings['device']
-                del settings['device']
+        if 'device' in settings:
+            device = settings['device']
+            del settings['device']
 
-                return device(*argument, **settings).info
-            else:
-                return self.device_mobile(*argument, **settings).info
+            return device(*argument, **settings).info
+        else:
+            return self.device_mobile(*argument, **settings).info
 
     def get_element_by_coordinate_x(self, *argument, **settings):
         """
-        get element by coorditane x
+        get element by coordinate x
+
+        HOW TO CALL IN ROBOT FRAMEWORK:
+        | Get Element By Coordinate X  |  className=sample class
+
+        return :
+        coordinate x(int)
         """
         bound = self.get_element_attribute(element='bounds', *argument, **settings)
+
         right = bound['right']
         left = bound['left']
         bottom = bound['bottom']
         top = bound['top']
         elm_x = (top+bottom)+top
+
         return elm_x
 
     def get_element_by_coordinate_y(self, *argument, **settings):
         """
-        get element by coorditane y
+        get element by coordinate y
+
+        HOW TO CALL IN ROBOT FRAMEWORK:
+        | Get Element By Coordinate Y  |  className=sample class
+
+        return :
+        coordinate y(int)
+
         """
         bound = self.get_element_attribute(element='bounds', *argument, **settings)
         display_height = self.get_height()
@@ -383,6 +434,15 @@ class Element(Core):
         - device mobile is used for user who input element directly on device
         total_element = count_elements("className=name of class ")
 
+         HOW TO CALL IN ROBOT FRAMEWORK
+
+         |  Count Elements                              |  className=sample class
+         with locator:
+         | ${get_locator}= Get Locator                  | text=sample text
+         | Count Elements                               | locator=${get_locator}
+
+         return:
+         total of elements (int)
         """
         if 'locator' in settings:
             locator = settings['locator']
@@ -393,7 +453,12 @@ class Element(Core):
     def get_width(self):
         """ Get width from display of device
         example : get_width()
-        return : int
+
+        HOW TO CALL IN ROBOT FRAMEWORK
+
+        |  Get Width
+
+        return : width of device(int)
         """
         get_device = self.device()
         return get_device.info['displayWidth']
@@ -401,7 +466,12 @@ class Element(Core):
     def get_height(self):
         """ Get height from display of device
         example : get_height()
-        return : int
+
+        HOW TO CALL IN ROBOT FRAMEWORK
+
+        |  Get Height
+
+        return : width of device(int)
         """
         get_device = self.device()
         return get_device.info['displayHeight']

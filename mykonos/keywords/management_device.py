@@ -11,6 +11,10 @@ class ManagementDevice(Core):
         """
         scan current device on the workstation, and consume
         to open application
+        HOW TO CALL IN ROBOT FRAMEWORK
+
+        |  Scan Current Device                         |  emulator=emulator-554
+
         """
         sc = os.system('adb devices')
 
