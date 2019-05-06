@@ -11,4 +11,4 @@ assets
 .Pipfile
 .Pipfile.lock
 output.xml
-test_open_apps.robot
+*.robot
