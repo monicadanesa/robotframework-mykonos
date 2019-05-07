@@ -4,8 +4,8 @@ from mykonos.keywords.management_device import ManagementDevice
 from mykonos.keywords.touch import Touch
 
 __all__ = [
+"Touch",
 "Element",
 "KeyEvent",
 "ManagementDevice",
-"Touch"
 ]

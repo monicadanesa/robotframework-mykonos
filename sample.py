@@ -6,11 +6,11 @@ from mykonos.locator.locator_element import LocatorElement
 from mykonos.core.core import Core
 
 el = Element()
-sample = el.get_element_by_coordinate_y(text='All contacts')
+le = LocatorElement()
 
-sample
-test = el.get_element_by_coordinate_x(text='All contacts')
+parent_1 = le.get_locator(className="android.widget.LinearLayout")
 
+el.get_height()
 test
 
 from uiautomator import Device
@@ -24,27 +24,3 @@ bottom = d(text='All contacts').info['bounds']['bottom']
 right = d(text='All contacts').info['bounds']['right']
 left = d(text='All contacts').info['bounds']['left']
 top = d(text='All contacts').info['bounds']['top']
-
-d
-
-top
-width
-height
-left
-
-right
-bottom
-
-elm_y = height-(right+left)
-elm_x = (top+bottom)+top
-
-elm_x
-elm_y
-
-mg = ManagementDevice()
-device_1 = mg.scan_current_device()
-device_1
-tc = Touch()
-check = tc.scoll(action='vertical to end', device=device_1)
-
-check

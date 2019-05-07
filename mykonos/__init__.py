@@ -10,7 +10,7 @@ class mykonos(
     LocatorElement,
     Element,
     KeyEvent,
-    Touch
+    Touch,
 ):
 
     def __init__(self):

@@ -76,7 +76,7 @@ class Touch(Core):
             return self.__get_device_scroll(self, *argument, **settings).scroll(steps=10)
 
 
-    def scoll(self, *argument, **settings):
+    def scroll(self, *argument, **settings):
         """ scroll interanction on Android device
 
         HOW TO CALL IN ROBOT FRAMEWORK:
