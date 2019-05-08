@@ -3,6 +3,13 @@ from alog import debug, error, info
 from mykonos.core.core import Core
 
 class ManagementDevice(Core):
+    adb_str = 'adb -s '
+    adb_shell_start = ' shell am start -W '
+    adb_stop = ' shell am force-stop '
+    adb_shell_grep_pid = 'adb shell pgrep '
+    adb_shell_kill = 'adb shell pkill '
+    adb_shell_pm_clear = ' shell pm clear '
+    adb_shell_key_event = 'adb shell input keyevent '
 
     def __init__(self):
         self.index = 0
@@ -26,26 +33,30 @@ class ManagementDevice(Core):
         return self.device(*args, **data_result)
 
 
-    def open_application(self, device, app_package):
+    def open_app(self, device, app_package):
         """ Open Application on Device
         HOW TO CALL IN ROBOT FRAMEWORK
 
         |  Open Application                        |  emulator=emulator-554   |  sampleapk
         """
         try:
-            op = os.system('adb -s '+device+' shell am start -W '+app_package+'')
+            op = os.system(self.adb_str + device + self.adb_shell_start + app_package + '')
             return self.device(device)
         except ValueError as error:
             raise ValueError('open device is failed')
 
-    def close_application(self, device_name, app_package):
+    def _substring_package(self, app_package):
+        return app_package.split('/')[0]
+
+    def close_app(self, device, app_package):
         """
         Close running application
         """
-        cl = os.system('adb -s '+device_name+' shell am force-stop '+app_package+'')
+        package = self._substring_package(app_package)
+        cl = os.system(self.adb_shell_kill + package)
         return cl
 
-    def close_all_applicatioins(self, device_name):
+    def close_all_app(self, device_name):
         """
         Close all task on the device, and kill all application
         """
@@ -55,15 +66,16 @@ class ManagementDevice(Core):
         except ValueError as error:
             raise ValueError('device can not be opened')
 
-    def reset_application(self, device_name, app_package):
+    def reset_app(self, device, app_package):
         """ Reset Application on Device
         HOW TO CALL IN ROBOT FRAMEWORK
 
-        |  Reset Application                        |  emulator=emulator-554   |  sampleapk
+        |  Reset Application                        |  emulator=emulator-554   |  sample_apk
         """
         try:
-            op = os.system('adb -s '+device_name+' shell pm clear '+app_package+'')
-            return self.device(device_name)
+            package = self._substring_package(app_package)
+            op = os.system(self.adb_str + device + self.adb_shell_pm_clear + package + '')
+            return op
         except ValueError as error:
             raise ValueError('device can not be opened')
 
@@ -131,5 +143,5 @@ class ManagementDevice(Core):
 
         return : True or False
         """
-        rs = os.system('adb shell input keyevent 111')
+        rs = os.system(self.adb_shell_key_event+'111')
         return rs

@@ -51,23 +51,23 @@ class Touch(Core):
             del settings['action']
 
             if 'horizontal forward' in action:
-                return device.scroll.horiz.forward(steps=100)
+                return device.scroll.horiz.forward(**settings)
             elif 'horizontal to begining' in action:
-                return device.scroll.horiz.toBeginning(steps=100, max_swipes=1)
+                return device.scroll.horiz.toBeginning(**settings)
+            elif 'horizontal backward' in action:
+                return device.scroll.horiz.backward(**settings)
+            elif 'horizontal to end' in action:
+                return device.scroll.horiz.toEnd(**settings)
             elif 'horizontal to' in action:
                 return device.scroll.horiz.to(**settings)
-            elif 'horizontal backward' in action:
-                return device.scroll.horiz.backward()
-            elif 'horizontal to end' in action:
-                return device.scroll.horiz.toEnd()
             elif 'vertical backward' in action:
-                return device.scroll.vert.backward()
+                return device.scroll.vert.backward(**settings)
             elif 'vertical to end' in action:
-                return device.scroll.vert.toEnd()
+                return device.scroll.vert.toEnd(**settings)
             elif 'vertical forward' in action:
-                return device.scroll.vert.forward(steps=100)
+                return device.scroll.vert.forward(**settings)
             elif 'vertical to begining' in action:
-                return device.scroll.vert.toBeginning(steps=100, max_swipes=1)
+                return device.scroll.vert.toBeginning(**settings)
             elif 'vertical to' in action:
                 return device.scroll.vert.to(**settings)
             else:

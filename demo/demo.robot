@@ -10,8 +10,7 @@ ${message}                helllo
 *** keywords ***
 Scan Device and Open Application Messaging
     [Arguments]                                               ${input_emulator}   ${input_apk}
-    Scan Current Device                                       ${input_emulator}
-    Open Application                                          ${input_emulator}     ${input_apk}
+    Open App                                                  ${input_emulator}     ${input_apk}
 
 Click Plus Icon on the Messaging Menu
     Click Element                                             resourceId=com.android.messaging:id/start_new_conversation_button

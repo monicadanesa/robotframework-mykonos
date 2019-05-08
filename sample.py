@@ -8,19 +8,15 @@ from mykonos.core.core import Core
 el = Element()
 le = LocatorElement()
 
-parent_1 = le.get_locator(className="android.widget.LinearLayout")
-
-el.get_height()
-test
-
+sample = le.get_locator_by_index(className='android.widget.FrameLayout', index=2)
+sample
+tc = Touch()
+tc.scroll()
+sample = tc.scroll(action='vertical to end',max_swipes=100)
+sample
 from uiautomator import Device
 
 d = Device()
 tc  = d(text='All contacts').info['bounds']
 
-width = d.info['displayWidth']
-height = d.info['displayHeight']
-bottom = d(text='All contacts').info['bounds']['bottom']
-right = d(text='All contacts').info['bounds']['right']
-left = d(text='All contacts').info['bounds']['left']
-top = d(text='All contacts').info['bounds']['top']
+d(scrollable=True).scroll.horiz.toEnd(max_swipes=10, steps=100)

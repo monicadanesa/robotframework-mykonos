@@ -7,7 +7,7 @@ class LocatorElement(Core):
     def __init__(self):
         self.device_mobile = self.device()
 
-    def get_locator(self, *argument, **locator):
+    def get_locator(self, *argument, **settings):
         """ access locator from device
         selector support :
         text, textContains, textMatches, textStartsWith
@@ -34,15 +34,15 @@ class LocatorElement(Core):
 
         """
 
-        if 'device' in locator:
-             device = locator['device']
-             del locator['device']
-             return device(*argument, **locator)
+        if 'device' in settings:
+             device = settings['device']
+             del settings['device']
+             return device(*argument, **settings)
         else:
-            return self.device_mobile(*argument, **locator)
+            return self.device_mobile(*argument, **settings)
 
 
-    def get_child(self, parent, *argument, **locator):
+    def get_child(self, parent, *argument, **settings):
         """ access child locator from device
         example:
         cls = LocatorElement()
@@ -53,9 +53,9 @@ class LocatorElement(Core):
         | ${locator}=  Get Locator          | text=sample text
         | ${child}=   Get Child             | parent=${locator}  text=sample text
         """
-        return parent.child(*argument, **locator)
+        return parent.child(*argument, **settings)
 
-    def get_sibling(self, parent, *argument, **locator):
+    def get_sibling(self, parent, *argument, **settings):
         """ access sibling locator from device
         example:
         cls = LocatorElement()
@@ -66,9 +66,9 @@ class LocatorElement(Core):
         | ${locator}=  Get Locator          | text=sample text
         | ${child}=   Get Sibiling          | parent=${locator}  text=sample text
         """
-        return parent.sibling(*argument, **locator)
+        return parent.sibling(*argument, **settings)
 
-    def left_postion(self, parent, *argument, **locator):
+    def left_position(self, parent, *argument, **settings):
         """ access left position from device
         example:
         cls = LocatorElement()
@@ -79,9 +79,9 @@ class LocatorElement(Core):
         | ${locator}=  Get Locator          | text=sample text
         | ${left}=     Left Position        | parent=${locator}  text=sample text
         """
-        return parent.left(*argument, **locator)
+        return parent.left(*argument, **settings)
 
-    def right_postion(self, parent, *argument, **locator):
+    def right_position(self, parent, *argument, **settings):
         """ access left position from device
         example:
         cls = LocatorElement()
@@ -92,9 +92,9 @@ class LocatorElement(Core):
         | ${locator}=  Get Locator          | text=sample text
         | ${right}=    Right Position       | parent=${locator}  text=sample text
         """
-        return parent.right(*argument, **locator)
+        return parent.right(*argument, **settings)
 
-    def up_postion(self, parent, *argument, **locator):
+    def up_position(self, parent, *argument, **settings):
         """ access left position from device
         example:
         cls = LocatorElement()
@@ -105,9 +105,9 @@ class LocatorElement(Core):
         | ${locator}=  Get Locator          | text=sample text
         | ${up}=    Up Position             | parent=${locator}  text=sample text
         """
-        return parent.up(*argument, **locator)
+        return parent.up(*argument, **settings)
 
-    def down_postion(self, parent, *argument, **locator):
+    def down_position(self, parent, *argument, **settings):
         """ access left position from device
         example:
         cls = LocatorElement()
@@ -118,4 +118,22 @@ class LocatorElement(Core):
         | ${locator}=  Get Locator        | text=sample text
         | ${down}=    Down Position       | parent=${locator}  text=sample text
         """
-        return parent.down(*argument, **locator)
+        return parent.down(*argument, **settings)
+
+    def get_locator_by_index(self, *argument, **settings):
+        index = int(settings['index'])
+        del settings['index']
+
+        if 'locator' in settings:
+            locator = settings['locator']
+            del settings['locator']
+
+            return locator[index]
+        else:
+            if 'device' in settings:
+                device = settings['device']
+                del settings['device']
+
+                return device(*argument, **settings)[index]
+            else:
+                return self.device_mobile(*argument, **settings)[index]
