@@ -5,20 +5,82 @@ class Touch(Core):
     def __init__(self):
         self.device_mobile = self.device()
 
-    def swipe_screen(self, sx, sy, ex, ey, step=None, device=None):
-        """ geasture swipe interanction of Android Device
+    def swipe(self, sx, sy, ex, ey, steps, **settings):
+        """ geasture swipe with interanction on Android Device
         swipe from (sx, sy) to (ex, ey)
         example :
         tc = Touch(data)
-        tc.swipe_screen(189, 210, 954, 336, step=10)
+        tc.swipe(189, 210, 954, 336, step=10)
+
+        HOW TO CALL IN ROBOT FRAMEWORK:
+
+        without device :
+        | Swipe                             | sx=10  sy=10  ex=20   ey=20   |  steps=100
+
+        with device :
+
+        Define device on the first time:
+        | ${device_1}=  Scan Current Device  |    ${emulator}
+        | Swipe                              | sx=10  sy=10  ex=20   ey=20   |  steps=100  | device=${device_1}
+
         """
-        try:
-            if device!=None:
-                return device(*argument, **locator).swipe(sx, sy, ex, ey, step)
+
+        if 'device' in settings:
+            device = settings['device']
+
+            del settings['device']
+            return device.swipe(sx, sy, ex, ey, steps)
+        else:
+            return self.device_mobile.swipe(sx, sy, ex, ey, steps)
+
+
+    def swipe_with_direction(self, *argument, **settings):
+        """ gesture swipe with direction on Android Device
+        swipe with direction : right, left, up and down
+
+        without device :
+        | Swipe                             | direction=right   |  steps=100
+        | Swipe                             | direction=left    |  steps=100
+        | Swipe                             | direction=up      |  steps=100
+        | Swipe                             | direction=down    |  steps=100
+
+        with device :
+
+        Define device on the first time:
+        | ${device_1}=  Scan Current Device | ${emulator}
+        | Swipe                             | direction=right   |  steps=100    | device=${device_1}
+        | Swipe                             | direction=left    |  steps=100    | device=${device_1}
+        | Swipe                             | direction=up      |  steps=100    | device=${device_1}
+        | Swipe                             | direction=down    |  steps=100    | device=${device_1}
+        """
+        direction = settings['direction']
+        del settings['direction']
+
+        if 'steps' in settings:
+            steps = settings['steps']
+            del settings['steps']
+
+        if 'locator' in settings:
+            dvc = settings['locator']
+            del settings['locator']
+        else:
+            if 'device' in settings:
+                device = settings['device']
+                del settings['device']
+
+                dvc = device(*argument, **settings)
             else:
-                return self.device_mobile(*argument, **locator).swipe(sx, sy, ex, ey, step)
-        except ValueError as error:
-             raise ValueError('device cannot be swipe' + error)
+                dvc = self.device_mobile(*argument, **settings)
+
+        if 'right' in direction:
+            return dvc.swipe.right(steps=1)
+        elif 'left' in direction:
+            return dvc.swipe.left(steps=1)
+        elif 'up' in direction:
+            return dvc.swipe.up(steps=1)
+        elif 'down' in direction:
+            return dvc.swipe.down(steps=1)
+
 
     def drag_screen(self, sx, sy, ex, ey, step=None, device=None):
         """ geasture drag interanction of Android Device
@@ -102,7 +164,7 @@ class Touch(Core):
         how to use scroll horizontal with device:
             | Scroll                         | steps=100                                        | device=${device_1}
             | Scroll horizontal forward      | steps=100                                        | device=${device_1}
-            | Scroll horizontal to           | textName='Calculator', clasName='sampleClass'    | device=${device_1}
+            | Scroll horizontal to           | textName='Calculator' clasName='sampleClass'     | device=${device_1}
             | Scroll horizontal backward     | device=${device_1}
             | Scroll horizontal to end       | device=${device_1}
 

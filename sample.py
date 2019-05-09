@@ -7,16 +7,13 @@ from mykonos.core.core import Core
 
 el = Element()
 le = LocatorElement()
-
+mg = ManagementDevice()
+el.click_element(device=device_1, locator=parent)
 sample = le.get_locator_by_index(className='android.widget.FrameLayout', index=2)
 sample
 tc = Touch()
-tc.scroll()
+device_1 = mg.scan_current_device()
+tc.swipe(sx=100, sy=100, ex=200, ey=200, steps=1, device=device_1)
 sample = tc.scroll(action='vertical to end',max_swipes=100)
 sample
 from uiautomator import Device
-
-d = Device()
-tc  = d(text='All contacts').info['bounds']
-
-d(scrollable=True).scroll.horiz.toEnd(max_swipes=10, steps=100)

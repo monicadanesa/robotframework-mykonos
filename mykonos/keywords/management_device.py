@@ -48,7 +48,7 @@ class ManagementDevice(Core):
     def _substring_package(self, app_package):
         return app_package.split('/')[0]
 
-    def close_app(self, device, app_package):
+    def quit_app(self, device, app_package):
         """
         Close running application
         """
