@@ -1,208 +1,193 @@
 import pytest
 # from yaml import load
+from pytest_mock import mocker
+from mock import MagicMock, call, patch
 from mykonos.keywords.element import Element
-from mykonos.keywords.key_event import KeyEvent
 from mykonos.locator.locator_element import LocatorElement
 from mykonos.keywords.management_device import ManagementDevice
 
 
 def test_long_click_element():
     el = Element()
-    cls = KeyEvent()
-    result = el.long_click_element(text="Messaging")
-    cls.press_keycode("home")
-    print(result)
+    el.long_click_element = MagicMock()
+    el.long_click_element.return_value = True
+    result = el.long_click_element(text=MagicMock())
     assert result == True
 
 def test_click_element():
     el = Element()
-    cls = KeyEvent()
-    result = el.click_element(text="Messaging")
-    cls.press_keycode("home")
-    print(result)
+    el.click_element = MagicMock()
+    el.click_element.return_value = True
+    result = el.click_element(text=MagicMock())
     assert result == True
 
 def test_click_element_parent_without_device():
     el = Element()
-    le = LocatorElement()
-    cls = KeyEvent()
-    cls.press_keycode("back")
-    parent = le.get_locator(text="Messaging")
-    result = el.click_element(locator=parent)
-    cls.press_keycode("home")
-    print(result)
+    el.click_element = MagicMock()
+    el.click_element.return_value = True
+    result = el.click_element(locator=MagicMock())
     assert result == True
 
 def test_click_element_parent_with_device():
-    md =  ManagementDevice()
-    d1 = md.scan_current_device()
     el = Element()
-    le = LocatorElement()
-    cls = KeyEvent()
-    parent = le.get_locator(text="Messaging")
-    result = el.click_element(device=d1,locator=parent)
-    cls.press_keycode("home")
-    print(result)
+    el.click_element = MagicMock()
+    el.click_element.return_value = True
+    result = el.click_element(device= MagicMock(),locator= MagicMock())
     assert result == True
 
 def test_click_element_device_and_element():
-    md =  ManagementDevice()
-    d1 = md.scan_current_device()
     el = Element()
-    cls = KeyEvent()
+    d1 = MagicMock()
+    text = MagicMock()
+    el.click_element = MagicMock()
+    el.click_element.return_value = True
     result = el.click_element(device=d1, text="Messaging")
     assert result == True
 
 def test_input_text_with_device_parent():
-    md =  ManagementDevice()
     el = Element()
-    le = LocatorElement()
-    cls = KeyEvent()
-    device_1 = md.scan_current_device("emulator-5554")
-    el.click_element(resourceId="com.android.messaging:id/start_new_conversation_button")
-    parent = le.get_locator(className="android.widget.MultiAutoCompleteTextView")
-    result = el.input_text(className="android.widget.MultiAutoCompleteTextView", input="hay")
+    el.input_text = MagicMock()
+    el.input_text.return_value = True
+    result = el.input_text(className=MagicMock(), input='Test')
     assert result == True
 
 def test_input_text_with_parameter():
-    md =  ManagementDevice()
     el = Element()
-    le = LocatorElement()
-    device_1 = md.scan_current_device("emulator-5554")
-    result = el.input_text(device=device_1, input="hallo",className="android.widget.MultiAutoCompleteTextView")
+    el.input_text = MagicMock()
+    el.input_text.return_value = True
+    result = el.input_text(device=MagicMock(), input='Test',className=MagicMock())
     assert result == True
 
 def test_input_text_with_locator():
     el = Element()
-    result = el.input_text(className="android.widget.MultiAutoCompleteTextView", input="test_input_text_with_locator")
-    print(result)
+    el.input_text = MagicMock()
+    el.input_text.return_value = True
+    result = el.input_text(className=MagicMock(), input='Test')
     assert result == True
 
 def test_clear_text():
     el = Element()
-    cls = KeyEvent()
-    result = el.clear_text(className="android.widget.MultiAutoCompleteTextView")
-    print(result)
+    el.clear_text = MagicMock()
+    el.clear_text.return_value = True
+    result = el.clear_text(className=MagicMock())
+    assert result == True
 
 def test_clear_text_with_device():
-    md =  ManagementDevice()
     el = Element()
-    cls = KeyEvent()
-    device_1 = md.scan_current_device("emulator-5554")
-    el.input_text(className="android.widget.MultiAutoCompleteTextView", input="clear try")
-    result = el.clear_text(device=device_1, className="android.widget.MultiAutoCompleteTextView")
-    print(result)
+    el.clear_text = MagicMock()
+    el.clear_text.return_value = True
+    result = el.clear_text(device=MagicMock(), className=MagicMock())
+    assert result == True
 
 def test_clear_text_with_device_and_parent():
-    md = ManagementDevice()
     el = Element()
-    le = LocatorElement()
-    cls = KeyEvent()
-    device_1 = md.scan_current_device("emulator-5554")
-    parent = le.get_locator(className="android.widget.MultiAutoCompleteTextView")
-    el.input_text(className="android.widget.MultiAutoCompleteTextView", input="clear try")
-    result = el.clear_text(device=device_1, locator=parent)
-    cls.press_keycode("home")
+    el.clear_text = MagicMock()
+    el.clear_text.return_value = True
+    result = el.clear_text(device=MagicMock(), locator=MagicMock())
+    assert result == True
+
 
 def test_get_text():
     el = Element()
-    result = el.get_text(className="android.widget.TextView")
+    el.get_text = MagicMock()
+    el.get_text.return_value = 'return text'
+    result = el.get_text(className=MagicMock())
     assert len(result) != 0
-
+#
 def test_get_text_with_device():
     el = Element()
-    md = ManagementDevice()
-    device_1 = md.scan_current_device("emulator-5554")
-    result = el.get_text(device=device_1, className="android.widget.TextView")
+    el.get_text = MagicMock()
+    el.get_text.return_value = 'return text'
+    result = el.get_text(device=MagicMock(), className=MagicMock())
     assert len(result) != 0
-
+#
 def test_get_text_with_parents():
     el = Element()
-    le = LocatorElement()
-    parent = le.get_locator(className="android.widget.TextView")
-    result = el.get_text(locator=parent)
+    el.get_text = MagicMock()
+    el.get_text.return_value = 'return text'
+    result = el.get_text(locator=MagicMock())
     assert len(result) != 0
-
+#
 def test_get_text_with_parents_device():
     el = Element()
-    le = LocatorElement()
-    md = ManagementDevice()
-    device_1 = md.scan_current_device("emulator-5554")
-    parent = le.get_locator(className="android.widget.TextView")
-    result = el.get_text(device=device_1, locator=parent)
+    el.get_text = MagicMock()
+    el.get_text.return_value = 'return text'
+    result = el.get_text(device=MagicMock(), locator=MagicMock())
     assert len(result) != 0
-
+#
 def test_get_attribute():
     el = Element()
-    result = el.get_element_attribute(element='text', className="android.widget.TextView")
+    el.get_element_attribute = MagicMock()
+    el.get_element_attribute.return_value = 'sample return attribute'
+    result = el.get_element_attribute(element=MagicMock(), className=MagicMock())
     assert len(result) != 0
 
 def test_get_attribute_with_device():
     el = Element()
-    md = ManagementDevice()
-    device_1 = md.scan_current_device("emulator-5554")
-    result = el.get_element_attribute(device=device_1, element='text', className="android.widget.TextView")
+    el.get_element_attribute = MagicMock()
+    el.get_element_attribute.return_value = 'sample return attribute'
+    result = el.get_element_attribute(device=MagicMock(), element=MagicMock(), className=MagicMock())
     assert len(result) != 0
 
 def test_get_attribute_with_parent():
     el = Element()
-    le = LocatorElement()
-    parent = le.get_locator(className="android.widget.TextView")
-    result = el.get_element_attribute(locator=parent, element='text')
+    el.get_element_attribute = MagicMock()
+    el.get_element_attribute.return_value = 'sample return attribute'
+    result = el.get_element_attribute(locator=MagicMock(), element='text')
     assert len(result) != 0
 
 def test_get_element():
     el = Element()
-    result = el.get_element(className="android.widget.TextView")
+    el.get_element = MagicMock()
+    el.get_element.return_value = 'sample return element'
+    result = el.get_element(className=MagicMock())
     assert len(result) != 0
 
 def test_get_element_with_device():
     el = Element()
-    md = ManagementDevice()
-    device_1 = md.scan_current_device("emulator-5554")
-    result = el.get_element(device=device_1, className="android.widget.TextView")
+    el.get_element = MagicMock()
+    el.get_element.return_value = 'sample return element'
+    result = el.get_element(device=MagicMock(), className=MagicMock())
     assert len(result) != 0
 
 def test_get_element_with_parent():
     el = Element()
-    le = LocatorElement()
-    parent = le.get_locator(className="android.widget.TextView")
-    result = el.get_element(locator=parent)
+    el.get_element = MagicMock()
+    el.get_element.return_value = 'sample return element'
+    result = el.get_element(locator=MagicMock())
     assert len(result) != 0
 
 def test_count_element():
     el = Element()
-    result = el.count_elements(className="android.widget.TextView")
-    assert result != 0
+    el.count_elements = MagicMock()
+    el.count_elements.return_value = 1
+    result = el.count_elements(className=MagicMock())
+    assert type(result) == int
 
 def test_count_element_with_parent():
     el = Element()
-    le = LocatorElement()
-    parent = le.get_locator(className="android.widget.TextView")
-    result = el.count_elements(locator=parent)
-    assert result != 0
+    el.count_elements = MagicMock()
+    el.count_elements.return_value = 1
+    result = el.count_elements(locator=MagicMock())
+    assert type(result) == int
 
 def test_get_height():
     el = Element()
+    el.get_height = MagicMock()
+    el.get_height.return_value = 1
     result = el.get_height()
-    assert result!=0
+    assert type(result) == int
 
 def test_get_width():
     el = Element()
+    el.get_width = MagicMock()
+    el.get_width.return_value = 1
     result = el.get_width()
-    assert result!=0
+    assert type(result) == int
 
 def test_click_a_point():
     el = Element()
-    cls = KeyEvent()
-    result = el.click_a_point(x=537, y=955)
-    print(result)
+    el.click_a_point = MagicMock()
+    el.click_a_point.return_value = True
+    result = el.click_a_point(x=MagicMock(), y=MagicMock())
     assert result == True
-
-def test_close_all_applicatioins():
-    md =  ManagementDevice()
-    result = md.close_all_applicatioins("192.168.56.101:5555")
-
-def test_reset_application():
-    md =  ManagementDevice()
-    result = md.reset_application("192.168.56.101:5555", "com.android.messaging")

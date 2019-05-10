@@ -82,7 +82,7 @@ class Touch(Core):
             return dvc.swipe.down(steps=1)
 
 
-    def drag_screen(self, sx, sy, ex, ey, step=None, device=None):
+    def drag_screen(self, sx, sy, ex, ey, steps=None, device=None):
         """ geasture drag interanction of Android Device
         example :
         tc = Touch(data)
@@ -90,9 +90,9 @@ class Touch(Core):
         """
         try:
             if device!=None:
-                return device(*argument, **locator).drag(sx, sy, ex, ey, step)
+                return device(*argument, **locator).drag(sx, sy, ex, ey, steps)
             else:
-                return self.device_mobile().drag(sx, sy, ex, ey, step)
+                return self.device_mobile().drag(sx, sy, ex, ey, steps)
         except ValueError as error:
              raise ValueError('device cannot be drag' + error)
 

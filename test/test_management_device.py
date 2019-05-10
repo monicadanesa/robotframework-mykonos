@@ -3,35 +3,31 @@ from mock import MagicMock, call, patch
 from pytest_mock import mocker
 from mykonos.keywords.management_device import ManagementDevice
 
-def test_scan_device(mocker):
+def test_scan_device():
     device = ManagementDevice()
     device.scan_device = MagicMock()
     device.scan_device.return_value = True
-    assert device.scan_device() == True
+    result = device.scan_device()
+    assert result == True
 
-def test_open_application(mocker):
-    class_name = ManagementDevice()
-    class_name.open_application = MagicMock()
-    device_name = MagicMock()
-    app_package = MagicMock()
+def test_open_app():
+    device = ManagementDevice()
+    device.open_app = MagicMock()
     device = MagicMock()
-    class_name.open_application.return_value = device
-    assert class_name.open_application(device_name, app_package) == device
-    class_name.open_application.assert_called_once_with(device_name, app_package)
+    device.open_app.return_value = True
+    result = device.open_app(device=MagicMock(), app_package=MagicMock())
+    assert result == True
 
-def test_open_application_failed(mocker):
-    class_name = ManagementDevice()
-    class_name.open_application = MagicMock()
-    device_name = MagicMock()
-    app_package = MagicMock()
-    class_name.open_application.return_value = 'open device is failed'
-    assert class_name.open_application(device_name, app_package) == 'open device is failed'
-    class_name.open_application.assert_called_once_with(device_name, app_package)
+def test_quite_app():
+    device = ManagementDevice()
+    device.quit_app = MagicMock()
+    device.quit_app.return_value = True
+    result = device.quit_app(device=MagicMock(), app_package=MagicMock())
+    assert result == True
 
-def test_info_device(mocker):
-    class_name = ManagementDevice()
-    class_name.info_device = MagicMock()
-    device_name = MagicMock()
-    class_name.info_device.return_value = {}
-    assert class_name.info_device() == {}
-    class_name.info_device.assert_called_once_with()
+def test_reset_app():
+    device = ManagementDevice()
+    device.reset_app = MagicMock()
+    device.reset_app.return_value = True
+    result = device.reset_app(device=MagicMock(), app_package=MagicMock())
+    assert result == True

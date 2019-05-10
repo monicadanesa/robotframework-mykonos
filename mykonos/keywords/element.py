@@ -233,7 +233,7 @@ class Element(Core):
         checkable, checked, clickable, longClickable
         scrollable, enabled,focusable, focused, selected
         packageName, packageNameMatches
-        resourceId, resourceIdMatches
+        resourceId, resourceIdMatches 
         index, instance
 
         HOW TO CALL IN ROBOT FRAMEWORK
