@@ -1,5 +1,4 @@
 import pytest
-# from yaml import load
 from pytest_mock import mocker
 from mock import MagicMock, call, patch
 from mykonos.keywords.element import Element
@@ -93,28 +92,28 @@ def test_get_text():
     el.get_text.return_value = 'return text'
     result = el.get_text(className=MagicMock())
     assert len(result) != 0
-#
+
 def test_get_text_with_device():
     el = Element()
     el.get_text = MagicMock()
     el.get_text.return_value = 'return text'
     result = el.get_text(device=MagicMock(), className=MagicMock())
     assert len(result) != 0
-#
+
 def test_get_text_with_parents():
     el = Element()
     el.get_text = MagicMock()
     el.get_text.return_value = 'return text'
     result = el.get_text(locator=MagicMock())
     assert len(result) != 0
-#
+
 def test_get_text_with_parents_device():
     el = Element()
     el.get_text = MagicMock()
     el.get_text.return_value = 'return text'
     result = el.get_text(device=MagicMock(), locator=MagicMock())
     assert len(result) != 0
-#
+
 def test_get_attribute():
     el = Element()
     el.get_element_attribute = MagicMock()

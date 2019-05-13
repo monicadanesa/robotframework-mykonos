@@ -32,4 +32,9 @@ def test_scroll():
     assert le.scroll(steps=MagicMock()) == True
     assert le.scroll(steps=MagicMock(), textName=MagicMock()) == True
     assert le.scroll(steps=MagicMock(), textName=MagicMock(), action=MagicMock(), max_swipes=MagicMock()) == True
-    
+
+def test_pinch():
+    le = Touch()
+    le.pinch = MagicMock()
+    le.pinch.return_value = True
+    assert le.pinch(steps=100, textName=MagicMock(), action=MagicMock(), percent=100) == True

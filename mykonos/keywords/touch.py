@@ -5,6 +5,20 @@ class Touch(Core):
     def __init__(self):
         self.device_mobile = self.device()
 
+    def __get_device_global(self, *argument, **settings):
+        if 'locator' in settings:
+            device = settings['locator']
+        else:
+            if 'device' in settings:
+                device = settings['device']
+                del settings['device']
+
+                device = device(*argument, **settings)
+            else:
+                device = self.device_mobile(*argument, **settings)
+
+        return device
+
     def swipe(self, sx, sy, ex, ey, steps, **settings):
         """ geasture swipe with interanction on Android Device
         swipe from (sx, sy) to (ex, ey)
@@ -60,17 +74,7 @@ class Touch(Core):
             steps = settings['steps']
             del settings['steps']
 
-        if 'locator' in settings:
-            dvc = settings['locator']
-            del settings['locator']
-        else:
-            if 'device' in settings:
-                device = settings['device']
-                del settings['device']
-
-                dvc = device(*argument, **settings)
-            else:
-                dvc = self.device_mobile(*argument, **settings)
+        dvc = self.__get_device_global(*argument, **settings)
 
         if 'right' in direction:
             return dvc.swipe.right(steps=1)
@@ -178,3 +182,53 @@ class Touch(Core):
 
          """
         return self.__check_action_device_scroll(self, *argument, **settings)
+
+    def pinch(self, *argument, **settings):
+        """ pinch interaction on Android Device
+
+        HOW TO CALL IN ROBOT FRAMEWORK:
+        without element locator:
+           | Pinch                          | steps=100     action=In    percent=100
+           | Pinch                          | steps=100     action=Out   percent=100
+
+       with element locator
+          | Pinch                          | steps=100     action=In    percent=100     className=sample class
+          | Pinch                          | steps=100     action=Out   percent=100     className=sample class
+
+
+       with device
+          |  ${device_1}=  Scan Current Device  |    ${emulator}
+
+         | Pinch                          | steps=100     action=In    percent=100    device=${device_1}
+         | Pinch                          | steps=100     action=Out   percent=100    device=${device_1}
+
+         | Pinch                          | steps=100     action=In    percent=100     className=sample class   device=${device_1}
+         | Pinch                          | steps=100     action=Out   percent=100     className=sample class   device=${device_1}
+
+
+        return :
+        True and False
+        """
+
+        if 'percent' in settings:
+            percent = settings['percent']
+
+            del settings['percent']
+
+        if 'steps' in settings:
+            steps = settings['steps']
+
+            del settings['steps']
+
+        if 'action' in settings:
+            action = settings['action']
+            del settings['action']
+
+            device = self.__get_device_global(*argument, **settings)
+
+            if 'In' in action:
+                return device.pinch.In(percent=10, steps=10)
+            elif 'Out' in action:
+                return device.pinch.Out(percent=10, steps=10)
+        else:
+            raise Exception('Action is not available on ui automator')

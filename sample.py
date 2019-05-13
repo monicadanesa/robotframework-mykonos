@@ -16,4 +16,3 @@ device_1 = mg.scan_current_device()
 tc.swipe(sx=100, sy=100, ex=200, ey=200, steps=1, device=device_1)
 sample = tc.scroll(action='vertical to end',max_swipes=100)
 sample
-from uiautomator import Device
