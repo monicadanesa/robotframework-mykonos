@@ -13,6 +13,13 @@ def test_long_click_element():
     result = el.long_click_element(text=MagicMock())
     assert result == True
 
+def test_page_should_contain_element():
+    el = Element()
+    el.page_should_contain_element = MagicMock()
+    el.page_should_contain_element.return_value = True
+    result = el.page_should_contain_element(className=MagicMock())
+    assert result == True
+
 def test_click_element():
     el = Element()
     el.click_element = MagicMock()

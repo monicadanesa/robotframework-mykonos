@@ -233,7 +233,7 @@ class Element(Core):
         checkable, checked, clickable, longClickable
         scrollable, enabled,focusable, focused, selected
         packageName, packageNameMatches
-        resourceId, resourceIdMatches 
+        resourceId, resourceIdMatches
         index, instance
 
         HOW TO CALL IN ROBOT FRAMEWORK
@@ -423,6 +423,28 @@ class Element(Core):
         right = bound['right']
         elm_y = height-(right+left)
         return elm_y
+
+    def page_should_contain_element(self, *argument, **settings):
+        """
+        page should contain element
+        HOW TO CALL IN ROBOT FRAMEWORK:
+        | Page Should Contain Element | className=sample class
+        """
+        element = self.get_element(*argument, **settings)
+
+        if 'locator' in settings:
+            locator = settings['locator']
+            if locator[element].exists:
+                return True
+            else:
+                raise ValueError('locator not found')
+        else:
+            if 'device' in settings:
+                device = settings['device']
+                del settings['device']
+                return device(*argument, **settings).exists
+            else:
+                return self.device_mobile(*argument, **settings).exists
 
     def count_elements(self, *argument, **settings):
         """ Count total element from the page
