@@ -148,38 +148,36 @@ class Touch(Core):
         HOW TO CALL IN ROBOT FRAMEWORK:
         how to use scroll horizontal:
            | Scroll                         | steps=100
-           | Scroll horizontal forward      | steps=100
-           | Scroll horizontal to begining  | steps=100, max_swipes=1
-           | Scroll horizontal to           | textName='Calculator', clasName='sampleClass'
-           | Scroll horizontal backward     |
-           | Scroll horizontal to end       |
+           | Scroll                         | steps=100     action=horizontal forward
+           | Scroll                         | steps=100  max_swipes=1   action=horizontal to begining
+           | Scroll                         | textName='Calculator' clasName='sampleClass'    action=horizontal to
+           | Scroll                         | action=horizontal backward
+           | Scroll                         | action=horizontal to end
 
          how to use scroll vertical:
             | Scroll                       | steps=100
-            | Scroll vertical forward      | steps=100
-            | Scroll vertical to begining  | steps=100, max_swipes=1
-            | Scroll vertical to           | textName='Calculator', clasName='sampleClass'
-            | Scroll vertical backward     |
-            | Scroll vertical to end       |
+            | Scroll                       | steps=100      action=vertical forward
+            | Scroll                       | steps=100 max_swipes=1     action=vertical to begining
+            | Scroll                       | textName='Calculator' clasName='sampleClass'       action=vertical to
+            | Scroll                       | action=vertical backward
+            | Scroll                       | action=vertical to end
 
         Define device on the first time:
             | ${device_1}=  Scan Current Device  |    ${emulator}
 
         how to use scroll horizontal with device:
             | Scroll                         | steps=100                                        | device=${device_1}
-            | Scroll horizontal forward      | steps=100                                        | device=${device_1}
-            | Scroll horizontal to           | textName='Calculator' clasName='sampleClass'     | device=${device_1}
-            | Scroll horizontal backward     | device=${device_1}
-            | Scroll horizontal to end       | device=${device_1}
+            | Scroll                         | steps=100                                        | device=${device_1}      |  action=horizontal forward
+            | Scroll                         | textName='Calculator' clasName='sampleClass'     | device=${device_1}      | action=horizontal to
+            | Scroll                         | device=${device_1}                               |  action=horizontal backward
+            | Scroll                         | device=${device_1}                               |  action=horizontal to end
 
         how to use scroll vertical with device:
-            | scroll                       | steps=100                                        | device=${device_1}
-            | scroll vertical forward      | steps=100                                        | device=${device_1}
-            | scroll vertical to begining  | steps=100, max_swipes=1                          | device=${device_1}
-            | scroll vertical to           | textName='Calculator', clasName='sampleClass'    | device=${device_1}
-            | scroll vertical backward     | device=${device_1}
-            | scroll vertical to end       | device=${device_1}
-
+            | Scroll                         | steps=100                                        | device=${device_1}
+            | Scroll                         | steps=100                                        | device=${device_1}      |  action=vertical forward
+            | Scroll                         | textName='Calculator' clasName='sampleClass'     | device=${device_1}      | action=vertical to
+            | Scroll                         | device=${device_1}                               |  action=vertical backward
+            | Scroll                         | device=${device_1}                               |  action=vertical to end
          """
         return self.__check_action_device_scroll(self, *argument, **settings)
 
