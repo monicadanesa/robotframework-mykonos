@@ -20,6 +20,20 @@ def test_page_should_contain_element():
     result = el.page_should_contain_element(className=MagicMock())
     assert result == True
 
+def test_page_should_not_contain_element():
+    el = Element()
+    el.page_should_not_contain_element = MagicMock()
+    el.page_should_not_contain_element.return_value = True
+    result = el.page_should_not_contain_element(className=MagicMock())
+    assert result == True
+
+def test_page_should_not_contain_text():
+    el = Element()
+    el.page_should_not_contain_text = MagicMock()
+    el.page_should_not_contain_text.return_value = True
+    result = el.page_should_not_contain_text(className=MagicMock())
+    assert result == True
+
 def test_page_should_contain_text():
     el = Element()
     el.page_should_contain_text = MagicMock()
