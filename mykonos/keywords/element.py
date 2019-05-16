@@ -446,6 +446,28 @@ class Element(Core):
             else:
                 return self.device_mobile(*argument, **settings).exists
 
+    def page_should_contain_text(self, *argument, **settings):
+        """
+        page should contain text
+        HOW TO CALL IN ROBOT FRAMEWORK
+        | Page Should Contain Text | text=sample text
+        """
+        text = self.get_text(*argument, **settings)
+
+        if 'locator' in settings:
+            locator = settings['locator']
+            if locator[text].exists:
+                return True
+            else:
+                raise ValueError('text not found')
+        else:
+            if 'device' in settings:
+                device = settings['device']
+                del settings['device']
+                return device(*argument, **settings).exists
+            else:
+                return self.device_mobile(*argument, **settings).exists
+
     def count_elements(self, *argument, **settings):
         """ Count total element from the page
         - locator is used for user who want to get locator first before count element

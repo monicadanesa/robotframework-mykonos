@@ -20,6 +20,13 @@ def test_page_should_contain_element():
     result = el.page_should_contain_element(className=MagicMock())
     assert result == True
 
+def test_page_should_contain_text():
+    el = Element()
+    el.page_should_contain_text = MagicMock()
+    el.page_should_contain_text.return_value = True
+    result = el.page_should_contain_text(text=MagicMock())
+    assert result == True
+
 def test_click_element():
     el = Element()
     el.click_element = MagicMock()
