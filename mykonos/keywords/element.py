@@ -468,6 +468,20 @@ class Element(Core):
             else:
                 return self.device_mobile(*argument, **settings).exists
 
+    def __get_device_global(self, *argument, **settings):
+        if 'locator' in settings:
+            device = settings['locator']
+        else:
+            if 'device' in settings:
+                device = settings['device']
+                del settings['device']
+
+                device = device(*argument, **settings)
+            else:
+                device = self.device_mobile(*argument, **settings)
+
+        return device
+
     def page_should_not_contain_element(self, *argument, **settings):
         """
         page should not contain element
@@ -480,16 +494,18 @@ class Element(Core):
             locator = settings['locator']
             found = locator[element].exists
             if found == False:
-                return True
-            else:
+                return False
+            elif found == True:
                 return ValueError('found element')
         else:
             if 'device' in settings:
                 device = settings['device']
                 del settings['device']
-                return device(*argument, **settings).exists
-            else:
-                return self.device_mobile(*argument, **settings).exists
+                found = self.__get_device_global(*argument, **settings)
+                if found.exists == True:
+                    return False
+                else:
+                    raise True
 
     def page_should_not_contain_text(self, *argument, **settings):
         """
