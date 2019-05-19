@@ -8,6 +8,7 @@ from mykonos.core.core import Core
 el = Element()
 le = LocatorElement()
 mg = ManagementDevice()
+ke = KeyEvent()
 el.click_element(device=device_1, locator=parent)
 sample = le.get_locator_by_index(className='android.widget.FrameLayout', index=2)
 sample
@@ -16,3 +17,7 @@ device_1 = mg.scan_current_device()
 tc.swipe(sx=100, sy=100, ex=200, ey=200, steps=1, device=device_1)
 sample = tc.scroll(action='vertical to end',max_swipes=100)
 sample
+
+ke.long_press("back",timer=1)
+
+el.clear_text("back",timer=1)
