@@ -39,3 +39,4 @@ Test Case Input Phone Number on Application Messaging
     Press Enter
     Input Message on the Text Area                            ${message}
     Click Button Send
+    Page Should Contain Text                                  text=${message}                     
