@@ -6,12 +6,14 @@ from mykonos.locator.locator_element import LocatorElement
 from mykonos.core.core import Core
 
 el = Element()
+sample = el.page_should_not_contain_element(className='android.widget.TextView')
+sample
+text = el.page_should_not_contain_text(className='helllo')
+text
 le = LocatorElement()
 mg = ManagementDevice()
 ke = KeyEvent()
 el.click_element(device=device_1, locator=parent)
-sample = le.get_locator_by_index(className='android.widget.FrameLayout', index=2)
-sample
 tc = Touch()
 device_1 = mg.scan_current_device()
 tc.swipe(sx=100, sy=100, ex=200, ey=200, steps=1, device=device_1)
