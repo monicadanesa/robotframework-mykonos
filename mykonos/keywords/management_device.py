@@ -186,9 +186,12 @@ class ManagementDevice(Core):
 
     def __return_dumpsy_package(self, cmd):
         out = self.__shell_pipe(cmd)
-        start = str(out).find('com')
+        start = str(out).find('{')
         end = str(out).find('/')
-        return str(out)[start:end]
+        slice_1 = str(out)[start:end]
+        result = str(slice_1)[str(slice_1).find(':')+1:]
+
+        return result
 
     def __get_old_package(self):
         return self.__return_dumpsy_package(self.adb_activity + 'mPreviousProcess')

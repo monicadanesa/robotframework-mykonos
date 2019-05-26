@@ -52,3 +52,4 @@ Test Case Input Phone Number on Application Messaging
     Input Message on the Text Area                            ${message}
     Click Button Send
     Page Should Contain Text                                  text=${message}
+    Quit App                                                  ${emulator}       ${apk}
