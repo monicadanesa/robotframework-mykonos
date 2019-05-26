@@ -1,6 +1,7 @@
 from alog import debug, error, info
 from mykonos.core.core import Core
 
+
 class Touch(Core):
     def __init__(self):
         self.device_mobile = self.device()
@@ -20,23 +21,19 @@ class Touch(Core):
         return device
 
     def swipe(self, sx, sy, ex, ey, steps, **settings):
-        """ geasture swipe with interanction on Android Device
+        """Geasture swipe with interanction on Android Device.
         swipe from (sx, sy) to (ex, ey)
         example :
         tc = Touch(data)
         tc.swipe(189, 210, 954, 336, step=10)
 
         HOW TO CALL IN ROBOT FRAMEWORK:
-
         without device :
         | Swipe                             | sx=10  sy=10  ex=20   ey=20   |  steps=100
-
         with device :
-
         Define device on the first time:
         | ${device_1}=  Scan Current Device  |    ${emulator}
         | Swipe                              | sx=10  sy=10  ex=20   ey=20   |  steps=100  | device=${device_1}
-
         """
 
         if 'device' in settings:
@@ -46,7 +43,6 @@ class Touch(Core):
             return device.swipe(sx, sy, ex, ey, steps)
         else:
             return self.device_mobile.swipe(sx, sy, ex, ey, steps)
-
 
     def swipe_with_direction(self, *argument, **settings):
         """ gesture swipe with direction on Android Device
@@ -85,21 +81,18 @@ class Touch(Core):
         elif 'down' in direction:
             return dvc.swipe.down(steps=1)
 
-
-    def drag_screen(self, sx, sy, ex, ey, steps=None, device=None):
+    def drag_screen(self, sx, sy, ex, ey, steps, *argument, **settings):
         """ geasture drag interanction of Android Device
         example :
         tc = Touch(data)
         tc.drag_sceen(189, 210, 954, 336, step=10)
         """
-        try:
-            if device!=None:
-                return device(*argument, **locator).drag(sx, sy, ex, ey, steps)
-            else:
-                return self.device_mobile().drag(sx, sy, ex, ey, steps)
-        except ValueError as error:
-             raise ValueError('device cannot be drag' + error)
+        device = settings['device']
 
+        if device is not None:
+            return device(*argument, **settings).drag(sx, sy, ex, ey, steps)
+        else:
+            return self.device_mobile().drag(sx, sy, ex, ey, steps)
 
     def __get_device_scroll(self, *argument, **settings):
         if 'device' in settings:
@@ -112,7 +105,7 @@ class Touch(Core):
     def __check_action_device_scroll(self, *argument, **settings):
         device = self.__get_device_scroll(self, *argument, **settings)
 
-        if 'action' in settings :
+        if 'action' in settings:
             action = settings['action']
             del settings['action']
 
@@ -140,7 +133,6 @@ class Touch(Core):
                 raise Exception('Action is not available on ui automator')
         else:
             return self.__get_device_scroll(self, *argument, **settings).scroll(steps=10)
-
 
     def scroll(self, *argument, **settings):
         """ scroll interanction on Android device

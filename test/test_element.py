@@ -13,12 +13,14 @@ def test_long_click_element():
     result = el.long_click_element(text=MagicMock())
     assert result == True
 
+
 def test_page_should_contain_element():
     el = Element()
     el.page_should_contain_element = MagicMock()
     el.page_should_contain_element.return_value = True
     result = el.page_should_contain_element(className=MagicMock())
     assert result == True
+
 
 def test_page_should_not_contain_element():
     el = Element()
@@ -27,12 +29,14 @@ def test_page_should_not_contain_element():
     result = el.page_should_not_contain_element(className=MagicMock())
     assert result == True
 
+
 def test_page_should_not_contain_text():
     el = Element()
     el.page_should_not_contain_text = MagicMock()
     el.page_should_not_contain_text.return_value = True
     result = el.page_should_not_contain_text(className=MagicMock())
     assert result == True
+
 
 def test_page_should_contain_text():
     el = Element()
@@ -41,12 +45,14 @@ def test_page_should_contain_text():
     result = el.page_should_contain_text(text=MagicMock())
     assert result == True
 
+
 def test_click_element():
     el = Element()
     el.click_element = MagicMock()
     el.click_element.return_value = True
     result = el.click_element(text=MagicMock())
     assert result == True
+
 
 def test_click_element_parent_without_device():
     el = Element()
@@ -55,12 +61,14 @@ def test_click_element_parent_without_device():
     result = el.click_element(locator=MagicMock())
     assert result == True
 
+
 def test_click_element_parent_with_device():
     el = Element()
     el.click_element = MagicMock()
     el.click_element.return_value = True
     result = el.click_element(device= MagicMock(),locator= MagicMock())
     assert result == True
+
 
 def test_click_element_device_and_element():
     el = Element()
@@ -71,12 +79,14 @@ def test_click_element_device_and_element():
     result = el.click_element(device=d1, text="Messaging")
     assert result == True
 
+
 def test_input_text_with_device_parent():
     el = Element()
     el.input_text = MagicMock()
     el.input_text.return_value = True
     result = el.input_text(className=MagicMock(), input='Test')
     assert result == True
+
 
 def test_input_text_with_parameter():
     el = Element()
@@ -85,12 +95,14 @@ def test_input_text_with_parameter():
     result = el.input_text(device=MagicMock(), input='Test',className=MagicMock())
     assert result == True
 
+
 def test_input_text_with_locator():
     el = Element()
     el.input_text = MagicMock()
     el.input_text.return_value = True
     result = el.input_text(className=MagicMock(), input='Test')
     assert result == True
+
 
 def test_clear_text():
     el = Element()
@@ -99,12 +111,14 @@ def test_clear_text():
     result = el.clear_text(className=MagicMock())
     assert result == True
 
+
 def test_clear_text_with_device():
     el = Element()
     el.clear_text = MagicMock()
     el.clear_text.return_value = True
     result = el.clear_text(device=MagicMock(), className=MagicMock())
     assert result == True
+
 
 def test_clear_text_with_device_and_parent():
     el = Element()
@@ -128,12 +142,14 @@ def test_get_text_with_device():
     result = el.get_text(device=MagicMock(), className=MagicMock())
     assert len(result) != 0
 
+
 def test_get_text_with_parents():
     el = Element()
     el.get_text = MagicMock()
     el.get_text.return_value = 'return text'
     result = el.get_text(locator=MagicMock())
     assert len(result) != 0
+
 
 def test_get_text_with_parents_device():
     el = Element()
@@ -142,12 +158,14 @@ def test_get_text_with_parents_device():
     result = el.get_text(device=MagicMock(), locator=MagicMock())
     assert len(result) != 0
 
+
 def test_get_attribute():
     el = Element()
     el.get_element_attribute = MagicMock()
     el.get_element_attribute.return_value = 'sample return attribute'
     result = el.get_element_attribute(element=MagicMock(), className=MagicMock())
     assert len(result) != 0
+
 
 def test_get_attribute_with_device():
     el = Element()
@@ -156,12 +174,14 @@ def test_get_attribute_with_device():
     result = el.get_element_attribute(device=MagicMock(), element=MagicMock(), className=MagicMock())
     assert len(result) != 0
 
+
 def test_get_attribute_with_parent():
     el = Element()
     el.get_element_attribute = MagicMock()
     el.get_element_attribute.return_value = 'sample return attribute'
     result = el.get_element_attribute(locator=MagicMock(), element='text')
     assert len(result) != 0
+
 
 def test_get_element():
     el = Element()
@@ -170,12 +190,14 @@ def test_get_element():
     result = el.get_element(className=MagicMock())
     assert len(result) != 0
 
+
 def test_get_element_with_device():
     el = Element()
     el.get_element = MagicMock()
     el.get_element.return_value = 'sample return element'
     result = el.get_element(device=MagicMock(), className=MagicMock())
     assert len(result) != 0
+
 
 def test_get_element_with_parent():
     el = Element()
@@ -184,12 +206,14 @@ def test_get_element_with_parent():
     result = el.get_element(locator=MagicMock())
     assert len(result) != 0
 
+
 def test_count_element():
     el = Element()
     el.count_elements = MagicMock()
     el.count_elements.return_value = 1
     result = el.count_elements(className=MagicMock())
     assert type(result) == int
+
 
 def test_count_element_with_parent():
     el = Element()
@@ -198,6 +222,7 @@ def test_count_element_with_parent():
     result = el.count_elements(locator=MagicMock())
     assert type(result) == int
 
+
 def test_get_height():
     el = Element()
     el.get_height = MagicMock()
@@ -205,12 +230,14 @@ def test_get_height():
     result = el.get_height()
     assert type(result) == int
 
+
 def test_get_width():
     el = Element()
     el.get_width = MagicMock()
     el.get_width.return_value = 1
     result = el.get_width()
     assert type(result) == int
+
 
 def test_click_a_point():
     el = Element()

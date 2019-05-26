@@ -31,3 +31,10 @@ def test_reset_app():
     device.reset_app.return_value = True
     result = device.reset_app(device=MagicMock(), app_package=MagicMock())
     assert result == True
+
+def test_pull_file():
+    device = ManagementDevice()
+    device.pull = MagicMock()
+    device.pull.return_value = True
+    result = device.pull(local=MagicMock(), remote=MagicMock())
+    assert result == True
