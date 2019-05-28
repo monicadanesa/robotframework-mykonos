@@ -463,3 +463,24 @@ class Element(Core):
         """
         get_device = self.device()
         return get_device.info['displayHeight']
+
+    def wait_until_element_is_visible(self, *argument, **settings):
+        """Wait Until Element Is Visible.
+           How to call in ROBOT FRAMEWORK
+           | Wait Until Element Is Visible | className= sample class
+        """
+        element = self.get_element(*argument, **settings)
+
+        if 'locator' in settings:
+            locator = settings['locator']
+            if locator[element].wait.exists(timeout=1500):
+                return True
+            else:
+                raise ValueError('Locator Not Found')
+        else:
+            if 'device' in settings:
+                device = settings['device']
+                del settings['device']
+                return device(*argument, **settings).wait.exists(timeout=1500)
+            else:
+                return self.device_mobile(*argument, **settings).wait.exists(timeout=1500)

@@ -2,7 +2,7 @@
 Library    ../mykonos/
 
 *** Variables ***
-${emulator}               192.168.56.103:5555
+${emulator}               192.168.56.101:5555
 ${apk}                    com.android.messaging/com.android.messaging.ui.conversationlist.ConversationListActivity
 ${apk_2}                  com.android.gallery3d/com.android.gallery3d.app.GalleryActivity
 ${sender_number}          0812345678
