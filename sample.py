@@ -6,9 +6,7 @@ from mykonos.locator.locator_element import LocatorElement
 from mykonos.core.core import Core
 
 el = Element()
-sample = el.__visible()
-sample
-text = el.page_should_not_contain_text(className='helllo')
+text = el.wait_until_page_contains(text='helllo')
 
 text
 le = LocatorElement()
