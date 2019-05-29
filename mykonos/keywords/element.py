@@ -587,3 +587,26 @@ class Element(Core):
                 return device(*argument, **settings).wait.gone(timeout=time)
             else:
                 return self.device_mobile(*argument, **settings).wait.gone(timeout=time)
+
+    def check_element_exists(self, *argument, **settings):
+        """Check ELement Exists
+           How to call in ROBOT FRAMEWORK
+           | Check ELement Exists | className= sample class
+        """
+        element = self.get_element(*argument, **settings)
+        if 'locator' in settings:
+            locator = settings['locator']
+            found = locator[element].exists
+            if found is True:
+                return True
+            elif found is False:
+                return ValueError('found element')
+        else:
+            if 'device' in settings:
+                device = settings['device']
+                del settings['device']
+                found = self.__get_device_global(*argument, **settings).exists
+                if found is True:
+                    return True
+                else:
+                    raise False
