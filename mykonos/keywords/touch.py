@@ -1,4 +1,3 @@
-from alog import debug, error, info
 from mykonos.core.core import Core
 
 
@@ -135,7 +134,7 @@ class Touch(Core):
             return self.__get_device_scroll(self, *argument, **settings).scroll(steps=10)
 
     def scroll(self, *argument, **settings):
-        """ scroll interanction on Android device
+        """Scroll interanction on Android device.
 
         HOW TO CALL IN ROBOT FRAMEWORK:
         how to use scroll horizontal:
@@ -158,11 +157,11 @@ class Touch(Core):
             | ${device_1}=  Scan Current Device  |    ${emulator}
 
         how to use scroll horizontal with device:
-            | Scroll                         | steps=100                                        | device=${device_1}
-            | Scroll                         | steps=100                                        | device=${device_1}      |  action=horizontal forward
-            | Scroll                         | textName='Calculator' clasName='sampleClass'     | device=${device_1}      | action=horizontal to
-            | Scroll                         | device=${device_1}                               |  action=horizontal backward
-            | Scroll                         | device=${device_1}                               |  action=horizontal to end
+            | Scroll         | steps=100                                        | device=${device_1}
+            | Scroll         | steps=100                                        | device=${device_1}      | action=horizontal forward
+            | Scroll         | textName='Calculator' clasName='sampleClass'     | device=${device_1}      | action=horizontal to
+            | Scroll         | device=${device_1}                               |  action=horizontal backward
+            | Scroll         | device=${device_1}                               |  action=horizontal to end
 
         how to use scroll vertical with device:
             | Scroll                         | steps=100                                        | device=${device_1}
@@ -222,3 +221,99 @@ class Touch(Core):
                 return device.pinch.Out(percent=10, steps=10)
         else:
             raise Exception('Action is not available on ui automator')
+
+    def __check_action_device_fling(self, *argument, **settings):
+        device = self.__get_device_scroll(self, *argument, **settings)
+
+        if 'action' in settings:
+            action = settings['action']
+            del settings['action']
+
+            if 'horizontal forward' in action:
+                return device.fling.horiz.forward(max_swipes=10)
+            elif 'horizontal to begining' in action:
+                return device.fling.horiz.toBeginning(max_swipes=10)
+            elif 'horizontal backward' in action:
+                return device.fling.horiz.backward(max_swipes=10)
+            elif 'horizontal to end' in action:
+                return device.fling.horiz.toEnd(max_swipes=10)
+            elif 'vertical backward' in action:
+                return device.fling.vert.backward(max_swipes=10)
+            elif 'vertical to end' in action:
+                return device.fling.vert.toEnd(max_swipes=10)
+            elif 'vertical forward' in action:
+                return device.fling.vert.forward(max_swipes=10)
+            elif 'vertical to begining' in action:
+                return device.fling.vert.toBeginning(max_swipes=10)
+            else:
+                raise Exception('Action is not available on ui automator')
+        else:
+            return self.__get_device_scroll(self, *argument, **settings).fling()
+
+    def fling(self, *argument, **settings):
+        """Scroll interanction on Android device.
+
+        HOW TO CALL IN ROBOT FRAMEWORK:
+        how to user without action:
+          | Fling
+        how to use fling horizontal:
+           | Fling            | action=horizontal forward
+           | Fling            | max_swipes=1   action=horizontal to begining
+           | Fling            | action=horizontal backward
+           | Fling            | action=horizontal to end
+
+        how to use scroll vertical:
+           | Fling            | action=vertical forward
+           | Fling            | max_swipes=1   action=vertical to begining
+           | Fling            | action=vertical backward
+           | Fling            | action=vertical to end
+
+        Define device on the first time:
+            | ${device_1}=  Scan Current Device  |    ${emulator}
+
+        how to use fling horizontal with device:
+
+        how to use scroll horizontal:
+           | Fling    | action=horizontal forward    device=${device_1}
+           | Fling    | max_swipes=1   action=horizontal to begining   device=${device_1}
+           | Fling    | action=horizontal backward    device=${device_1}
+           | Fling    | action=horizontal to end      device=${device_1}
+
+         how to use scroll vertical:
+           | Fling      | action=vertical forward
+           | Fling      | max_swipes=1   action=vertical to begining
+           | Fling      | action=vertical backward
+           | Fling      | action=vertical to end
+         """
+        return self.__check_action_device_fling(self, *argument, **settings)
+#
+# class Fling(Core):
+#
+#     def __init__(self):
+#         self.device_mobile = self.device()
+#         self.action = None
+#
+#     def __get_device_scroll(self, *argument, **settings):
+#         if 'device' in settings:
+#             device = settings['device']
+#             del settings['device']
+#             return device(scrollable=True)
+#         else:
+#             return self.device_mobile(scrollable=True)
+#
+#     def fling(self,  *argument, **settings):
+#         self.device = self.__get_device_scroll(self, *argument, **settings)
+#
+#         if 'action' in settings:
+#             del settings['action']
+#             return self.device.fling(**settings)
+#         else:
+#             return self.device.fling
+#
+#     def horiz(self):
+#         self.__fling = self.fling()
+#         return self.__fling.horiz
+#
+#     def forward(self):
+#         self.action = self.forward
+#         return self

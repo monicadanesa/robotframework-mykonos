@@ -3,6 +3,7 @@ from pytest_mock import mocker
 from alog import debug, info, error
 from mock import MagicMock, call, patch
 from mykonos.locator.locator_element import LocatorElement
+from mykonos.locator.locator_element import WatcherElement
 
 def test_get_locator():
     le = LocatorElement()
@@ -48,3 +49,15 @@ def test_get_locator_by_index():
     text = MagicMock()
     index = MagicMock()
     le.get_locator_by_index(text='Browser', index=0)
+
+def test_watcher():
+    we = WatcherElement()
+    we.watcher(name=MagicMock(), className=MagicMock())
+
+def test_watcher_action():
+    we = WatcherElement()
+    we.watcher_action(action=MagicMock())
+
+def test_handlers():
+    le = LocatorElement()
+    le.handlers(action=MagicMock(), function=MagicMock())

@@ -7,6 +7,7 @@ class Element(Core):
 
     def __init__(self):
         self.device_mobile = self.device()
+        self.get = Get()
 
     def open_notification(self, **settings):
         """Open notification of Android.
@@ -46,63 +47,6 @@ class Element(Core):
             return device.open.quick_settings()
         else:
             return self.device_mobile.open.quick_settings()
-
-    def click_element(self, *argument, **settings):
-        """Click on UI base on locator.
-
-        HOW TO CALL IN ROBOT FRAMEWORK
-        |  Click Element                    | className=sample class
-
-        With locator:
-        | ${get_locator}= Get Locator       | text=sample text
-        |  Click Element                    | locator=${get_locator}=
-
-        With device:
-        | ${device}=  Scan Current Device  | ${emulator}
-        | Click Element                     | device=${device}    text=sample
-
-        Return:
-        True or False
-        """
-        if 'locator' in settings:
-            locator = settings['locator']
-            return locator.click()
-        else:
-            if 'device' in settings:
-                device = settings['device']
-                del settings['device']
-
-                return device(*argument, **settings).click()
-            else:
-                return self.device_mobile(*argument, **settings).click()
-
-    def long_click_element(self, *argument, **settings):
-        """Long click on UI base on locator.
-
-        HOW TO CALL IN ROBOT FRAMEWORK
-        |  Long Click Element                 | className=sample class
-
-        With locator:
-        | ${get_locator}= Get Locator         | text=sample text
-        |  Long Click Element                 | locator=${get_locator}
-
-        With device:
-        | ${device}=  Scan Current Device   | ${emulator}
-        |  Long Click Element                 | device=${device}  text=sample
-
-        Return:
-        True or False
-        """
-        if 'locator' in settings:
-            locator = settings['locator']
-            return locator.long_click()
-        else:
-            if 'device' in settings:
-                device = settings['device']
-                del settings['device']
-                return device(*argument, **locator).long_click()
-            else:
-                return self.device_mobile(*argument, **settings).long_click()
 
     def clear_text(self, *argument, **settings):
         """Clear text on text field base on locator.
@@ -160,170 +104,13 @@ class Element(Core):
             else:
                 return self.device_mobile(*argument, **settings).set_text(input)
 
-    def get_text(self, *argument, **settings):
-        """Get text from element base on locator.
-        HOW TO CALL IN ROBOT FRAMEWORK
-        |  Get Text                          |  className=sample class
-
-        With locator:
-        | ${get_locator}= Get Locator        | text=sample text
-        | Get Text                           | locator=${get_locator}
-
-        With device:
-        | ${device}=  Scan Current Device  | ${emulator}
-        |  Get Text                | device=${device}  className=sample
-
-        Return:
-        String
-        """
-        if 'locator' in settings:
-            locator = settings['locator']
-            return locator.info['text']
-        else:
-            if 'device' in settings:
-                device = settings['device']
-                del settings['device']
-
-                return device(*argument, **settings).info['text']
-            else:
-                return self.device_mobile(*argument, **settings).info['text']
-
-    def get_element_attribute(self, *argument, **settings):
-        """Get element attribute keyword on Android Device.
-        List of Elements:
-         childCount, bounds, className, contentDescription,
-         packageName, resourceName, text, visibleBounds,
-         checkable, checked, clickable, enabled, focusable,
-         focused, longClickable, scrollable, selected
-         HOW TO CALL IN ROBOT FRAMEWORK
-         |Get Element Attribute         |  className=sample  element=text
-
-         With locator:
-         | ${get_locator}= Get Locator  | text=sample text
-         | Get Element Attribute        | locator=${get_locator}   element=text
-
-         With device:
-         | ${device}=  Scan Current Device    | ${emulator}
-         | Get Element Attribute  | device=${device} text=sample  element=index
-
-         Return:
-         attribute from element device
-        """
-        element = settings['element']
-        del settings['element']
-
-        if 'locator' in settings:
-            locator = settings['locator']
-            return locator.info[element]
-        else:
-            if 'device' in settings:
-                device = settings['device']
-                del settings['device']
-
-                return device(*argument, **settings).info[element]
-            else:
-                return self.device_mobile(*argument, **settings).info[element]
-
-    def click_a_point(self, *argument, **settings):
-        """Click into pointer target location.
-
-         HOW TO CALL IN ROBOT FRAMEWORK
-         |  CLick A Point         |className=sample class      |x=10     |y=20
-
-         With device:
-         | ${device}=  Scan Current Device    |${emulator}
-         | Click A Point  |device=${device}  |className=sample  |x=10  |y=20
-
-         Return:
-         True or False
-         """
-        if 'x' in settings and 'y' in settings:
-            x = settings['x']
-            y = settings['y']
-            del settings['x']
-            del settings['y']
-        else:
-            raise ValueError('pointer x or y is refused')
-
-        if 'device' in settings:
-            device = settings['device']
-            del settings['device']
-            return device(*argument, **settings).click(x, y)
-        else:
-            return self.device_mobile().click(x, y)
-
-    def get_element(self, *argument, **settings):
-        """Call keyword_device_info.
-
-        HOW TO CALL IN ROBOT FRAMEWORK:
-        without device :
-        | Get Element    |
-
-        with device :
-        | ${device}=  Scan Current Device         | ${emulator}
-        | Get Element                               | device=${device}
-
-        Return:
-        {'currentPackageName': 'com.google.android.apps.nexuslauncher',
-         'displayHeight': 1794,
-         'displayRotation': 0,
-         'displaySizeDpX': 411,
-         'displaySizeDpY': 731,
-         'displayWidth': 1080,
-         'productName': 'sdk_google_phone_x86',
-         'screenOn': True,
-         'sdkInt': 25,
-         'naturalOrientation': True}
-        """
-        if 'device' in settings:
-            device = settings['device']
-            del settings['device']
-
-            return device(*argument, **settings).info
-        else:
-            return self.device_mobile(*argument, **settings).info
-
-    def get_element_by_coordinate_x(self, *argument, **settings):
-        """Get element by coordinate x.
-
-        HOW TO CALL IN ROBOT FRAMEWORK:
-        | Get Element By Coordinate X  |  className=sample class
-
-        return :
-        coordinate x(int)
-        """
-        bound = self.get_element_attribute(element='bounds', *argument, **settings)
-
-        bottom = bound['bottom']
-        top = bound['top']
-        elm_x = (top+bottom)+top
-
-        return elm_x
-
-    def get_element_by_coordinate_y(self, *argument, **settings):
-        """Get element by coordinate y.
-
-        HOW TO CALL IN ROBOT FRAMEWORK:
-        | Get Element By Coordinate Y  |  className=sample class
-
-        Return :
-        coordinate y(int)
-        """
-        bound = self.get_element_attribute(element='bounds', *argument, **settings)
-        display_height = self.get_height()
-        height = display_height
-        left = bound['left']
-        right = bound['right']
-        elm_y = height-(right+left)
-        return elm_y
-
     def page_should_contain_element(self, *argument, **settings):
         """Page should contain element.
 
         HOW TO CALL IN ROBOT FRAMEWORK:
         | Page Should Contain Element | className=sample class
         """
-        element = self.get_element(*argument, **settings)
+        element = self.get.get_element(*argument, **settings)
 
         if 'locator' in settings:
             locator = settings['locator']
@@ -345,7 +132,7 @@ class Element(Core):
         HOW TO CALL IN ROBOT FRAMEWORK
         | Page Should Contain Text | text=sample text
         """
-        text = self.get_text(*argument, **settings)
+        text = self.get.get_text(*argument, **settings)
 
         if 'locator' in settings:
             locator = settings['locator']
@@ -439,6 +226,237 @@ class Element(Core):
             return locator.count
         else:
             return self.device_mobile(*argument, **settings).count
+
+
+
+class Click(Core):
+
+    def __init__(self):
+        self.device_mobile = self.device()
+
+    def click_element(self, *argument, **settings):
+        """Click on UI base on locator.
+
+        HOW TO CALL IN ROBOT FRAMEWORK
+        |  Click Element                    | className=sample class
+
+        With locator:
+        | ${get_locator}= Get Locator       | text=sample text
+        |  Click Element                    | locator=${get_locator}=
+
+        With device:
+        | ${device}=  Scan Current Device  | ${emulator}
+        | Click Element                     | device=${device}    text=sample
+
+        Return:
+        True or False
+        """
+        if 'locator' in settings:
+            locator = settings['locator']
+            return locator.click()
+        else:
+            if 'device' in settings:
+                device = settings['device']
+                del settings['device']
+
+                return device(*argument, **settings).click()
+            elif 'watcher' in settings:
+                watcher = settings['watcher']
+                del settings['watcher']
+
+                return watcher.click(*argument, **settings)
+            else:
+                return self.device_mobile(*argument, **settings).click()
+
+    def long_click_element(self, *argument, **settings):
+        """Long click on UI base on locator.
+
+        HOW TO CALL IN ROBOT FRAMEWORK
+        |  Long Click Element                 | className=sample class
+
+        With locator:
+        | ${get_locator}= Get Locator         | text=sample text
+        |  Long Click Element                 | locator=${get_locator}
+
+        With device:
+        | ${device}=  Scan Current Device   | ${emulator}
+        |  Long Click Element                 | device=${device}  text=sample
+
+        Return:
+        True or False
+        """
+        if 'locator' in settings:
+            locator = settings['locator']
+            return locator.long_click()
+        else:
+            if 'device' in settings:
+                device = settings['device']
+                del settings['device']
+                return device(*argument, **locator).long_click()
+            else:
+                return self.device_mobile(*argument, **settings).long_click()
+
+    def click_a_point(self, *argument, **settings):
+            """Click into pointer target location.
+
+             HOW TO CALL IN ROBOT FRAMEWORK
+             |  CLick A Point         |className=sample class    |x=10   |y=20
+
+             With device:
+             | ${device}=  Scan Current Device   |${emulator}
+             | Click A Point  |device=${device}  |className=sample |x=10  |y=20
+
+             Return:
+             True or False
+             """
+            if 'x' in settings and 'y' in settings:
+                x = settings['x']
+                y = settings['y']
+                del settings['x']
+                del settings['y']
+            else:
+                raise ValueError('pointer x or y is refused')
+
+            if 'device' in settings:
+                device = settings['device']
+                del settings['device']
+                return device(*argument, **settings).click(x, y)
+            else:
+                return self.device_mobile().click(x, y)
+
+
+class Get(Core):
+    def __init__(self):
+        self.device_mobile = self.device()
+
+    def get_text(self, *argument, **settings):
+        """Get text from element base on locator.
+        HOW TO CALL IN ROBOT FRAMEWORK
+        |  Get Text                          |  className=sample class
+
+        With locator:
+        | ${get_locator}= Get Locator        | text=sample text
+        | Get Text                           | locator=${get_locator}
+
+        With device:
+        | ${device}=  Scan Current Device  | ${emulator}
+        |  Get Text                | device=${device}  className=sample
+
+        Return:
+        String
+        """
+        if 'locator' in settings:
+            locator = settings['locator']
+            return locator.info['text']
+        else:
+            if 'device' in settings:
+                device = settings['device']
+                del settings['device']
+
+                return device(*argument, **settings).info['text']
+            else:
+                return self.device_mobile(*argument, **settings).info['text']
+
+    def get_element_attribute(self, *argument, **settings):
+        """Get element attribute keyword on Android Device.
+        List of Elements:
+         childCount, bounds, className, contentDescription,
+         packageName, resourceName, text, visibleBounds,
+         checkable, checked, clickable, enabled, focusable,
+         focused, longClickable, scrollable, selected
+         HOW TO CALL IN ROBOT FRAMEWORK
+         |Get Element Attribute         |  className=sample  element=text
+
+         With locator:
+         | ${get_locator}= Get Locator  | text=sample text
+         | Get Element Attribute        | locator=${get_locator}   element=text
+
+         With device:
+         | ${device}=  Scan Current Device    | ${emulator}
+         | Get Element Attribute  | device=${device} text=sample  element=index
+
+         Return:
+         attribute from element device
+        """
+        element = settings['element']
+        del settings['element']
+
+        if 'locator' in settings:
+            locator = settings['locator']
+            return locator.info[element]
+        else:
+            if 'device' in settings:
+                device = settings['device']
+                del settings['device']
+
+                return device(*argument, **settings).info[element]
+            else:
+                return self.device_mobile(*argument, **settings).info[element]
+
+    def get_element(self, *argument, **settings):
+        """Call keyword_device_info.
+
+        HOW TO CALL IN ROBOT FRAMEWORK:
+        without device :
+        | Get Element    |
+
+        with device :
+        | ${device}=  Scan Current Device         | ${emulator}
+        | Get Element                               | device=${device}
+
+        Return:
+        {'currentPackageName': 'com.google.android.apps.nexuslauncher',
+         'displayHeight': 1794,
+         'displayRotation': 0,
+         'displaySizeDpX': 411,
+         'displaySizeDpY': 731,
+         'displayWidth': 1080,
+         'productName': 'sdk_google_phone_x86',
+         'screenOn': True,
+         'sdkInt': 25,
+         'naturalOrientation': True}
+        """
+        if 'device' in settings:
+            device = settings['device']
+            del settings['device']
+
+            return device(*argument, **settings).info
+        else:
+            return self.device_mobile(*argument, **settings).info
+
+    def get_element_by_coordinate_x(self, *argument, **settings):
+        """Get element by coordinate x.
+
+        HOW TO CALL IN ROBOT FRAMEWORK:
+        | Get Element By Coordinate X  |  className=sample class
+
+        return :
+        coordinate x(int)
+        """
+        bound = self.get_element_attribute(element='bounds', *argument, **settings)
+
+        bottom = bound['bottom']
+        top = bound['top']
+        elm_x = (top+bottom)+top
+
+        return elm_x
+
+    def get_element_by_coordinate_y(self, *argument, **settings):
+        """Get element by coordinate y.
+
+        HOW TO CALL IN ROBOT FRAMEWORK:
+        | Get Element By Coordinate Y  |  className=sample class
+
+        Return :
+        coordinate y(int)
+        """
+        bound = self.get_element_attribute(element='bounds', *argument, **settings)
+        display_height = self.get_height()
+        height = display_height
+        left = bound['left']
+        right = bound['right']
+        elm_y = height-(right+left)
+        return elm_y
 
     def get_width(self):
         """Get width from display of device.

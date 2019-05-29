@@ -38,3 +38,10 @@ def test_pinch():
     le.pinch = MagicMock()
     le.pinch.return_value = True
     assert le.pinch(steps=100, textName=MagicMock(), action=MagicMock(), percent=100) == True
+
+def test_fling():
+    le = Touch()
+    le.fling = MagicMock()
+    le.fling.return_value = True
+    assert le.fling(steps=MagicMock()) == True
+    assert le.fling(steps=MagicMock(), action=MagicMock(), max_swipes=MagicMock()) == True
