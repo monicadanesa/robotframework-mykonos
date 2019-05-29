@@ -39,7 +39,13 @@ def test_check_element_exists():
     el.check_element_exists = MagicMock()
     el.check_element_exists.return_value = True
     result = el.check_element_exists(className=MagicMock())
-    result = el.check_element_exists(className=MagicMock())
+    assert result == True
+
+def test_check_element_not_exists():
+    el = Element()
+    el.check_element_not_exists = MagicMock()
+    el.check_element_not_exists.return_value = True
+    result = el.check_element_not_exists(className=MagicMock())
     assert result == True
 
 def test_wait_until_page_contains():

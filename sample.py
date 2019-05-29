@@ -7,7 +7,7 @@ from mykonos.core.core import Core
 
 el = Element()
 text = el.wait_until_page_does_not_contain(className='android.widget.TextView')
-text = el.check_element_exists(className='android.widget.TextView')
+text = el.check_element_not_exists(className='android.widget.TextView')
 text = el.wait_until_page_does_not_contain(text='android.widget.TextView')
 
 text

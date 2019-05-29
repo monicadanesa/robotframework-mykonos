@@ -591,7 +591,7 @@ class Element(Core):
     def check_element_exists(self, *argument, **settings):
         """Check ELement Exists
            How to call in ROBOT FRAMEWORK
-           | Check ELement Exists | className= sample class
+           | Check Element Exists | className= sample class
         """
         element = self.get_element(*argument, **settings)
         if 'locator' in settings:
@@ -600,12 +600,35 @@ class Element(Core):
             if found is True:
                 return True
             elif found is False:
-                return ValueError('found element')
+                return ValueError('Element not found')
         else:
             if 'device' in settings:
                 device = settings['device']
                 del settings['device']
                 found = self.__get_device_global(*argument, **settings).exists
+                if found is True:
+                    return True
+                else:
+                    raise False
+
+    def check_element_not_exists(self, *argument, **settings):
+        """Check ELement Not Exists
+           How to call in ROBOT FRAMEWORK
+           | Check Element Not Exists | className= sample class
+        """
+        element = self.get_element(*argument, **settings)
+        if 'locator' in settings:
+            locator = settings['locator']
+            found = locator[element].gone
+            if found is True:
+                return True
+            elif found is False:
+                return ValueError('found element')
+        else:
+            if 'device' in settings:
+                device = settings['device']
+                del settings['device']
+                found = self.__get_device_global(*argument, **settings).gone
                 if found is True:
                     return True
                 else:
