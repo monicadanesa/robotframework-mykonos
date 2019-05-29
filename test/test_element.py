@@ -21,6 +21,13 @@ def test_page_should_contain_element():
     result = el.page_should_contain_element(className=MagicMock())
     assert result == True
 
+def test_text_should_be_visible():
+    el = Element()
+    el.text_should_be_visible = MagicMock()
+    el.text_should_be_visible.return_value = True
+    result = el.text_should_be_visible(text=MagicMock())
+    assert result == True
+
 def test_wait_until_element_is_visible():
     el = Element()
     el.wait_until_element_is_visible = MagicMock()

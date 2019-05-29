@@ -421,6 +421,27 @@ class Element(Core):
             else:
                 return self.device_mobile(*argument, **settings).exists
 
+    def text_should_be_visible(self, *argument, **settings):
+        """text should be visible
+        HOW TO CALL IN ROBOT FRAMEWORK
+        | Text Should Be Visible | text=sample text
+        """
+        text = self.get_text(*argument, **settings)
+
+        if 'locator' in settings:
+            locator = settings['locator']
+            if locator[text].exists:
+                return True
+            else:
+                raise ValueError('locator not found')
+        else:
+            if 'device' in settings:
+                device = settings['device']
+                del settings['device']
+                return device(*argument, **settings).exists
+            else:
+                return self.device_mobile(*argument, **settings).exists
+
     def count_elements(self, *argument, **settings):
         """Count total element from the page.
 
