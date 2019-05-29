@@ -13,7 +13,6 @@ def test_long_click_element():
     result = el.long_click_element(text=MagicMock())
     assert result == True
 
-
 def test_page_should_contain_element():
     el = Element()
     el.page_should_contain_element = MagicMock()
@@ -26,6 +25,13 @@ def test_wait_until_page_contains():
     el.wait_until_page_contains = MagicMock()
     el.wait_until_page_contains.return_value = True
     result = el.wait_until_page_contains(className=MagicMock())
+    assert result == True
+
+def test_wait_until_page_contains_element():
+    el = Element()
+    el.wait_until_page_contains_element = MagicMock()
+    el.wait_until_page_contains_element.return_value = True
+    result = el.wait_until_page_contains_element(className=MagicMock())
     assert result == True
 
 def test_text_should_be_visible():
