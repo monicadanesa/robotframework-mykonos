@@ -20,6 +20,13 @@ def test_page_should_contain_element():
     result = el.page_should_contain_element(className=MagicMock())
     assert result == True
 
+def test_wait_until_page_does_not_contain():
+    el = Element()
+    el.wait_until_page_does_not_contain = MagicMock()
+    el.wait_until_page_does_not_contain.return_value = False
+    result = el.wait_until_page_does_not_contain(className=MagicMock())
+    assert result == False
+
 def test_wait_until_page_contains():
     el = Element()
     el.wait_until_page_contains = MagicMock()

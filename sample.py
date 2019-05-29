@@ -6,7 +6,8 @@ from mykonos.locator.locator_element import LocatorElement
 from mykonos.core.core import Core
 
 el = Element()
-text = el.wait_until_page_does_not_contain(text='helllo')
+text = el.wait_until_page_does_not_contain(className='android.widget.TextView')
+text = el.wait_until_page_does_not_contain(text='android.widget.TextView')
 
 text
 le = LocatorElement()

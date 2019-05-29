@@ -545,3 +545,24 @@ class Element(Core):
                 return device(*argument, **settings).wait.exists(timeout=time)
             else:
                 return self.device_mobile(*argument, **settings).wait.exists(timeout=time)
+
+    def wait_until_page_does_not_contain(self, time=10, *argument, **settings):
+        """Wait Until Page Does Not Contains
+        HOW TO CALL IN ROBOT FRAMEWORK
+        |Wait Until Page Does Not Contains| className=sample class or text = sample text
+        """
+        element = self.get_element(*argument, **settings) or self.get_element(*argument, **settings)
+        if 'locator' in settings:
+            locator = settings['locator']
+            del settings['locator']
+            if locator[element].wait.gone(timeout=time):
+                return False
+            else:
+                raise ValueError('Element Not Found')
+        else:
+            if 'device' in settings:
+                device = settings['device']
+                del settings['device']
+                return device(*argument, **settings).wait.gone(timeout=time)
+            else:
+                return self.device_mobile(*argument, **settings).wait.gone(timeout=time)
