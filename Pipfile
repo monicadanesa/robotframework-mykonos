@@ -7,13 +7,11 @@ verify_ssl = true
 
 [packages]
 ipykernel = "*"
-alog = "*"
 uiautomator = "*"
 pyyaml = "*"
 pytest = "*"
 pytest-html = "*"
 robotframework = "*"
-selenium = "*"
 pytest-mock = "*"
 mock = "*"
 

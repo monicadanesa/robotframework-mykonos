@@ -1,6 +1,7 @@
-alog
-attrs
 uiautomator
-ipkernerl
 pyyaml
 pytest
+pytest-html
+robotframework
+pytest-mock
+mock
