@@ -8,9 +8,9 @@ setup(
     description='Robot Framework Mobile Test Automation using UIAutomator',
     url='https://github.com/monicadanesa/mykonos',
     author='Monica Danesa and Ahmad Kadafi',
-    author_email='monicadanesa@gmail.com, andriana.khadafi@gmail.com'
-    keywords='Robot Framework Mobile Test Automation using UIAutomator'
-    packages=find_packages(exclude=["demo", "docs", "test", ]),
+    author_email='monicadanesa@gmail.com, andriana.khadafi@gmail.com',
+    keywords='Robot Framework Mobile Test Automation using UIAutomator',
+    packages=['mykonos'],
     install_requires=[
         'robotframework', 'uiautomator'
     ],
