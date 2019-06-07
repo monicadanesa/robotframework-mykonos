@@ -36,14 +36,14 @@ def test_wait_until_page_does_not_contain_element():
     assert result == False
 
 def test_check_element_exists():
-    el = Element()
+    el = ExpectedConditions()
     el.check_element_exists = MagicMock()
     el.check_element_exists.return_value = True
     result = el.check_element_exists(className=MagicMock())
     assert result == True
 
 def test_check_element_not_exists():
-    el = Element()
+    el = ExpectedConditions()
     el.check_element_not_exists = MagicMock()
     el.check_element_not_exists.return_value = True
     result = el.check_element_not_exists(className=MagicMock())

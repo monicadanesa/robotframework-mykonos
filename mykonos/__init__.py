@@ -3,8 +3,6 @@ from mykonos.keywords import *
 from mykonos.locator import LocatorElement, WatcherElement
 from mykonos.version import VERSION
 
-__version__ = VERSION
-
 
 class mykonos(
     ManagementDevice,
