@@ -306,7 +306,7 @@ class GetCondions(Core):
     def get_element_attribute(self, *argument, **settings):
         """Get element attribute keyword on Android Device.
         List of Elements:
-         childc, bounds, className, contentDescription,
+         childCount, bounds, className, contentDescription,
          packageName, resourceName, text, visibleBounds,
          checkable, checked, clickable, enabled, focusable,
          focused, longClickable, scrollable, selected
