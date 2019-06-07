@@ -1,8 +1,6 @@
 import os
 from mykonos.keywords import *
 from mykonos.locator import LocatorElement, WatcherElement
-from mykonos.version import VERSION
-
 
 class mykonos(
     ManagementDevice,
