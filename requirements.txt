@@ -1,7 +1,0 @@
-uiautomator
-pyyaml
-pytest
-pytest-html
-robotframework
-pytest-mock
-mock
