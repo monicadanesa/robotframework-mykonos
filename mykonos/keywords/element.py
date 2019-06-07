@@ -1,13 +1,12 @@
-from alog import debug, info, error
 from mykonos.core.core import Core
 
 
-class Element(Core):
+class GlobalElement(Core):
     """ Element class for all method that related with keywords Mykonos."""
 
     def __init__(self):
         self.device_mobile = self.device()
-        self.get = Get()
+        self.get = GetCondions()
 
     def open_notification(self, **settings):
         """Open notification of Android.
@@ -104,110 +103,6 @@ class Element(Core):
             else:
                 return self.device_mobile(*argument, **settings).set_text(input)
 
-    def page_should_contain_element(self, *argument, **settings):
-        """Page should contain element.
-
-        HOW TO CALL IN ROBOT FRAMEWORK:
-        | Page Should Contain Element | className=sample class
-        """
-        element = self.get.get_element(*argument, **settings)
-
-        if 'locator' in settings:
-            locator = settings['locator']
-            if locator[element].exists:
-                return True
-            else:
-                raise ValueError('locator not found')
-        else:
-            if 'device' in settings:
-                device = settings['device']
-                del settings['device']
-                return device(*argument, **settings).exists
-            else:
-                return self.device_mobile(*argument, **settings).exists
-
-    def page_should_contain_text(self, *argument, **settings):
-        """Page should contain text.
-
-        HOW TO CALL IN ROBOT FRAMEWORK
-        | Page Should Contain Text | text=sample text
-        """
-        text = self.get.get_text(*argument, **settings)
-
-        if 'locator' in settings:
-            locator = settings['locator']
-            if locator[text].exists:
-                return True
-            else:
-                raise ValueError('text not found')
-        else:
-            if 'device' in settings:
-                device = settings['device']
-                del settings['device']
-                return device(*argument, **settings).exists
-            else:
-                return self.device_mobile(*argument, **settings).exists
-
-    def __get_device_global(self, *argument, **settings):
-        if 'locator' in settings:
-            device = settings['locator']
-        else:
-            if 'device' in settings:
-                device = settings['device']
-                del settings['device']
-
-                device = device(*argument, **settings)
-            else:
-                device = self.device_mobile(*argument, **settings)
-
-        return device
-
-    def page_should_not_contain_element(self, *argument, **settings):
-        """Page should not contain element.
-        HOW TO CALL IN ROBOT FRAMEWORK
-        | Page Should Not Contain Element | text=sample element
-        """
-        element = self.get_element(*argument, **settings)
-
-        if 'locator' in settings:
-            locator = settings['locator']
-            found = locator[element].exists
-            if found is False:
-                return False
-            elif found is True:
-                return ValueError('found element')
-        else:
-            if 'device' in settings:
-                device = settings['device']
-                del settings['device']
-                found = self.__get_device_global(*argument, **settings).exists
-                if found is True:
-                    return False
-                else:
-                    raise True
-
-    def page_should_not_contain_text(self, *argument, **settings):
-        """Page should contain text
-        HOW TO CALL IN ROBOT FRAMEWORK
-        | Page Should Contain Text | text=sample text
-        """
-        text = self.get_text(*argument, **settings)
-
-        if 'locator' in settings:
-            locator = settings['locator']
-            found = locator[text].exists
-            if found is False:
-                return True
-            else:
-                return ValueError('device')
-        else:
-            if 'device' in settings:
-                device = settings['device']
-                del settings['device']
-                return device(*argument, **settings).exists
-            else:
-                return self.device_mobile(*argument, **settings).exists
-
     def count_elements(self, *argument, **settings):
         """Count total element from the page.
 
@@ -227,6 +122,57 @@ class Element(Core):
         else:
             return self.device_mobile(*argument, **settings).count
 
+    def turn_on_screen(self, **settings):
+        """Call keyword_turn_on_screen.
+
+        HOW TO CALL IN ROBOT FRAMEWORK
+
+        |  Turn On Screen
+
+        return : True or False
+        """
+        return self.device(**settings).screen.on()
+
+    def turn_off_screen(self, **settings):
+        """Call keyword_turn_off_screen.
+
+        HOW TO CALL IN ROBOT FRAMEWORK
+
+        |  Turn Off Screen
+
+        return : True or False
+        """
+        return self.device(**settings).screen.off()
+
+    def dump_xml(self, *args):
+        """Dump hierarchy of ui and will be saved as hierarchy.xml.
+
+        HOW TO CALL IN ROBOT FRAMEWORK
+
+        |  Dump XML
+
+        return : xml file of device
+        """
+        return self.device().dump(*args)
+
+    def capture_screen(self, file=None):
+        """Capture screen of device testing.
+
+        HOW TO CALL IN ROBOT FRAMEWORK
+
+        |  Capture Screen
+
+        with file name:
+        | Capture Screen        | file=sample
+
+        return : screen capture of device(*.png)
+        """
+        if file is not None:
+            return self.device().screenshot(file+'.png')
+        else:
+            self.index += 1
+            filename = 'mykonos-screenshot-%d.png' % self.index
+            return self.device().screenshot(filename)
 
 
 class Click(Core):
@@ -325,7 +271,7 @@ class Click(Core):
                 return self.device_mobile().click(x, y)
 
 
-class Get(Core):
+class GetCondions(Core):
     def __init__(self):
         self.device_mobile = self.device()
 
@@ -481,3 +427,134 @@ class Get(Core):
         """
         get_device = self.device()
         return get_device.info['displayHeight']
+
+
+class ExpectedConditions(Core):
+    def __init__(self):
+        self.device_mobile = self.device()
+        self.get_conditions = GetCondions()
+
+    def page_should_contain_element(self, *argument, **settings):
+        """Page should contain element.
+
+        HOW TO CALL IN ROBOT FRAMEWORK:
+        | Page Should Contain Element | className=sample class
+        """
+        element = self.get_conditions.get_element(*argument, **settings)
+
+        if 'locator' in settings:
+            locator = settings['locator']
+            if locator[element].exists:
+                return True
+            else:
+                raise ValueError('locator not found')
+        else:
+            if 'device' in settings:
+                device = settings['device']
+                del settings['device']
+                return device(*argument, **settings).exists
+            else:
+                return self.device_mobile(*argument, **settings).exists
+
+    def page_should_contain_text(self, *argument, **settings):
+        """Page should contain text.
+
+        HOW TO CALL IN ROBOT FRAMEWORK
+        | Page Should Contain Text | text=sample text
+        """
+        text = self.get_conditions.get_text(*argument, **settings)
+
+        if 'locator' in settings:
+            locator = settings['locator']
+            if locator[text].exists:
+                return True
+            else:
+                raise ValueError('text not found')
+        else:
+            if 'device' in settings:
+                device = settings['device']
+                del settings['device']
+                return device(*argument, **settings).exists
+            else:
+                return self.device_mobile(*argument, **settings).exists
+
+    def __get_device_global(self, *argument, **settings):
+        if 'locator' in settings:
+            device = settings['locator']
+        else:
+            if 'device' in settings:
+                device = settings['device']
+                del settings['device']
+
+                device = device(*argument, **settings)
+            else:
+                device = self.device_mobile(*argument, **settings)
+
+        return device
+
+    def page_should_not_contain_element(self, *argument, **settings):
+        """Page should not contain element.
+        HOW TO CALL IN ROBOT FRAMEWORK
+        | Page Should Not Contain Element | text=sample element
+        """
+        element = self.get_conditions.get_element(*argument, **settings)
+
+        if 'locator' in settings:
+            locator = settings['locator']
+            found = locator[element].exists
+            if found is False:
+                return False
+            elif found is True:
+                return ValueError('found element')
+        else:
+            if 'device' in settings:
+                device = settings['device']
+                del settings['device']
+                found = self.__get_device_global(*argument, **settings).exists
+                if found is True:
+                    return False
+                else:
+                    raise True
+
+    def page_should_not_contain_text(self, *argument, **settings):
+        """Page should contain text
+        HOW TO CALL IN ROBOT FRAMEWORK
+        | Page Should Contain Text | text=sample text
+        """
+        text = self.get_conditions.get_text(*argument, **settings)
+
+        if 'locator' in settings:
+            locator = settings['locator']
+            found = locator[text].exists
+            if found is False:
+                return True
+            else:
+                return ValueError('device')
+        else:
+            if 'device' in settings:
+                device = settings['device']
+                del settings['device']
+                return device(*argument, **settings).exists
+            else:
+                return self.device_mobile(*argument, **settings).exists
+
+    def text_should_be_visible(self, *argument, **settings):
+        """text should be visible
+        HOW TO CALL IN ROBOT FRAMEWORK
+        | Text Should Be Visible | text=sample text
+        """
+        text = self.get_conditions.get_text(*argument, **settings)
+
+        if 'locator' in settings:
+            locator = settings['locator']
+            if locator[text].exists:
+                return True
+            else:
+                raise ValueError('locator not found')
+        else:
+            if 'device' in settings:
+                device = settings['device']
+                del settings['device']
+                return device(*argument, **settings).exists
+            else:
+                return self.device_mobile(*argument, **settings).exists

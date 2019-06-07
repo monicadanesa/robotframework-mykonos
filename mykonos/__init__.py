@@ -1,5 +1,5 @@
 import os
-from mykonos.keywords import ManagementDevice, Element, KeyEvent, Touch, Click, Get
+from mykonos.keywords import *
 from mykonos.locator import LocatorElement, WatcherElement
 from mykonos.version import VERSION
 
@@ -9,12 +9,13 @@ __version__ = VERSION
 class mykonos(
     ManagementDevice,
     LocatorElement,
-    Element,
+    GlobalElement,
     KeyEvent,
     Touch,
     WatcherElement,
     Click,
-    Get
+    GetCondions,
+    ExpectedConditions
 ):
 
     def __init__(self):

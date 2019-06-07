@@ -73,58 +73,6 @@ class ManagementDevice(Core):
         except ValueError:
             raise ValueError('device can not be opened')
 
-    def turn_on_screen(self, **settings):
-        """Call keyword_turn_on_screen.
-
-        HOW TO CALL IN ROBOT FRAMEWORK
-
-        |  Turn On Screen
-
-        return : True or False
-        """
-        return self.device(**settings).screen.on()
-
-    def turn_off_screen(self, **settings):
-        """Call keyword_turn_off_screen.
-
-        HOW TO CALL IN ROBOT FRAMEWORK
-
-        |  Turn Off Screen
-
-        return : True or False
-        """
-        return self.device(**settings).screen.off()
-
-    def dump_xml(self, *args):
-        """Dump hierarchy of ui and will be saved as hierarchy.xml.
-
-        HOW TO CALL IN ROBOT FRAMEWORK
-
-        |  Dump XML
-
-        return : xml file of device
-        """
-        return self.device().dump(*args)
-
-    def capture_screen(self, file=None):
-        """Capture screen of device testing.
-
-        HOW TO CALL IN ROBOT FRAMEWORK
-
-        |  Capture Screen
-
-        with file name:
-        | Capture Screen        | file=sample
-
-        return : screen capture of device(*.png)
-        """
-        if file is not None:
-            return self.device().screenshot(file+'.png')
-        else:
-            self.index += 1
-            filename = 'mykonos-screenshot-%d.png' % self.index
-            return self.device().screenshot(filename)
-
     def hide_keyword(self):
         """Hide Keyword of Device.
 
