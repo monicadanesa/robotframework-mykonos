@@ -12,7 +12,7 @@ setup(
     keywords='Robot Framework Mobile Test Automation using UIAutomator',
     packages=find_packages(exclude=["demo", "docs", "tests", ]),
     install_requires=[
-        'robotframework', 'uiautomator', 'alog'
+        'robotframework', 'uiautomator', 'alog', 'selenium'
     ],
     test_requires=[
         'pyyaml', 'pytest', 'pytest-html', 'pytest-mock', 'mock'
