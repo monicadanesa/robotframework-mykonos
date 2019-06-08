@@ -10,7 +10,7 @@ setup(
     author='Monica Danesa and Ahmad Kadafi',
     author_email='monicadanesa@gmail.com, andriana.khadafi@gmail.com',
     keywords='Robot Framework Mobile Test Automation using UIAutomator',
-    packages=['mykonos'],
+    packages=find_packages(exclude=["demo", "docs", "tests", ]),
     install_requires=[
         'robotframework', 'uiautomator'
     ],
