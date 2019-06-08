@@ -1,6 +1,8 @@
 import os
-from mykonos.keywords import *
+from mykonos.keywords import ManagementDevice, GlobalElement,
+KeyEvent, Touch, WatcherElement, Click, GetCondions, ExpectedConditions
 from mykonos.locator import LocatorElement, WatcherElement
+
 
 class mykonos(
     ManagementDevice,

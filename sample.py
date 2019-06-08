@@ -6,6 +6,7 @@ from mykonos.locator.locator_element import LocatorElement
 from mykonos.core.core import Core
 from mykonos.locator.locator_element import WatcherElement
 
+
 el = Element()
 text = el.wait_until_page_does_not_contain(className='android.widget.TextView')
 text = el.check_element_not_exists(className='android.widget.TextView')

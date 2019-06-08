@@ -1,8 +1,8 @@
-from mykonos.keywords.touch import Touch
-from mykonos.keywords.element import GlobalElement, Click, GetCondions, ExpectedConditions
-from mykonos.keywords.wait import Wait
-from mykonos.keywords.key_event import KeyEvent
-from mykonos.keywords.management_device import ManagementDevice
+from .touch import Touch
+from .element import GlobalElement, Click, GetCondions, ExpectedConditions
+from .wait import Wait
+from .key_event import KeyEvent
+from .management_device import ManagementDevice
 
 
 __all__ = [
