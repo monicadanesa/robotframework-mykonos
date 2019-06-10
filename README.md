@@ -77,8 +77,8 @@ Below is the sample test case for testing an Application Messaging.
         Input Message on the Text Area                            ${message}
         Click Button Send
         Page Should Contain Text                                  text=${message}
-        Quit App                                                  ${emulator}       ${apk} 
-  
+        Quit App                                                  ${emulator}       ${apk}
+
 Credit
 -------------
 
