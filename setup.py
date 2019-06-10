@@ -15,6 +15,6 @@ setup(
     install_requires=[
         'uiautomator >= 0.1.28', 'alog', 'robotframework >= 2.6.0'
     ],
-    test_requires=[
+    tests_require=[
         'pyyaml', 'pytest', 'pytest-html', 'pytest-mock', 'mock'
     ])
