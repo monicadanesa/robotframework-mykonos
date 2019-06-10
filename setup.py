@@ -1,10 +1,11 @@
 from setuptools import setup
 from setuptools import setup, find_packages
 
+version = '0.0.1'
 
 setup(
     name='mykonos',
-    version='0.0.1',
+    version=version,
     description='Robot Framework Mobile Test Automation using UIAutomator',
     url='https://github.com/monicadanesa/mykonos',
     author='Monica Danesa and Ahmad Kadafi',

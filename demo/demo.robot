@@ -53,7 +53,7 @@ Test Case Input Phone Number on Application Messaging
     Switch Application                                        ${emulator}     ${open_apk_1}
     Sleep    2
     Switch Application                                        ${emulator}     ${open_apk_2}
-    Scan Device and Open Application Messaging                ${emulator}       ${apk
+    Scan Device and Open Application Messaging                ${emulator}       ${apk}
 
     Click Plus Icon on the Messaging Menu
     Type Sender Number                                        ${sender_number}

@@ -11,6 +11,7 @@ assets
 Pipfile.lock
 output.xml
 sample.robot
+sample.py
 mykonos/build
 mykonos.egg-info
 dist
