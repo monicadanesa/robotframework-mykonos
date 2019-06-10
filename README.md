@@ -77,6 +77,11 @@ Below is the sample test case for testing an Application Messaging.
         Page Should Contain Text                                  text=${message}
         Quit App                                                  ${emulator}       ${apk}
 
+Contributors
+-------------
+Monica Danesa ([Monica Danesa](https://github.com/monicadanesa))
+Ahmad Andriana Khadafi ([Andriana Khadafi](https://github.com/d4f1))
+
 Credit
 -------------
 
