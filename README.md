@@ -79,8 +79,8 @@ Below is the sample test case for testing an Application Messaging.
 
 Contributors
 -------------
-Monica Danesa ([Monica Danesa](https://github.com/monicadanesa)) <br />
-Ahmad Andriana Khadafi ([Andriana Khadafi](https://github.com/d4f1))
+ * Monica Danesa ([Monica Danesa](https://github.com/monicadanesa)) <br />
+ * Ahmad Andriana Khadafi ([Andriana Khadafi](https://github.com/d4f1))
 
 Credit
 -------------
