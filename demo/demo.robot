@@ -31,30 +31,10 @@ Input Message on the Text Area
 Click Button Send
     Click Element                                          resourceId=com.android.messaging:id/self_send_icon
 
-Switch Application on Device
-    [Arguments]                                               ${input_emulator}     ${input_apk}
-    ${new_apk}=   Open App                                    ${input_emulator}     ${input_apk}
-    Switch Application                                        ${emulator}           ${new_apk}
-
-Watcher Sample
-    ${sample_watcher}=    Watcher                             name=sample_watcher   className=android.widget.TextView    packageName=com.android.launcher3
-    Click Element                                             watcher=${sample_watcher}   text=Messaging
-    Watcher Action                                            action=run
-    Watcher Action                                            action=remove  name=sample_watcher
-
 
 *** Test Cases ***
 Test Case Input Phone Number on Application Messaging
-    Watcher Sample
-    ${open_apk_1}=   Open App                                 ${emulator}     ${apk_2}
-    Sleep    2
-    ${open_apk_2}=   Open App                                 ${emulator}     ${apk}
-    Sleep    2
-    Switch Application                                        ${emulator}     ${open_apk_1}
-    Sleep    2
-    Switch Application                                        ${emulator}     ${open_apk_2}
     Scan Device and Open Application Messaging                ${emulator}       ${apk}
-
     Click Plus Icon on the Messaging Menu
     Type Sender Number                                        ${sender_number}
     Press Enter
