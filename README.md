@@ -10,27 +10,24 @@ Installation
 
      pip install git+https://github.com/monicadanesa/mykonos
 
-Tech/framework used
-------------
-We use UI Automator Wrapper by python `https://github.com/xiaocong/uiautomator`
 
 Directory Layout
 ----------------
 
-demo/
-    A sample code to demonstrate test case based on Robot Framework for Android Mobile
+__demo/__  <br />
+    A sample code to demonstrate test case based on Robot Framework for Android Mobile  <br />
 
-doc/
-    Keyword documentation
+__doc/__  <br />
+    Keyword documentation  <br />
 
-src/
-   Mykonos(python based) source code
+__src/__  <br />
+   Mykonos(python based) source code  <br />
 
 Usage
 -----
-Install and make sure the emulator is available
-Import Mykonos Library on the Robot Framework Test Suite to write the test case.
-Here the detail guide about Robot Framework `https://robotframework.org/`
+ * Make sure the emulator/device is available.
+ * Import __Mykonos__ Library on the Robot Framework Test Suite.
+ * Write the test case base on [Robot Framework](https://robotframework.org/) guidance.
 
 Code Example
 -----
@@ -83,4 +80,4 @@ Below is the sample test case for testing an Application Messaging.
 Credit
 -------------
 
-thanks to [uiautomator](https://github.com/xiaocong/uiautomator)'s author to inspirate us to make this library.
+Thanks to [uiautomator](https://github.com/xiaocong/uiautomator)'s author to inspirate us to make this library.
