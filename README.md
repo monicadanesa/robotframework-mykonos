@@ -28,7 +28,8 @@ src/
 
 Usage
 -----
-Install and make sure the emulator is available
+Install and make sure the emulator is available.
+
 Import Mykonos Library on the Robot Framework Test Suite to write the test case.
 Here the detail guide about Robot Framework `https://robotframework.org/`
 
