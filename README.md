@@ -28,13 +28,14 @@ src/
 
 Usage
 -----
-To write Mykonos, Mykonos Library must be imported on the Robot Framework Test Suite.
+Install and make sure the emulator is available
+Import Mykonos Library on the Robot Framework Test Suite to write the test case.
 Here the detail guide about Robot Framework `https://robotframework.org/`
 
 Code Example
 -----
 Below is the sample test case for testing an Application Messaging.
-`
+
 
        *** Settings ***
     Library    mykonos
