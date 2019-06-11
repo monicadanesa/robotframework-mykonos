@@ -19,6 +19,74 @@ class Touch(Core):
 
         return device
 
+    def __get_device_scroll(self, *argument, **settings):
+        if 'device' in settings:
+            device = settings['device']
+            del settings['device']
+            return device(scrollable=True)
+        else:
+            return self.device_mobile(scrollable=True)
+
+    def __check_action_device_scroll(self, *argument, **settings):
+        device = self.__get_device_scroll(self, *argument, **settings)
+
+        if 'action' in settings:
+            action = settings['action']
+            del settings['action']
+
+            if 'horizontal forward' in action:
+                return device.scroll.horiz.forward(**settings)
+            elif 'horizontal to begining' in action:
+                return device.scroll.horiz.toBeginning(**settings)
+            elif 'horizontal backward' in action:
+                return device.scroll.horiz.backward(**settings)
+            elif 'horizontal to end' in action:
+                return device.scroll.horiz.toEnd(**settings)
+            elif 'horizontal to' in action:
+                return device.scroll.horiz.to(**settings)
+            elif 'vertical backward' in action:
+                return device.scroll.vert.backward(**settings)
+            elif 'vertical to end' in action:
+                return device.scroll.vert.toEnd(**settings)
+            elif 'vertical forward' in action:
+                return device.scroll.vert.forward(**settings)
+            elif 'vertical to begining' in action:
+                return device.scroll.vert.toBeginning(**settings)
+            elif 'vertical to' in action:
+                return device.scroll.vert.to(**settings)
+            else:
+                raise Exception('Action is not available on ui automator')
+        else:
+            return self.__get_device_scroll(self, *argument, **settings).scroll(steps=10)
+
+    def __check_action_device_fling(self, *argument, **settings):
+        device = self.__get_device_scroll(self, *argument, **settings)
+
+        if 'action' in settings:
+            action = settings['action']
+            del settings['action']
+
+            if 'horizontal forward' in action:
+                return device.fling.horiz.forward(max_swipes=10)
+            elif 'horizontal to begining' in action:
+                return device.fling.horiz.toBeginning(max_swipes=10)
+            elif 'horizontal backward' in action:
+                return device.fling.horiz.backward(max_swipes=10)
+            elif 'horizontal to end' in action:
+                return device.fling.horiz.toEnd(max_swipes=10)
+            elif 'vertical backward' in action:
+                return device.fling.vert.backward(max_swipes=10)
+            elif 'vertical to end' in action:
+                return device.fling.vert.toEnd(max_swipes=10)
+            elif 'vertical forward' in action:
+                return device.fling.vert.forward(max_swipes=10)
+            elif 'vertical to begining' in action:
+                return device.fling.vert.toBeginning(max_swipes=10)
+            else:
+                raise Exception('Action is not available on ui automator')
+        else:
+            return self.__get_device_scroll(self, *argument, **settings).fling()
+
     def swipe(self, sx, sy, ex, ey, steps, **settings):
         """Geasture swipe with interanction on Android Device.
         swipe from (sx, sy) to (ex, ey)
@@ -92,46 +160,6 @@ class Touch(Core):
             return device(*argument, **settings).drag(sx, sy, ex, ey, steps)
         else:
             return self.device_mobile().drag(sx, sy, ex, ey, steps)
-
-    def __get_device_scroll(self, *argument, **settings):
-        if 'device' in settings:
-            device = settings['device']
-            del settings['device']
-            return device(scrollable=True)
-        else:
-            return self.device_mobile(scrollable=True)
-
-    def __check_action_device_scroll(self, *argument, **settings):
-        device = self.__get_device_scroll(self, *argument, **settings)
-
-        if 'action' in settings:
-            action = settings['action']
-            del settings['action']
-
-            if 'horizontal forward' in action:
-                return device.scroll.horiz.forward(**settings)
-            elif 'horizontal to begining' in action:
-                return device.scroll.horiz.toBeginning(**settings)
-            elif 'horizontal backward' in action:
-                return device.scroll.horiz.backward(**settings)
-            elif 'horizontal to end' in action:
-                return device.scroll.horiz.toEnd(**settings)
-            elif 'horizontal to' in action:
-                return device.scroll.horiz.to(**settings)
-            elif 'vertical backward' in action:
-                return device.scroll.vert.backward(**settings)
-            elif 'vertical to end' in action:
-                return device.scroll.vert.toEnd(**settings)
-            elif 'vertical forward' in action:
-                return device.scroll.vert.forward(**settings)
-            elif 'vertical to begining' in action:
-                return device.scroll.vert.toBeginning(**settings)
-            elif 'vertical to' in action:
-                return device.scroll.vert.to(**settings)
-            else:
-                raise Exception('Action is not available on ui automator')
-        else:
-            return self.__get_device_scroll(self, *argument, **settings).scroll(steps=10)
 
     def scroll(self, *argument, **settings):
         """Scroll interanction on Android device.
@@ -222,34 +250,6 @@ class Touch(Core):
         else:
             raise Exception('Action is not available on ui automator')
 
-    def __check_action_device_fling(self, *argument, **settings):
-        device = self.__get_device_scroll(self, *argument, **settings)
-
-        if 'action' in settings:
-            action = settings['action']
-            del settings['action']
-
-            if 'horizontal forward' in action:
-                return device.fling.horiz.forward(max_swipes=10)
-            elif 'horizontal to begining' in action:
-                return device.fling.horiz.toBeginning(max_swipes=10)
-            elif 'horizontal backward' in action:
-                return device.fling.horiz.backward(max_swipes=10)
-            elif 'horizontal to end' in action:
-                return device.fling.horiz.toEnd(max_swipes=10)
-            elif 'vertical backward' in action:
-                return device.fling.vert.backward(max_swipes=10)
-            elif 'vertical to end' in action:
-                return device.fling.vert.toEnd(max_swipes=10)
-            elif 'vertical forward' in action:
-                return device.fling.vert.forward(max_swipes=10)
-            elif 'vertical to begining' in action:
-                return device.fling.vert.toBeginning(max_swipes=10)
-            else:
-                raise Exception('Action is not available on ui automator')
-        else:
-            return self.__get_device_scroll(self, *argument, **settings).fling()
-
     def fling(self, *argument, **settings):
         """Scroll interanction on Android device.
 
@@ -286,34 +286,3 @@ class Touch(Core):
            | Fling      | action=vertical to end
          """
         return self.__check_action_device_fling(self, *argument, **settings)
-#
-# class Fling(Core):
-#
-#     def __init__(self):
-#         self.device_mobile = self.device()
-#         self.action = None
-#
-#     def __get_device_scroll(self, *argument, **settings):
-#         if 'device' in settings:
-#             device = settings['device']
-#             del settings['device']
-#             return device(scrollable=True)
-#         else:
-#             return self.device_mobile(scrollable=True)
-#
-#     def fling(self,  *argument, **settings):
-#         self.device = self.__get_device_scroll(self, *argument, **settings)
-#
-#         if 'action' in settings:
-#             del settings['action']
-#             return self.device.fling(**settings)
-#         else:
-#             return self.device.fling
-#
-#     def horiz(self):
-#         self.__fling = self.fling()
-#         return self.__fling.horiz
-#
-#     def forward(self):
-#         self.action = self.forward
-#         return self

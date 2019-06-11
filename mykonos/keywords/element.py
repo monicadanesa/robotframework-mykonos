@@ -462,21 +462,15 @@ class ExpectedConditions(Core):
         HOW TO CALL IN ROBOT FRAMEWORK
         | Page Should Contain Text | text=sample text
         """
-        text = self.get_conditions.get_text(*argument, **settings)
+        # text = self.get_conditions.get_text(*argument, **settings)
+        text = settings['text']
 
-        if 'locator' in settings:
-            locator = settings['locator']
-            if locator[text].exists:
-                return True
-            else:
-                raise ValueError('text not found')
+        if 'device' in settings:
+            device = settings['device']
+            del settings['device']
+            return device(*argument, **settings).exists
         else:
-            if 'device' in settings:
-                device = settings['device']
-                del settings['device']
-                return device(*argument, **settings).exists
-            else:
-                return self.device_mobile(*argument, **settings).exists
+            return self.device_mobile(*argument, **settings).exists
 
     def __get_device_global(self, *argument, **settings):
         if 'locator' in settings:
