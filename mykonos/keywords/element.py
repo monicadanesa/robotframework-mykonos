@@ -119,6 +119,11 @@ class GlobalElement(Core):
         if 'locator' in settings:
             locator = settings['locator']
             return locator.count
+        elif 'watcher' in settings:
+            watcher = settings['watcher']
+            del settings['watcher']
+
+            return watcher.count
         else:
             return self.device_mobile(*argument, **settings).count
 
@@ -246,11 +251,11 @@ class Click(Core):
             """Click into pointer target location.
 
              HOW TO CALL IN ROBOT FRAMEWORK
-             |  CLick A Point         |className=sample class    |x=10   |y=20
+             |  CLick A Point                     |x=10   |y=20
 
              With device:
-             | ${device}=  Scan Current Device   |${emulator}
-             | Click A Point  |device=${device}  |className=sample |x=10  |y=20
+             | ${device}=  Scan Current Device    |${emulator}
+             | Click A Point  |device=${device}   |x=10  |y=20
 
              Return:
              True or False
@@ -329,15 +334,15 @@ class GetCondions(Core):
 
         if 'locator' in settings:
             locator = settings['locator']
-            return locator.info[element]
+            return locator.info['element']
         else:
             if 'device' in settings:
                 device = settings['device']
                 del settings['device']
 
-                return device(*argument, **settings).info[element]
+                return device(*argument, **settings).info['element']
             else:
-                return self.device_mobile(*argument, **settings).info[element]
+                return self.device_mobile(*argument, **settings).info['element']
 
     def get_element(self, *argument, **settings):
         """Call keyword_device_info.
