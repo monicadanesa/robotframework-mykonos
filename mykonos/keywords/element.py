@@ -6,7 +6,7 @@ class GlobalElement(Core):
 
     def __init__(self):
         self.device_mobile = self.device()
-        self.get = GetCondions()
+        self.get = GetConditions()
 
     def open_notification(self, **settings):
         """Open notification of Android.
@@ -276,7 +276,7 @@ class Click(Core):
                 return self.device_mobile().click(x, y)
 
 
-class GetCondions(Core):
+class GetConditions(Core):
     def __init__(self):
         self.device_mobile = self.device()
 
@@ -313,7 +313,7 @@ class GetCondions(Core):
         List of Elements:
          childCount, bounds, className, contentDescription,
          packageName, resourceName, text, visibleBounds,
-         checkable, checked, clickable, enabled, focusable,
+         checkable, checked, clickable, enabled, focusable, disable,
          focused, longClickable, scrollable, selected
          HOW TO CALL IN ROBOT FRAMEWORK
          |Get Element Attribute         |  className=sample  element=text
@@ -384,7 +384,7 @@ class GetCondions(Core):
         return :
         coordinate x(int)
         """
-        bound = self.get_element_attribute(element='bounds', *argument, **settings)
+        bound = self.get_conditions.get_element_attribute(element='bounds', *argument, **settings)
 
         bottom = bound['bottom']
         top = bound['top']
@@ -437,7 +437,7 @@ class GetCondions(Core):
 class ExpectedConditions(Core):
     def __init__(self):
         self.device_mobile = self.device()
-        self.get_conditions = GetCondions()
+        self.get_conditions = GetConditions()
 
     def page_should_contain_element(self, *argument, **settings):
         """Page should contain element.
@@ -467,7 +467,6 @@ class ExpectedConditions(Core):
         HOW TO CALL IN ROBOT FRAMEWORK
         | Page Should Contain Text | text=sample text
         """
-        # text = self.get_conditions.get_text(*argument, **settings)
         text = settings['text']
 
         if 'device' in settings:
@@ -557,3 +556,45 @@ class ExpectedConditions(Core):
                 return device(*argument, **settings).exists
             else:
                 return self.device_mobile(*argument, **settings).exists
+
+    def text_should_be_enabled(self, *argument, **settings):
+        """element should be enabled
+        HOW TO CALL IN ROBOT FRAMEWORK
+        | Element Should Be Enabled | text=sample text or className=sample className
+        """
+        element = self.get_conditions.get_element()
+        enabled = element['enabled']
+        if 'locator' in settings:
+            locator = settings['locator']
+            if enabled is True:
+                return True
+            else:
+                return False
+        else:
+            if 'device' in settings:
+                device = settings['device']
+                del settings['device']
+                return device(*argument, **settings).exists
+            else:
+                return self.device_mobile(*argument, **settings).exists
+
+    def text_should_be_disabled(self, *argument, **settings):
+        """element should be disabled
+        HOW TO CALL IN ROBOT FRAMEWORK
+        | Element Should Be Disabled | text=sample text or className=sample className
+        """
+        element = self.get_conditions.get_element()
+        enabled = element['enabled']
+        if 'locator' in settings:
+            locator = settings['locator']
+            if enabled is False:
+                return True
+            else:
+                return False
+        else:
+            if 'device' in settings:
+                device = settings['device']
+                del settings['device']
+                return device(*argument, **settings).enabled
+            else:
+                return self.device_mobile(*argument, **settings).enabled

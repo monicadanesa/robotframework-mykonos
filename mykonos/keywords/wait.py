@@ -1,12 +1,12 @@
 from mykonos.core.core import Core
-from mykonos.keywords.element import GetCondions
+from mykonos.keywords.element import GetConditions
 
 
 class Wait(Core):
 
     def __init__(self):
         self.device_mobile = self.device()
-        self.get_conditions = GetCondions()
+        self.get_conditions = GetConditions()
 
     def wait_until_element_is_visible(self, *argument, **settings):
         """Wait Until Element Is Visible.
