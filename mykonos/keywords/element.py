@@ -493,10 +493,10 @@ class Element(Core):
         if 'locator' in settings:
             locator = settings['locator']
             found = locator[element].exists
-            if found == False:
+            if found is False:
+                return True
+            else:
                 return False
-            elif found == True:
-                return ValueError('found element')
         else:
             if 'device' in settings:
                 device = settings['device']
@@ -518,10 +518,10 @@ class Element(Core):
         if 'locator' in settings:
             locator = settings['locator']
             found = locator[text].exists
-            if found == False:
+            if found is False:
                 return True
             else:
-                return ValueError('device')
+                return False
         else:
             if 'device' in settings:
                 device = settings['device']
