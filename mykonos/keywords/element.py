@@ -501,9 +501,9 @@ class ExpectedConditions(Core):
             locator = settings['locator']
             found = locator[element].exists
             if found is False:
+                return True
+            else:
                 return False
-            elif found is True:
-                return ValueError('found element')
         else:
             if 'device' in settings:
                 device = settings['device']
@@ -527,7 +527,7 @@ class ExpectedConditions(Core):
             if found is False:
                 return True
             else:
-                return ValueError('device')
+                return False
         else:
             if 'device' in settings:
                 device = settings['device']
