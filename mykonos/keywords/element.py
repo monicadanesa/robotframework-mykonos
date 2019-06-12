@@ -501,9 +501,9 @@ class ExpectedConditions(Core):
             locator = settings['locator']
             found = locator[element].exists
             if found is False:
+                return True
+            else:
                 return False
-            elif found is True:
-                return ValueError('found element')
         else:
             if 'device' in settings:
                 device = settings['device']
@@ -527,7 +527,7 @@ class ExpectedConditions(Core):
             if found is False:
                 return True
             else:
-                return ValueError('device')
+                return False
         else:
             if 'device' in settings:
                 device = settings['device']
@@ -566,28 +566,7 @@ class ExpectedConditions(Core):
         enabled = element['enabled']
         if 'locator' in settings:
             locator = settings['locator']
-            if enabled is True:
-                return True
-            else:
-                return False
-        else:
-            if 'device' in settings:
-                device = settings['device']
-                del settings['device']
-                return device(*argument, **settings).exists
-            else:
-                return self.device_mobile(*argument, **settings).exists
-
-    def text_should_be_disabled(self, *argument, **settings):
-        """element should be disabled
-        HOW TO CALL IN ROBOT FRAMEWORK
-        | Element Should Be Disabled | text=sample text or className=sample className
-        """
-        element = self.get_conditions.get_element()
-        enabled = element['enabled']
-        if 'locator' in settings:
-            locator = settings['locator']
-            if enabled is False:
+            if locator.info['enabled'] is True:
                 return True
             else:
                 return False
@@ -598,3 +577,62 @@ class ExpectedConditions(Core):
                 return device(*argument, **settings).enabled
             else:
                 return self.device_mobile(*argument, **settings).enabled
+
+    def text_should_be_disabled(self, *argument, **settings):
+        """element should be disabled
+        HOW TO CALL IN ROBOT FRAMEWORK
+        | Element Should Be Disabled | text=sample text or className=sample className
+        """
+        element = self.get_conditions.get_element()
+        enabled = element['enabled']
+        if 'locator' in settings:
+            locator = settings['locator']
+            if locator.info['enabled'] is False:
+                return True
+            else:
+                return False
+        else:
+            if 'device' in settings:
+                device = settings['device']
+                del settings['device']
+                return device(*argument, **settings).enabled
+            else:
+                return self.device_mobile(*argument, **settings).enabled
+
+    def element_should_contain_text(self, *argument, **settings):
+        """element should contain text
+        HOW TO CALL IN ROBOT FRAMEWORK
+        | Element Should Contain Text | className=sample className and text=sample text
+        """
+        if 'locator' in settings:
+            locator = settings['locator']
+            if locator.info['text'] is True:
+                return True
+            else:
+                return False
+        else:
+            if 'device' in settings:
+                device = settings['device']
+                del settings['device']
+                return self.device(*argument, **settings).info['text']
+            else:
+                return self.device_mobile(*argument, **settings).info['text']
+
+    def element_should_not_contain_text(self, *argument, **settings):
+        """element should not contain text
+        HOW TO CALL IN ROBOT FRAMEWORK
+        | Element Should Contain Text | className=sample className and text=sample text
+        """
+        if 'locator' in settings:
+            locator = settings['locator']
+            if locator.info['text'] is False:
+                return True
+            else:
+                return False
+        else:
+            if 'device' in settings:
+                device = settings['device']
+                del settings['device']
+                return self.device(*argument, **settings).info['text']
+            else:
+                return self.device_mobile(*argument, **settings).info['text']
