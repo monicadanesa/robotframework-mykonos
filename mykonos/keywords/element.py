@@ -566,7 +566,7 @@ class ExpectedConditions(Core):
         enabled = element['enabled']
         if 'locator' in settings:
             locator = settings['locator']
-            if enabled is True:
+            if locator.info['enabled'] is True:
                 return True
             else:
                 return False
@@ -574,9 +574,9 @@ class ExpectedConditions(Core):
             if 'device' in settings:
                 device = settings['device']
                 del settings['device']
-                return device(*argument, **settings).exists
+                return device(*argument, **settings).enabled
             else:
-                return self.device_mobile(*argument, **settings).exists
+                return self.device_mobile(*argument, **settings).enabled
 
     def text_should_be_disabled(self, *argument, **settings):
         """element should be disabled
@@ -587,7 +587,7 @@ class ExpectedConditions(Core):
         enabled = element['enabled']
         if 'locator' in settings:
             locator = settings['locator']
-            if enabled is False:
+            if locator.info['enabled'] is False:
                 return True
             else:
                 return False
