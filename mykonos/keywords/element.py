@@ -598,3 +598,41 @@ class ExpectedConditions(Core):
                 return device(*argument, **settings).enabled
             else:
                 return self.device_mobile(*argument, **settings).enabled
+
+    def element_should_contain_text(self, *argument, **settings):
+        """element should contain text
+        HOW TO CALL IN ROBOT FRAMEWORK
+        | Element Should Contain Text | className=sample className and text=sample text
+        """
+        if 'locator' in settings:
+            locator = settings['locator']
+            if locator.info['text'] is True:
+                return True
+            else:
+                return False
+        else:
+            if 'device' in settings:
+                device = settings['device']
+                del settings['device']
+                return self.device(*argument, **settings).info['text']
+            else:
+                return self.device_mobile(*argument, **settings).info['text']
+
+    def element_should_not_contain_text(self, *argument, **settings):
+        """element should not contain text
+        HOW TO CALL IN ROBOT FRAMEWORK
+        | Element Should Contain Text | className=sample className and text=sample text
+        """
+        if 'locator' in settings:
+            locator = settings['locator']
+            if locator.info['text'] is False:
+                return True
+            else:
+                return False
+        else:
+            if 'device' in settings:
+                device = settings['device']
+                del settings['device']
+                return self.device(*argument, **settings).info['text']
+            else:
+                return self.device_mobile(*argument, **settings).info['text']
