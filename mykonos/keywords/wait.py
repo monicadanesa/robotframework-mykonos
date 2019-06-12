@@ -1,12 +1,12 @@
 from mykonos.core.core import Core
-from mykonos.keywords.element import GetCondions
+from mykonos.keywords.element import GetConditions
 
 
 class Wait(Core):
 
     def __init__(self):
         self.device_mobile = self.device()
-        self.get_conditions = GetCondions()
+        self.get_conditions = GetConditions()
 
     def wait_until_element_is_visible(self, *argument, **settings):
         """Wait Until Element Is Visible.
@@ -49,7 +49,7 @@ class Wait(Core):
             else:
                 return self.device_mobile(*argument, **settings).wait.exists(timeout=time)
 
-    def wait_until_page_contains_element(self, time=1500, *argument, **settings):
+    def wait_until_page_contains_element(self, time=1000, *argument, **settings):
         """Wait Until Page Contains Element
         HOW TO CALL IN ROBOT FRAMEWORK
         |Wait Untile Page Contains Element| className=sample class or text = sample text
@@ -74,7 +74,7 @@ class Wait(Core):
         HOW TO CALL IN ROBOT FRAMEWORK
         |Wait Until Page Does Not Contains| className=sample class or text = sample text
         """
-        element = self.get_conditions.get_element(*argument, **settings) or self.get_element(*argument, **settings)
+        element = self.get_conditions.get_element(*argument, **settings)
         if 'locator' in settings:
             locator = settings['locator']
             del settings['locator']

@@ -185,14 +185,14 @@ def test_clear_text_with_device_and_parent():
 
 
 def test_get_text():
-    el = GetCondions()
+    el = GetConditions()
     el.get_text = MagicMock()
     el.get_text.return_value = 'return text'
     result = el.get_text(className=MagicMock())
     assert len(result) != 0
 
 def test_get_text_with_device():
-    el = GetCondions()
+    el = GetConditions()
     el.get_text = MagicMock()
     el.get_text.return_value = 'return text'
     result = el.get_text(device=MagicMock(), className=MagicMock())
@@ -200,7 +200,7 @@ def test_get_text_with_device():
 
 
 def test_get_text_with_parents():
-    el = GetCondions()
+    el = GetConditions()
     el.get_text = MagicMock()
     el.get_text.return_value = 'return text'
     result = el.get_text(locator=MagicMock())
@@ -208,7 +208,7 @@ def test_get_text_with_parents():
 
 
 def test_get_text_with_parents_device():
-    el = GetCondions()
+    el = GetConditions()
     el.get_text = MagicMock()
     el.get_text.return_value = 'return text'
     result = el.get_text(device=MagicMock(), locator=MagicMock())
@@ -216,7 +216,7 @@ def test_get_text_with_parents_device():
 
 
 def test_get_attribute():
-    el = GetCondions()
+    el = GetConditions()
     el.get_element_attribute = MagicMock()
     el.get_element_attribute.return_value = 'sample return attribute'
     result = el.get_element_attribute(element=MagicMock(), className=MagicMock())
@@ -224,7 +224,7 @@ def test_get_attribute():
 
 
 def test_get_attribute_with_device():
-    el = GetCondions()
+    el = GetConditions()
     el.get_element_attribute = MagicMock()
     el.get_element_attribute.return_value = 'sample return attribute'
     result = el.get_element_attribute(device=MagicMock(), element=MagicMock(), className=MagicMock())
@@ -232,7 +232,7 @@ def test_get_attribute_with_device():
 
 
 def test_get_attribute_with_parent():
-    el = GetCondions()
+    el = GetConditions()
     el.get_element_attribute = MagicMock()
     el.get_element_attribute.return_value = 'sample return attribute'
     result = el.get_element_attribute(locator=MagicMock(), element='text')
@@ -240,15 +240,28 @@ def test_get_attribute_with_parent():
 
 
 def test_get_element():
-    el = GetCondions()
+    el = GetConditions()
     el.get_element = MagicMock()
     el.get_element.return_value = 'sample return element'
     result = el.get_element(className=MagicMock())
     assert len(result) != 0
 
+def test_text_should_be_enabled():
+    el = GetConditions()
+    el.text_should_be_enabled = MagicMock()
+    el.text_should_be_enabled.return_value = True
+    result = el.text_should_be_enabled(device=MagicMock(), className=MagicMock())
+    assert result == True
+
+def test_text_should_be_disabled():
+    el = GetConditions()
+    el.text_should_be_disabled = MagicMock()
+    el.text_should_be_disabled.return_value = True
+    result = el.text_should_be_disabled(device=MagicMock(), className=MagicMock())
+    assert result == True
 
 def test_get_element_with_device():
-    el = GetCondions()
+    el = GetConditions()
     el.get_element = MagicMock()
     el.get_element.return_value = 'sample return element'
     result = el.get_element(device=MagicMock(), className=MagicMock())
@@ -256,7 +269,7 @@ def test_get_element_with_device():
 
 
 def test_get_element_with_parent():
-    el = GetCondions()
+    el = GetConditions()
     el.get_element = MagicMock()
     el.get_element.return_value = 'sample return element'
     result = el.get_element(locator=MagicMock())
@@ -280,7 +293,7 @@ def test_count_element_with_parent():
 
 
 def test_get_height():
-    el = GetCondions()
+    el = GetConditions()
     el.get_height = MagicMock()
     el.get_height.return_value = 1
     result = el.get_height()
@@ -288,7 +301,7 @@ def test_get_height():
 
 
 def test_get_width():
-    el = GetCondions()
+    el = GetConditions()
     el.get_width = MagicMock()
     el.get_width.return_value = 1
     result = el.get_width()
