@@ -636,3 +636,41 @@ class ExpectedConditions(Core):
                 return self.device(*argument, **settings).info['text']
             else:
                 return self.device_mobile(*argument, **settings).info['text']
+
+    def check_element_visible(self, *argument, **settings):
+        """check element visible
+        HOW TO CALL IN ROBOT FRAMEWORK
+        | Check Element Visible | className=sample className and text=sample text
+        """
+        if 'locator' in settings:
+            locator = settings['locator']
+            if locator.info['visibleBounds'] is True:
+                return True
+            else:
+                return False
+        else:
+            if 'device' in settings:
+                device = settings['device']
+                del settings['device']
+                return self.device(*argument, **settings).info['visibleBounds']
+            else:
+                return self.device_mobile(*argument, **settings).info['visibleBounds']
+
+    def check_element_non_visible(self, *argument, **settings):
+        """check element non visible
+        HOW TO CALL IN ROBOT FRAMEWORK
+        | Check Element Non Visible | className=sample className and text=sample text
+        """
+        if 'locator' in settings:
+            locator = settings['locator']
+            if locator.info['visibleBounds'] is False:
+                return True
+            else:
+                return False
+        else:
+            if 'device' in settings:
+                device = settings['device']
+                del settings['device']
+                return self.device(*argument, **settings).info['visibleBounds']
+            else:
+                return self.device_mobile(*argument, **settings).info['visibleBounds']

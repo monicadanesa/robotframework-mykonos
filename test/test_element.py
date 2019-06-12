@@ -274,6 +274,20 @@ def test_element_should_not_contain_text():
     result = el.element_should_not_contain_text(device=MagicMock(), className=MagicMock(), text=MagicMock())
     assert result == True
 
+def test_check_element_visible():
+    el = ExpectedConditions()
+    el.check_element_visible = MagicMock()
+    el.check_element_visible.return_value = True
+    result = el.check_element_visible(device=MagicMock(), className=MagicMock(), text=MagicMock())
+    assert result == True
+
+def test_check_element_non_visible():
+    el = ExpectedConditions()
+    el.check_element_non_visible = MagicMock()
+    el.check_element_non_visible.return_value = True
+    result = el.check_element_non_visible(device=MagicMock(), className=MagicMock(), text=MagicMock())
+    assert result == True
+
 def test_get_element_with_device():
     el = GetConditions()
     el.get_element = MagicMock()
