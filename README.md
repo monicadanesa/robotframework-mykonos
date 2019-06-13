@@ -3,31 +3,19 @@ Mykonos
 
 Introduction
 ------------
-Robot Framework Mobile Test Automation using UIAutomator
+Mykonos is complete test automation tools for Android Device using Robot Framework and UI Automator (Python), it easy to learn because Mykonos use BDD syntax to write the test cases.
 
 Installation
 ------------
 
      pip install git+https://github.com/monicadanesa/mykonos
 
-
-Directory Layout
-----------------
-
-__demo/__  <br />
-    A sample code to demonstrate test case based on Robot Framework for Android Mobile  <br />
-
-__doc/__  <br />
-    Keyword documentation  <br />
-
-__src/__  <br />
-   Mykonos(python based) source code  <br />
-
 Usage
 -----
- * Make sure the emulator/device is available.
+ * Download and Install the android emulator base on the guidance ([Genymotion](https://www.genymotion.com/) or [Android Emulator] (https://github.com/codepath/android_guides/wiki/Installing-Android-SDK-Tools).
+ * Make sure the emulator is available by checking with 'adb devices', for the detail info please check the adb command on [ADB Shell] (http://adbshell.com/commands/adb-devices) guidance.
  * Import __Mykonos__ Library on the Robot Framework Test Suite.
- * Write the test case base on [Robot Framework](https://robotframework.org/) guidance.
+ * Write the test case base on [Robot Framework](http://robotframework.org/robotframework/latest/RobotFrameworkUserGuide.html#libdoc) guidance.
 
 Code Example
 -----
@@ -85,4 +73,4 @@ Contributors
 Credit
 -------------
 
-Thanks to [uiautomator](https://github.com/xiaocong/uiautomator)'s author to inspirate us to make this library.
+Thanks to [uiautomator](https://github.com/xiaocong/uiautomator)'s author to inspire us to make this library.
