@@ -6,7 +6,7 @@ from mykonos.core.core import Core
 class ManagementDevice(Core):
     adb_s = 'adb -s '
     adb_start = ' shell am start -W '
-    adb_stop = ' shell am force-stop '
+    adb_stop = ' adb shell am force-stop '
     adb_grep_pid = 'adb shell pgrep '
     adb_kill = 'adb shell pkill '
     adb_pm_clear = ' shell pm clear '
@@ -59,19 +59,28 @@ class ManagementDevice(Core):
         except ValueError:
             raise ValueError('device can not be opened')
 
-    def reset_app(self, device, package):
+    def __get_current_package(self):
+        cmd = "adb shell dumpsys activity | grep top-activity | awk '{ print $8 }'"
+        top_activity = self.__shell_pipe(cmd)
+        start_pid = str(top_activity).find("'")
+        end_pid = str(top_activity).find(":")
+        end_package_name = str(top_activity).find("/")
+        pid = str(top_activity)[start_pid:end_pid]
+        package = str(top_activity)[end_pid+1:end_package_name]
+
+        return package
+
+    def reset_app(self, device):
         """Reset Application on Device.
 
         HOW TO CALL IN ROBOT FRAMEWORK
 
-        |  Reset Application   |  emulator=emulator-554   |  sample_apk
+        |  Reset Application   |  emulator=emulator-554
         """
-        try:
-            package = self._substring_package(package)
-            op = os.system(self.adb_s + device + self.adb_pm_clear + package)
-            return op
-        except ValueError:
-            raise ValueError('device can not be opened')
+        package = self.__get_current_package()
+        op = os.system(self.adb_s + device + self.adb_pm_clear + package)
+        reconect = os.system('adb reconnect')
+        return op
 
     def hide_keyword(self):
         """Hide Keyword of Device.
@@ -163,5 +172,13 @@ class ManagementDevice(Core):
         new = new_app.info['currentPackageName']
         current = self.device().info['currentPackageName']
         result = self.open_app(device, old)
+
+        return result
+
+    def force_close(self):
+        package = self.__get_current_package()
+
+        result = os.system(self.adb_stop + package)
+        reconect = os.system('adb reconnect')
 
         return result
