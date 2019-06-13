@@ -15,6 +15,7 @@ robotframework = "*"
 pytest-mock = "*"
 mock = "*"
 alog = "*"
+sphinx = "*"
 
 [requires]
 python_version = "3.7"
