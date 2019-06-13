@@ -12,8 +12,9 @@ Installation
 
 Usage
 -----
- * Download and Install the android emulator base on the guidance ([Genymotion](https://www.genymotion.com/) or [Android Emulator] (https://github.com/codepath/android_guides/wiki/Installing-Android-SDK-Tools).
- * Make sure the emulator is available by checking with 'adb devices', for the detail info please check the adb command on [ADB Shell] (http://adbshell.com/commands/adb-devices) guidance.
+ * Download and Install the android emulator base on the guidance [Genymotion](https://www.genymotion.com/) 
+ or [Android Emulator](https://github.com/codepath/android_guides/wiki/Installing-Android-SDK-Tools).
+ * Make sure the emulator is available by checking with `adb devices`, for the detail info please check the adb command on [ADB Shell Script](http://adbshell.com/commands/adb-devices) guidance.
  * Import __Mykonos__ Library on the Robot Framework Test Suite.
  * Write the test case base on [Robot Framework](http://robotframework.org/robotframework/latest/RobotFrameworkUserGuide.html#libdoc) guidance.
 
