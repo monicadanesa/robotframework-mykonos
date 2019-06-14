@@ -48,11 +48,11 @@ Below is the sample test case for testing an Application Messaging.
         Press Keycode                                             enter
 
     Input Message on the Text Area
-        [Arguments]                                             ${input_message}
-        Input Text                                              resourceId=com.android.messaging:id/compose_message_text      input=${input_message}
+        [Arguments]                                               ${input_message}
+        Input Text                                                resourceId=com.android.messaging:id/compose_message_text      input=${input_message}
 
     Click Button Send
-        Click Element                                          resourceId=com.android.messaging:id/self_send_icon
+        Click Element                                             resourceId=com.android.messaging:id/self_send_icon
 
     *** Test Cases ***
     Test Case Input Phone Number on Application Messaging
