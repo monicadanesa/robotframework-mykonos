@@ -11,7 +11,7 @@ ${message}                helllo
 *** keywords ***
 Scan Device and Open Application Messaging
     [Arguments]                                               ${input_emulator}     ${input_apk}
-    Reset App                                                 ${input_emulator}     ${input_apk}
+    Reset App                                                 ${input_emulator}
     Open App                                                  ${input_emulator}     ${input_apk}
 
 Click Plus Icon on the Messaging Menu
@@ -42,4 +42,4 @@ Test Case Input Phone Number on Application Messaging
     Click Button Send
     Page Should Contain Text                                  text=${message}
     Fling             action=horizontal forward
-    Quit App                                                  ${emulator}       ${apk}
+    Force Close

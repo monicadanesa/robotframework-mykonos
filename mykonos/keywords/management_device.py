@@ -79,7 +79,6 @@ class ManagementDevice(Core):
         """
         package = self.__get_current_package()
         op = os.system(self.adb_s + device + self.adb_pm_clear + package)
-        reconect = os.system('adb reconnect')
         return op
 
     def hide_keyword(self):
@@ -176,9 +175,15 @@ class ManagementDevice(Core):
         return result
 
     def force_close(self):
+        """Force Closed Application.
+        HOW TO CALL IN ROBOT FRAMEWORK
+        with location
+        | Force Close
+        """
         package = self.__get_current_package()
 
         result = os.system(self.adb_stop + package)
         reconect = os.system('adb reconnect')
 
         return result
+""
