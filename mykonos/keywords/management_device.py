@@ -77,9 +77,11 @@ class ManagementDevice(Core):
 
         |  Reset Application   |  emulator=emulator-554
         """
-        # package = self.__get_current_package()
-        op = os.system(self.adb_s + device + self.adb_pm_clear + package)
-        return op
+        try:
+            reset = os.system('adb -s'+device+'shell'+'pm'+package)
+            return reset
+        except ValueError:
+            raise ValueError('reset apps is failed')
 
     def hide_keyword(self):
         """Hide Keyword of Device.
