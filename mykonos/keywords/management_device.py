@@ -78,7 +78,7 @@ class ManagementDevice(Core):
         |  Reset Application   |  emulator=emulator-554
         """
         try:
-            reset = os.system('adb -s'+device+'shell'+'pm'+package)
+            reset = os.system('adb -s'+device+' shell pm clear '+package)
             return reset
         except ValueError:
             raise ValueError('reset apps is failed')
@@ -188,4 +188,3 @@ class ManagementDevice(Core):
         reconect = os.system('adb reconnect')
 
         return result
-""
