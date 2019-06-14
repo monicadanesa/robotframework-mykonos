@@ -12,9 +12,8 @@ Installation
 
 Usage
 -----
- * Download and Install the android emulator base on the guidance [Genymotion](https://www.genymotion.com/) 
- or [Android Emulator](https://github.com/codepath/android_guides/wiki/Installing-Android-SDK-Tools).
- * Make sure the emulator is available by checking with `adb devices`, for the detail info please check on [ADB Shell Script](http://adbshell.com/commands/adb-devices) guidance.
+ * Download and Install the android emulator base on the guidance [Genymotion](https://www.genymotion.com/) or [Andoroid Emulator] (https://github.com/codepath/android_guides/wiki/Installing-Android-SDK-Tools).
+ * Make sure emulator is available by checking with 'adb devices', for more detail info please check the adb command on [ADB Shell] (http://adbshell.com/commands/adb-devices) guidance.
  * Import __Mykonos__ Library on the Robot Framework Test Suite.
  * Write the test case base on [Robot Framework](http://robotframework.org/robotframework/latest/RobotFrameworkUserGuide.html#libdoc) guidance.
 
@@ -35,7 +34,7 @@ Below is the sample test case for testing an Application Messaging.
     *** keywords ***
     Scan Device and Open Application Messaging
         [Arguments]                                               ${input_emulator}     ${input_apk}
-        Reset App                                                 ${input_emulator}     ${input_apk}
+        Reset App                                                 ${input_emulator}     
         Open App                                                  ${input_emulator}     ${input_apk}
 
     Click Plus Icon on the Messaging Menu
@@ -49,11 +48,11 @@ Below is the sample test case for testing an Application Messaging.
         Press Keycode                                             enter
 
     Input Message on the Text Area
-        [Arguments]                                             ${input_message}
-        Input Text                                              resourceId=com.android.messaging:id/compose_message_text      input=${input_message}
+        [Arguments]                                               ${input_message}
+        Input Text                                                resourceId=com.android.messaging:id/compose_message_text      input=${input_message}
 
     Click Button Send
-        Click Element                                          resourceId=com.android.messaging:id/self_send_icon
+        Click Element                                             resourceId=com.android.messaging:id/self_send_icon
 
     *** Test Cases ***
     Test Case Input Phone Number on Application Messaging
@@ -65,6 +64,7 @@ Below is the sample test case for testing an Application Messaging.
         Click Button Send
         Page Should Contain Text                                  text=${message}
         Quit App                                                  ${emulator}       ${apk}
+        Force Close
 
 Contributors
 -------------
