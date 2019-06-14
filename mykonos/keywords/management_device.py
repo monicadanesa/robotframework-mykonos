@@ -9,7 +9,7 @@ class ManagementDevice(Core):
     adb_stop = ' adb shell am force-stop '
     adb_grep_pid = 'adb shell pgrep '
     adb_kill = 'adb shell pkill '
-    adb_pm_clear = ' shell pm clear '
+    adb_pm_clear = 'shell pm clear'
     adb_key_event = 'adb shell input keyevent '
     adb_pull = 'adb pull '
     adb_push = 'adb push '
@@ -70,14 +70,14 @@ class ManagementDevice(Core):
 
         return package
 
-    def reset_app(self, device):
+    def reset_app(self, device, package):
         """Reset Application on Device.
 
         HOW TO CALL IN ROBOT FRAMEWORK
 
         |  Reset Application   |  emulator=emulator-554
         """
-        package = self.__get_current_package()
+        # package = self.__get_current_package()
         op = os.system(self.adb_s + device + self.adb_pm_clear + package)
         return op
 
