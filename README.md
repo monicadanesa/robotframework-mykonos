@@ -70,7 +70,7 @@ Below is the sample test case for testing an Application Messaging (sample.robot
 
 Run The Test
 -----
-Run the test case by execute 'robot sample.robot' on your terminal.
+Run the test case by execute `robot sample.robot` on your terminal.
 
 Contributors
 -------------
