@@ -72,10 +72,8 @@ class ManagementDevice(Core):
 
     def reset_app(self, device, package):
         """Reset Application on Device.
-
         HOW TO CALL IN ROBOT FRAMEWORK
-
-        |  Reset Application   |  emulator=emulator-554
+        |  Reset Application   |  emulator=emulator-554 | package=sample_apk
         """
         try:
             reset = os.system('adb -s'+device+' shell pm clear '+package)
