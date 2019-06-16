@@ -12,9 +12,9 @@ Installation
 
 Usage
 -----
- * Download and Install the android emulator base on the guidance [Genymotion](https://www.genymotion.com/) or [Andoroid Emulator] (https://github.com/codepath/android_guides/wiki/Installing-Android-SDK-Tools).
- * Make sure emulator is available by checking with 'adb devices', for more detail info please check the adb command on [ADB Shell] (http://adbshell.com/commands/adb-devices) guidance.
- * Make sure Robot Framework is able to run by execute 'robot --version' and it will get Robot Framework version as a result.
+ * Download and Install the android emulator base on the guidance [Genymotion](https://www.genymotion.com/) or [Andoroid Emulator](https://github.com/codepath/android_guides/wiki/Installing-Android-SDK-Tools).
+ * Make sure emulator is available by checking with `adb devices`, for more detail info please check the adb command on [ADB Shell](http://adbshell.com/commands/adb-devices) guidance.
+ * Make sure Robot Framework is able to run by execute `robot --version` and it will get Robot Framework version as a result.
  * Create a file (sample.robot).
  * Import __Mykonos__ Library on the Robot Framework Test Suite.
  * Write test case base on [Robot Framework](http://robotframework.org/robotframework/latest/RobotFrameworkUserGuide.html#libdoc) guidance.
@@ -70,7 +70,7 @@ Below is the sample test case for testing an Application Messaging (sample.robot
 
 Run The Test
 -----
-Run the test case by execute 'robot sample.robot' on your terminal.
+Run the test case by execute `robot sample.robot` on your terminal.
 
 Contributors
 -------------
