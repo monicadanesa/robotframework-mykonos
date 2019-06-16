@@ -70,16 +70,16 @@ class ManagementDevice(Core):
 
         return package
 
-    def reset_app(self, device):
+    def reset_app(self, device, package):
         """Reset Application on Device.
-
         HOW TO CALL IN ROBOT FRAMEWORK
-
-        |  Reset Application   |  emulator=emulator-554
+        |  Reset Application   |  emulator=emulator-554 | package=sample_apk
         """
-        package = self.__get_current_package()
-        op = os.system(self.adb_s + device + self.adb_pm_clear + package)
-        return op
+        try:
+            reset = os.system('adb -s'+device+' shell pm clear '+package)
+            return reset
+        except ValueError:
+            raise ValueError('reset apps is failed')
 
     def hide_keyword(self):
         """Hide Keyword of Device.
@@ -186,4 +186,3 @@ class ManagementDevice(Core):
         reconect = os.system('adb reconnect')
 
         return result
-""
