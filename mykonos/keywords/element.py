@@ -545,17 +545,17 @@ class ExpectedConditions(Core):
 
         if 'locator' in settings:
             locator = settings['locator']
-            if locator[text].exists:
+            if locator.info['visibleBounds'] is True:
                 return True
             else:
-                raise ValueError('locator not found')
+                raise False
         else:
             if 'device' in settings:
                 device = settings['device']
                 del settings['device']
-                return device(*argument, **settings).exists
+                return device(*argument, **settings).info['visibleBounds']
             else:
-                return self.device_mobile(*argument, **settings).exists
+                return self.device_mobile(*argument, **settings).info['visibleBounds']
 
     def text_should_be_enabled(self, *argument, **settings):
         """element should be enabled
