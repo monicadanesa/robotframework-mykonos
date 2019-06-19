@@ -8,16 +8,16 @@ class Wait(Core):
         self.device_mobile = self.device()
         self.get_conditions = GetConditions()
 
-    def wait_until_element_is_visible(self, *argument, **settings):
-        """Wait Until Element Is Visible.
+    def wait_until_element_is_exists(self, *argument, **settings):
+        """Wait Until Element Is Exists.
            How to call in ROBOT FRAMEWORK
-           | Wait Until Element Is Visible | className= sample class
+           | Wait Until Element Is Exists | className= sample class
         """
         element = self.get_conditions.get_element(*argument, **settings)
 
         if 'locator' in settings:
             locator = settings['locator']
-            if locator[element].wait.exists(timeout=1500):
+            if locator[element].wait.exists(timeout=1000):
                 return True
             else:
                 raise ValueError('Locator Not Found')
@@ -25,11 +25,11 @@ class Wait(Core):
             if 'device' in settings:
                 device = settings['device']
                 del settings['device']
-                return device(*argument, **settings).wait.exists(timeout=1500)
+                return device(*argument, **settings).wait.exists(timeout=1000)
             else:
-                return self.device_mobile(*argument, **settings).wait.exists(timeout=1500)
+                return self.device_mobile(*argument, **settings).wait.exists(timeout=1000)
 
-    def wait_until_page_contains(self, time=1500, *argument, **settings):
+    def wait_until_page_contains(self, time=1000, *argument, **settings):
         """Wait Until Page Contains
         HOW TO CALL IN ROBOT FRAMEWORK
         |Wait Untile Page Contains | className=sample class or text = sample text
