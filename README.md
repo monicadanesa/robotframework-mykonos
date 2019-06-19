@@ -3,7 +3,7 @@ Mykonos
 
 Introduction
 ------------
-Mykonos is complete test automation tools for Android Device using Robot Framework and UI Automator (Python), it easy to learn because Mykonos use BDD syntax to write the test cases.
+Mykonos is a complete test automation tools for Android Device using Robot Framework and UI Automator (Python), it easy to learn because Mykonos use BDD syntax to write the test cases.
 
 Installation
 ------------
@@ -66,11 +66,18 @@ Below is the sample test case for testing an Application Messaging (sample.robot
         Click Button Send
         Page Should Contain Text                                  text=${message}
         Quit App                                                  ${emulator}       ${apk}
-        Force Close
+        Close App
 
 Run The Test
 -----
 Run the test case by execute `robot sample.robot` on your terminal.
+
+Contribution
+-------------
+* Forks repo and clone to your local computer.
+* Checkout the source code from development branch.
+* Modified, create unit test and make sure the code is running well on local.
+* Commit and pull request the changes to development branch.
 
 Contributors
 -------------
@@ -79,5 +86,4 @@ Contributors
 
 Credit
 -------------
-
-Thanks to [uiautomator](https://github.com/xiaocong/uiautomator)'s author to inspire us to make this library.
+Thanks to [uiautomator](https://github.com/xiaocong/uiautomator)'s and [thewife] author to inspire us to make this library.

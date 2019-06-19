@@ -16,6 +16,7 @@ pytest-mock = "*"
 mock = "*"
 alog = "*"
 sphinx = "*"
+rinohtype = "*"
 
 [requires]
 python_version = "3.7"

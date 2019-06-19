@@ -4,6 +4,7 @@ from mykonos.core.core import Core
 
 
 class ManagementDevice(Core):
+
     adb_s = 'adb -s '
     adb_start = ' shell am start -W '
     adb_stop = ' adb shell am force-stop '
@@ -20,21 +21,23 @@ class ManagementDevice(Core):
         self.index = 0
 
     def scan_current_device(self,  *args, **settings):
-        """Scan current device on the workstation, and consume.
-        to open application
-        HOW TO CALL IN ROBOT FRAMEWORK
+        """Scan current device on the workstation, and consume to open application.
 
-        |  Scan Current Device                         |  emulator=emulator-554
+        **Example:**
 
+        ||  Scan Current Device                        |  emulator=emulator-554
         """
         os.system('adb devices')
         return self.device(*args, **settings)
 
     def open_app(self, device, package):
-        """Open Application on Device.
-        HOW TO CALL IN ROBOT FRAMEWORK
+        """Open Application on device.
 
-        | Open Application      |  device=emulator-554   | package=sample_apk
+        This keyword is used to open new applications.
+
+        **Example:**
+
+        ||  Open Application      |  device=emulator-554   | package=sample_apk
         """
         try:
             os.system(self.adb_s + device + self.adb_start + package + '')
@@ -46,13 +49,25 @@ class ManagementDevice(Core):
         return package.split('/')[0]
 
     def quit_app(self, device, package):
-        """Quit running application."""
+        """Quit application on device.
+
+        This keyword is used to close application without kill a session.
+
+        **Example:**
+
+        ||  Quit App      |  device=emulator-554   | package=sample_apk
+        """
         package = self._substring_package(package)
         cl = os.system(self.adb_kill + package)
         return cl
 
     def close_all_app(self, device):
-        """Close all task on the device, and kill all application."""
+        """Close all tasks on device, and kill all application sessions.
+
+        **Example:**
+
+        || Close All App      |  device=emulator-554   |
+        """
         try:
             os.system('adb -s '+device+' shell am kill-all')
             return self.device(device)
@@ -72,8 +87,12 @@ class ManagementDevice(Core):
 
     def reset_app(self, device, package):
         """Reset Application on Device.
-        HOW TO CALL IN ROBOT FRAMEWORK
-        |  Reset Application   |  emulator=emulator-554 | package=sample_apk
+
+        This keyword is used to reset the current application while sesion is keep alive.
+
+        **Example:**
+
+        || Reset Application   |  emulator=emulator-554 | package=sample_apk
         """
         try:
             reset = os.system('adb -s'+device+' shell pm clear '+package)
@@ -81,28 +100,29 @@ class ManagementDevice(Core):
         except ValueError:
             raise ValueError('reset apps is failed')
 
-    def hide_keyword(self):
-        """Hide Keyword of Device.
+    def hide_keyboard(self):
+        """Hide Keyword on Device.
 
-        HOW TO CALL IN ROBOT FRAMEWORK
+        This keyword is used to hide keyboard device.
 
-        |  Hide Keyword
+        **Example:**
 
-        return : True or False
+        || Hide keyboard      |
         """
         rs = os.system(self.adb_key_event+'111')
         return rs
 
     def pull(self, **settings):
-        """Pull file into Device.
+        """Pull file from Device.
 
-        HOW TO CALL IN ROBOT FRAMEWORK
-        with location
-        |  Pull         | local=sample_path  | remote=sample_location
-        without location
-        |  Pull         | local=sample_path  |
+        This Keyword is used to retrieves file from device.
 
-        return : True or False
+        **Example:**
+
+        || Pull         | local=sample_path  | remote=sample_location
+
+
+        || Pull         | local=sample_path  |
         """
         local = settings['local']
 
@@ -120,11 +140,11 @@ class ManagementDevice(Core):
     def push(self, **settings):
         """Push file into Device.
 
-        HOW TO CALL IN ROBOT FRAMEWORK
-        with location
-        |  Push       | local=sample_path  | remote=sample_location
+        This keyword is used to put file in spesific path of device.
 
-        return : True or False
+        **Example:**
+
+        || Push         | local=sample_path  | remote=sample_location
         """
         local = settings['local']
         remote = settings['remote']
@@ -162,9 +182,9 @@ class ManagementDevice(Core):
         This keywords return previous active application
         and it can be used in the next application.
 
-        HOW TO CALL IN ROBOT FRAMEWORK
-        with location
-        |  Switch Application      | device=sample_device  | new_app=sample_app
+        **Example:**
+
+        || Switch Application      | device=sample_device  | new_app=sample_app
 
         """
         old = self.__get_old_package()
@@ -174,11 +194,14 @@ class ManagementDevice(Core):
 
         return result
 
-    def force_close(self):
-        """Force Closed Application.
-        HOW TO CALL IN ROBOT FRAMEWORK
-        with location
-        | Force Close
+    def close_app(self):
+        """Close Application the device.
+
+        This keywords is used to close the current application and kill session on device.
+
+        **Example:**
+
+        || Close App        |
         """
         package = self.__get_current_package()
 

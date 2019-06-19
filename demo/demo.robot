@@ -42,4 +42,4 @@ Test Case Input Phone Number on Application Messaging
     Click Button Send
     Page Should Contain Text                                  text=${message}
     Fling             action=horizontal forward
-    Force Close
+    Close App
