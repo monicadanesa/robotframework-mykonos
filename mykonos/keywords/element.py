@@ -2,24 +2,19 @@ from mykonos.core.core import Core
 
 
 class GlobalElement(Core):
-    """ Element class for all method that related with keywords Mykonos."""
-
     def __init__(self):
         self.device_mobile = self.device()
         self.get = GetConditions()
 
     def open_notification(self, **settings):
-        """Open notification of Android.
+        """Open notification a device.
 
-        HOW TO CALL IN ROBOT FRAMEWORK
-        | Open notification                  |
+        This keywords is used to open notification of device
 
-        With device:
-        | ${device}=  Scan Current Device  |  ${emulator}
-        | Open notification                  |  device=${device}
+        **Example:**
 
-        Return:
-        True or False
+        || Open notification      |
+
         """
 
         if 'device' in settings:
@@ -29,17 +24,14 @@ class GlobalElement(Core):
             return self.device_mobile.open.notification()
 
     def open_quick_settings(self, **settings):
-        """Open Quick setting of Android.
+        """Open Quick Setting a device.
 
-        HOW TO CALL IN ROBOT FRAMEWORK
-        | Open Quick setting                 |
+        This keywords is used to open setting of device
 
-        With device:
-        | ${device}=  Scan Current Device  |  ${emulator}
-        | Open Quick setting                |  device=${device}
+        **Example:**
 
-        Return:
-        True or False
+        || Open Quick setting      |
+
         """
         if 'device' in settings:
             device = settings['device']
@@ -48,18 +40,13 @@ class GlobalElement(Core):
             return self.device_mobile.open.quick_settings()
 
     def clear_text(self, *argument, **settings):
-        """Clear text on text field base on locator.
-        HOW TO CALL IN ROBOT FRAMEWORK
-        |  Clear Text                         |  className=sample class
+        """Clear text on the text field base on locator.
 
-        With locator:
-        | ${get_locator}= Get Locator         | text=sample text
-        | Clear Text                          | locator=${get_locator}
+        This keywords is used to clear text field.
 
-        With device:
-        | ${device}=  Scan Current Device   | ${emulator}
-        | Clear Text                          | device=${device}  text=sample
+        **Example:**
 
+        ||Clear Text        |  className=sample class
         """
         if 'locator' in settings:
             locator = settings['locator']
@@ -73,20 +60,14 @@ class GlobalElement(Core):
                 return self.device_mobile(*argument, **settings).clear_text()
 
     def input_text(self, *argument, **settings):
-        """Input text on text field base on locator.
-        HOW TO CALL IN ROBOT FRAMEWORK
-        |  Input Text                   |  className=sample class    input=text
+        """Input text on the text field base on locator.
 
-        With locator:
-        | ${get_locator}= Get Locator   | text=sample text
-        | Input Text                    | locator=${get_locator}     input=text
+        This keywords is used to input text into text field.
 
-        With device:
-        | ${device}=  Scan Current Device   | ${emulator}
-        | Input Text        | device=${device}  text=attribute input=text
+        **Example:**
 
-        Return:
-        True or False
+        || Input Text        |  className=sample class    input=text
+
         """
         input = settings['input']
         del settings['input']
@@ -106,15 +87,16 @@ class GlobalElement(Core):
     def count_elements(self, *argument, **settings):
         """Count total element from the page.
 
-         HOW TO CALL IN ROBOT FRAMEWORK
+        This keywords is used to count total element on the device page.
 
-         |  Count Elements                   |  className=sample class
-         with locator:
-         | ${get_locator}= Get Locator       | text=sample text
-         | Count Elements                    | locator=${get_locator}
+        **Example:**
 
-         Return:
-         total of elements (int)
+        || Count Elements          |  className=sample class
+
+        **Return:**
+
+        Total of elements (int)
+
         """
         if 'locator' in settings:
             locator = settings['locator']
@@ -128,49 +110,58 @@ class GlobalElement(Core):
             return self.device_mobile(*argument, **settings).count
 
     def turn_on_screen(self, **settings):
-        """Call keyword_turn_on_screen.
+        """Turn on Screen Device.
 
-        HOW TO CALL IN ROBOT FRAMEWORK
+        **Example:**
 
-        |  Turn On Screen
+        ||  Turn On Screen
 
-        return : True or False
+        **Return:**
+
+         True or False
         """
         return self.device(**settings).screen.on()
 
     def turn_off_screen(self, **settings):
-        """Call keyword_turn_off_screen.
+        """Turn off Screen Device.
 
-        HOW TO CALL IN ROBOT FRAMEWORK
+        **Example:**
 
-        |  Turn Off Screen
+        ||  Turn Off Screen
 
-        return : True or False
+        **Return:**
+
+         True or False
         """
         return self.device(**settings).screen.off()
 
     def dump_xml(self, *args):
         """Dump hierarchy of ui and will be saved as hierarchy.xml.
 
-        HOW TO CALL IN ROBOT FRAMEWORK
+        **Example:**
 
-        |  Dump XML
+        ||  Dump Xml
 
-        return : xml file of device
+        **Return:**
+
+        xml file of device
         """
         return self.device().dump(*args)
 
     def capture_screen(self, file=None):
         """Capture screen of device testing.
 
-        HOW TO CALL IN ROBOT FRAMEWORK
+        **Example:**
 
-        |  Capture Screen
+        ||  Capture Screen
 
-        with file name:
-        | Capture Screen        | file=sample
+        With file name:
 
-        return : screen capture of device(*.png)
+        || Capture Screen        | file=sample
+
+        **Return:**
+
+        screen capture of device(*.png)
         """
         if file is not None:
             return self.device().screenshot(file+'.png')
@@ -188,19 +179,11 @@ class Click(Core):
     def click_element(self, *argument, **settings):
         """Click on UI base on locator.
 
-        HOW TO CALL IN ROBOT FRAMEWORK
-        |  Click Element                    | className=sample class
+        This keyword is used to click button or element of device.
 
-        With locator:
-        | ${get_locator}= Get Locator       | text=sample text
-        |  Click Element                    | locator=${get_locator}=
+        **Example:**
 
-        With device:
-        | ${device}=  Scan Current Device  | ${emulator}
-        | Click Element                     | device=${device}    text=sample
-
-        Return:
-        True or False
+        ||  Click Element                    | className=sample class
         """
         if 'locator' in settings:
             locator = settings['locator']
@@ -222,19 +205,12 @@ class Click(Core):
     def long_click_element(self, *argument, **settings):
         """Long click on UI base on locator.
 
-        HOW TO CALL IN ROBOT FRAMEWORK
-        |  Long Click Element                 | className=sample class
+        This keyword is used to long click button or element of device.
 
-        With locator:
-        | ${get_locator}= Get Locator         | text=sample text
-        |  Long Click Element                 | locator=${get_locator}
 
-        With device:
-        | ${device}=  Scan Current Device   | ${emulator}
-        |  Long Click Element                 | device=${device}  text=sample
+        **Example:**
 
-        Return:
-        True or False
+        ||  Long Click Element                 | className=sample class
         """
         if 'locator' in settings:
             locator = settings['locator']
@@ -248,32 +224,29 @@ class Click(Core):
                 return self.device_mobile(*argument, **settings).long_click()
 
     def click_a_point(self, *argument, **settings):
-            """Click into pointer target location.
+        """Click into pointer target location.
 
-             HOW TO CALL IN ROBOT FRAMEWORK
-             |  CLick A Point                     |x=10   |y=20
+         This keyword is used to click location  based on pointer X and Y.
 
-             With device:
-             | ${device}=  Scan Current Device    |${emulator}
-             | Click A Point  |device=${device}   |x=10  |y=20
+         **Example:**
 
-             Return:
-             True or False
-             """
-            if 'x' in settings and 'y' in settings:
-                x = settings['x']
-                y = settings['y']
-                del settings['x']
-                del settings['y']
-            else:
-                raise ValueError('pointer x or y is refused')
+         ||  CLick A Point      |x=10   |y=20
 
-            if 'device' in settings:
-                device = settings['device']
-                del settings['device']
-                return device(*argument, **settings).click(x, y)
-            else:
-                return self.device_mobile().click(x, y)
+        """
+        if 'x' in settings and 'y' in settings:
+            x = settings['x']
+            y = settings['y']
+            del settings['x']
+            del settings['y']
+        else:
+            raise ValueError('pointer x or y is refused')
+
+        if 'device' in settings:
+            device = settings['device']
+            del settings['device']
+            return device(*argument, **settings).click(x, y)
+        else:
+            return self.device_mobile().click(x, y)
 
 
 class GetConditions(Core):
@@ -282,18 +255,12 @@ class GetConditions(Core):
 
     def get_text(self, *argument, **settings):
         """Get text from element base on locator.
-        HOW TO CALL IN ROBOT FRAMEWORK
-        |  Get Text                          |  className=sample class
 
-        With locator:
-        | ${get_locator}= Get Locator        | text=sample text
-        | Get Text                           | locator=${get_locator}
+        **Example:**
 
-        With device:
-        | ${device}=  Scan Current Device  | ${emulator}
-        |  Get Text                | device=${device}  className=sample
+        ||  Get Text         |  className=sample class
 
-        Return:
+        **Return:**
         String
         """
         if 'locator' in settings:
@@ -309,25 +276,22 @@ class GetConditions(Core):
                 return self.device_mobile(*argument, **settings).info['text']
 
     def get_element_attribute(self, *argument, **settings):
-        """Get element attribute keyword on Android Device.
-        List of Elements:
+        """Get element attribute keyword of device.
+
+        **List of Elements:**
+
          childCount, bounds, className, contentDescription,
          packageName, resourceName, text, visibleBounds,
          checkable, checked, clickable, enabled, focusable, disable,
          focused, longClickable, scrollable, selected
-         HOW TO CALL IN ROBOT FRAMEWORK
-         |Get Element Attribute         |  className=sample  element=text
 
-         With locator:
-         | ${get_locator}= Get Locator  | text=sample text
-         | Get Element Attribute        | locator=${get_locator}   element=text
+         **Example:**
 
-         With device:
-         | ${device}=  Scan Current Device    | ${emulator}
-         | Get Element Attribute  | device=${device} text=sample  element=index
+         || Get Element Attribute         |  className=sample  element=text
 
-         Return:
-         attribute from element device
+         **Return:**
+
+         Attribute from element device
         """
         element = settings['element']
         del settings['element']
@@ -344,18 +308,16 @@ class GetConditions(Core):
             else:
                 return self.device_mobile(*argument, **settings).info['element']
 
-    def get_element(self, *argument, **settings):
-        """Call keyword_device_info.
+    def get_element_info(self, *argument, **settings):
+        """Get element info of device .
+        This keyword is used to get element info of device.
 
-        HOW TO CALL IN ROBOT FRAMEWORK:
-        without device :
-        | Get Element    |
+         **Example:**
 
-        with device :
-        | ${device}=  Scan Current Device         | ${emulator}
-        | Get Element                               | device=${device}
+        || Get Element    |
 
-        Return:
+        **Return:**
+
         {'currentPackageName': 'com.google.android.apps.nexuslauncher',
          'displayHeight': 1794,
          'displayRotation': 0,
@@ -376,13 +338,16 @@ class GetConditions(Core):
             return self.device_mobile(*argument, **settings).info
 
     def get_element_by_coordinate_x(self, *argument, **settings):
-        """Get element by coordinate x.
+        """Get element by coordinate X.
+        This keyword is used to get coordinate X of device.
 
-        HOW TO CALL IN ROBOT FRAMEWORK:
-        | Get Element By Coordinate X  |  className=sample class
+         **Example:**
 
-        return :
-        coordinate x(int)
+        || Get Element By Coordinate X  |  className=sample class
+
+        **Return:**
+
+        Coordinate x(int)
         """
         bound = self.get_conditions.get_element_attribute(element='bounds', *argument, **settings)
 
@@ -393,13 +358,17 @@ class GetConditions(Core):
         return elm_x
 
     def get_element_by_coordinate_y(self, *argument, **settings):
-        """Get element by coordinate y.
+        """Get element by coordinate Y.
 
-        HOW TO CALL IN ROBOT FRAMEWORK:
-        | Get Element By Coordinate Y  |  className=sample class
+        This keyword is used to get coordinate Y of device.
 
-        Return :
-        coordinate y(int)
+         **Example:**
+
+        || Get Element By Coordinate Y  |  className=sample class
+
+        **Return:**
+
+        Coordinate y(int)
         """
         bound = self.get_element_attribute(element='bounds', *argument, **settings)
         display_height = self.get_height()
@@ -412,11 +381,15 @@ class GetConditions(Core):
     def get_width(self):
         """Get width from display of device.
 
-        HOW TO CALL IN ROBOT FRAMEWORK
+        This keyword is used to get widh of device,
 
-        |  Get Width
+        **Example:**
 
-        Return : width of device(int)
+        || Get Width
+
+        **Return:**
+
+        Width of device(int)
         """
         get_device = self.device()
         return get_device.info['displayWidth']
@@ -424,11 +397,15 @@ class GetConditions(Core):
     def get_height(self):
         """Get height from display of device.
 
-        HOW TO CALL IN ROBOT FRAMEWORK
+        This keyword is used to get widh of device.
 
-        |  Get Height
+        **Example:**
 
-        Return : width of device(int)
+        || Get Height
+
+        **Return:**
+
+        Width of device(int)
         """
         get_device = self.device()
         return get_device.info['displayHeight']
@@ -441,9 +418,15 @@ class ExpectedConditions(Core):
 
     def page_should_contain_element(self, *argument, **settings):
         """Page should contain element.
+        The keyword is used to verify the page is contains locator element.
 
-        HOW TO CALL IN ROBOT FRAMEWORK:
-        | Page Should Contain Element | className=sample class
+        **Example:**
+
+        || Page Should Contain Element | className=sample class
+
+        **Return:**
+
+        True or False
         """
         element = self.get_conditions.get_element(*argument, **settings)
 
@@ -463,9 +446,15 @@ class ExpectedConditions(Core):
 
     def page_should_contain_text(self, *argument, **settings):
         """Page should contain text.
+        The keyword is used to verify the page is contains text.
 
-        HOW TO CALL IN ROBOT FRAMEWORK
-        | Page Should Contain Text | text=sample text
+        **Example:**
+
+        || Page Should Contain Text | text=sample text
+
+        **Return:**
+
+        True or False
         """
         text = settings['text']
 
@@ -492,8 +481,16 @@ class ExpectedConditions(Core):
 
     def page_should_not_contain_element(self, *argument, **settings):
         """Page should not contain element.
-        HOW TO CALL IN ROBOT FRAMEWORK
-        | Page Should Not Contain Element | text=sample element
+
+        The keyword is used to verify the page is not contains element.
+
+        **Example:**
+
+        || Page Should Not Contain Element | className=sample element
+
+        **Return:**
+
+        True or False
         """
         element = self.get_conditions.get_element(*argument, **settings)
 
@@ -515,9 +512,18 @@ class ExpectedConditions(Core):
                     raise True
 
     def page_should_not_contain_text(self, *argument, **settings):
-        """Page should contain text
-        HOW TO CALL IN ROBOT FRAMEWORK
-        | Page Should Contain Text | text=sample text
+        """Page should not contain text.
+
+        The keyword is used to verify the page is not contains text.
+
+        **Example:**
+
+        || Page Should Contain Text | text=sample text
+
+        **Return:**
+
+        True or False
+
         """
         text = self.get_conditions.get_text(*argument, **settings)
 
@@ -537,9 +543,17 @@ class ExpectedConditions(Core):
                 return self.device_mobile(*argument, **settings).exists
 
     def text_should_be_visible(self, *argument, **settings):
-        """text should be visible
-        HOW TO CALL IN ROBOT FRAMEWORK
-        | Text Should Be Visible | text=sample text
+        """Text should be visible.
+
+        The keyword is used to identify text visible.
+
+        **Example:**
+
+        || Text Should Be Visible | text=sample text
+
+        **Return:**
+
+        True or False
         """
         text = self.get_conditions.get_text(*argument, **settings)
 
@@ -558,9 +572,17 @@ class ExpectedConditions(Core):
                 return self.device_mobile(*argument, **settings).info['visibleBounds']
 
     def text_should_be_enabled(self, *argument, **settings):
-        """element should be enabled
-        HOW TO CALL IN ROBOT FRAMEWORK
-        | Element Should Be Enabled | text=sample text or className=sample className
+        """Text should be enabled.
+
+        The keyword is used to identify text enable.
+
+        **Example:**
+
+        || Element Should Be Enabled | text=sample text
+
+        **Return:**
+
+        True or False
         """
         element = self.get_conditions.get_element()
         enabled = element['enabled']
@@ -579,9 +601,17 @@ class ExpectedConditions(Core):
                 return self.device_mobile(*argument, **settings).enabled
 
     def text_should_be_disabled(self, *argument, **settings):
-        """element should be disabled
-        HOW TO CALL IN ROBOT FRAMEWORK
-        | Element Should Be Disabled | text=sample text or className=sample className
+        """Text should be disabled.
+
+        The keyword is used to identify text disabled.
+
+        **Example:**
+
+        || Element Should Be Disabled | text=sample text
+
+        **Return:**
+
+        True or False
         """
         element = self.get_conditions.get_element()
         enabled = element['enabled']
@@ -600,9 +630,17 @@ class ExpectedConditions(Core):
                 return self.device_mobile(*argument, **settings).enabled
 
     def element_should_contain_text(self, *argument, **settings):
-        """element should contain text
-        HOW TO CALL IN ROBOT FRAMEWORK
-        | Element Should Contain Text | className=sample className and text=sample text
+        """Element should contain text.
+
+        The keyword is used to identify text on element.
+
+        **Example:**
+
+        || Element Should Contain Text | className=class | text=sample text
+
+        **Return:**
+
+        True or False
         """
         if 'locator' in settings:
             locator = settings['locator']
@@ -619,9 +657,17 @@ class ExpectedConditions(Core):
                 return self.device_mobile(*argument, **settings).info['text']
 
     def element_should_not_contain_text(self, *argument, **settings):
-        """element should not contain text
-        HOW TO CALL IN ROBOT FRAMEWORK
-        | Element Should Contain Text | className=sample className and text=sample text
+        """Element should contain text.
+
+        The keyword is used to identify text on element.
+
+        **Example:**
+
+        || Element Should Not Contain Text | className=class | text=sample text
+
+        **Return:**
+
+        True or False
         """
         if 'locator' in settings:
             locator = settings['locator']
@@ -638,9 +684,17 @@ class ExpectedConditions(Core):
                 return self.device_mobile(*argument, **settings).info['text']
 
     def check_element_visible(self, *argument, **settings):
-        """check element visible
-        HOW TO CALL IN ROBOT FRAMEWORK
-        | Check Element Visible | className=sample className and text=sample text
+        """Check element visible.
+
+        The keyword is used to check element visible.
+
+        **Example:**
+
+        || Check Element Visible | className=sampleclassName
+
+        **Return:**
+
+        True or False
         """
         if 'locator' in settings:
             locator = settings['locator']
@@ -657,9 +711,17 @@ class ExpectedConditions(Core):
                 return self.device_mobile(*argument, **settings).info['visibleBounds']
 
     def check_element_non_visible(self, *argument, **settings):
-        """check element non visible
-        HOW TO CALL IN ROBOT FRAMEWORK
-        | Check Element Non Visible | className=sample className and text=sample text
+        """Check element non visible.
+
+        The keyword is used to check element non visible.
+
+        **Example:**
+
+        || Check Element Non Visible | className=sampleclassName
+
+        **Return:**
+
+        True or False
         """
         if 'locator' in settings:
             locator = settings['locator']

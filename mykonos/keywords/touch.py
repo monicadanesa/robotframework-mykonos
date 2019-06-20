@@ -88,19 +88,14 @@ class Touch(Core):
             return self.__get_device_scroll(self, *argument, **settings).fling()
 
     def swipe(self, sx, sy, ex, ey, steps, **settings):
-        """Geasture swipe with interanction on Android Device.
-        swipe from (sx, sy) to (ex, ey)
-        example :
-        tc = Touch(data)
-        tc.swipe(189, 210, 954, 336, step=10)
+        """Geasture swipe with interanction on device.
 
-        HOW TO CALL IN ROBOT FRAMEWORK:
-        without device :
-        | Swipe                             | sx=10  sy=10  ex=20   ey=20   |  steps=100
-        with device :
-        Define device on the first time:
-        | ${device_1}=  Scan Current Device  |    ${emulator}
-        | Swipe                              | sx=10  sy=10  ex=20   ey=20   |  steps=100  | device=${device_1}
+        Swipe from (sx, sy) to (ex, ey).
+
+        **Example:**
+
+        || Swipe        | sx=10  sy=10  ex=20   ey=20   |  steps=100
+
         """
 
         if 'device' in settings:
@@ -112,23 +107,19 @@ class Touch(Core):
             return self.device_mobile.swipe(sx, sy, ex, ey, steps)
 
     def swipe_with_direction(self, *argument, **settings):
-        """ gesture swipe with direction on Android Device
-        swipe with direction : right, left, up and down
+        """Gesture swipe with direction on device.
 
-        without device :
-        | Swipe                             | direction=right   |  steps=100
-        | Swipe                             | direction=left    |  steps=100
-        | Swipe                             | direction=up      |  steps=100
-        | Swipe                             | direction=down    |  steps=100
+        Swipe with direction : right, left, up and down
 
-        with device :
+        **Example:**
 
-        Define device on the first time:
-        | ${device_1}=  Scan Current Device | ${emulator}
-        | Swipe                             | direction=right   |  steps=100    | device=${device_1}
-        | Swipe                             | direction=left    |  steps=100    | device=${device_1}
-        | Swipe                             | direction=up      |  steps=100    | device=${device_1}
-        | Swipe                             | direction=down    |  steps=100    | device=${device_1}
+        ||Swipe                             | direction=right   |  steps=100
+
+        ||Swipe                             | direction=left    |  steps=100
+
+        ||Swipe                             | direction=up      |  steps=100
+
+        ||Swipe                             | direction=down    |  steps=100
         """
         direction = settings['direction']
         del settings['direction']
@@ -149,10 +140,13 @@ class Touch(Core):
             return dvc.swipe.down(steps=1)
 
     def drag_screen(self, sx, sy, ex, ey, steps, *argument, **settings):
-        """ geasture drag interanction of Android Device
-        example :
-        tc = Touch(data)
-        tc.drag_sceen(189, 210, 954, 336, step=10)
+        """Geasture drag interanction on device.
+
+        This keyword is used to drag another point ui object to another point ui object.
+
+        **Example:**
+
+        || Drag Screen    | sx=189 | sy=210 | ex=954 | ey=336   |  steps=100
         """
         device = settings['device']
 
@@ -162,69 +156,51 @@ class Touch(Core):
             return self.device_mobile().drag(sx, sy, ex, ey, steps)
 
     def scroll(self, *argument, **settings):
-        """Scroll interanction on Android device.
+        """Scroll interanction on device.
 
-        HOW TO CALL IN ROBOT FRAMEWORK:
-        how to use scroll horizontal:
-           | Scroll                         | steps=100
-           | Scroll                         | steps=100     action=horizontal forward
-           | Scroll                         | steps=100  max_swipes=1   action=horizontal to begining
-           | Scroll                         | textName='Calculator' clasName='sampleClass'    action=horizontal to
-           | Scroll                         | action=horizontal backward
-           | Scroll                         | action=horizontal to end
+        This keyword is used to perfom scroll on device.
 
-         how to use scroll vertical:
-            | Scroll                       | steps=100
-            | Scroll                       | steps=100      action=vertical forward
-            | Scroll                       | steps=100 max_swipes=1     action=vertical to begining
-            | Scroll                       | textName='Calculator' clasName='sampleClass'       action=vertical to
-            | Scroll                       | action=vertical backward
-            | Scroll                       | action=vertical to end
+        **Example:**
 
-        Define device on the first time:
-            | ${device_1}=  Scan Current Device  |    ${emulator}
+        How to use scroll horizontal:
 
-        how to use scroll horizontal with device:
-            | Scroll         | steps=100                                        | device=${device_1}
-            | Scroll         | steps=100                                        | device=${device_1}      | action=horizontal forward
-            | Scroll         | textName='Calculator' clasName='sampleClass'     | device=${device_1}      | action=horizontal to
-            | Scroll         | device=${device_1}                               |  action=horizontal backward
-            | Scroll         | device=${device_1}                               |  action=horizontal to end
+        || Scroll     | steps=100
 
-        how to use scroll vertical with device:
-            | Scroll                         | steps=100                                        | device=${device_1}
-            | Scroll                         | steps=100                                        | device=${device_1}      |  action=vertical forward
-            | Scroll                         | textName='Calculator' clasName='sampleClass'     | device=${device_1}      | action=vertical to
-            | Scroll                         | device=${device_1}                               |  action=vertical backward
-            | Scroll                         | device=${device_1}                               |  action=vertical to end
+        || Scroll     | steps=100     action=horizontal forward
+
+        || Scroll     | steps=100  max_swipes=1   action=horizontal to begining
+
+        || Scroll     | textName='Calculator' clasName='sampleClass'    action=horizontal to
+        || Scroll     | action=horizontal backward
+
+        || Scroll     | action=horizontal to end
+
+        How to use scroll vertical:
+
+        || Scroll    | steps=100
+
+        || Scroll    | steps=100      action=vertical forward
+
+        || Scroll    | steps=100 max_swipes=1     action=vertical to begining
+
+        || Scroll    | textName='Calculator' clasName='sampleClass'       action=vertical to
+
+        || Scroll    | action=vertical backward
+
+        || Scroll    | action=vertical to end
+
          """
         return self.__check_action_device_scroll(self, *argument, **settings)
 
     def pinch(self, *argument, **settings):
-        """ pinch interaction on Android Device
+        """Pinch interaction on Device
 
-        HOW TO CALL IN ROBOT FRAMEWORK:
-        without element locator:
-           | Pinch                          | steps=100     action=In    percent=100
-           | Pinch                          | steps=100     action=Out   percent=100
+        **Example:**
 
-       with element locator
-          | Pinch                          | steps=100     action=In    percent=100     className=sample class
-          | Pinch                          | steps=100     action=Out   percent=100     className=sample class
+        || Pinch      | steps=100     action=In    percent=100
 
+        || Pinch      | steps=100     action=Out   percent=100
 
-       with device
-          |  ${device_1}=  Scan Current Device  |    ${emulator}
-
-         | Pinch                          | steps=100     action=In    percent=100    device=${device_1}
-         | Pinch                          | steps=100     action=Out   percent=100    device=${device_1}
-
-         | Pinch                          | steps=100     action=In    percent=100     className=sample class   device=${device_1}
-         | Pinch                          | steps=100     action=Out   percent=100     className=sample class   device=${device_1}
-
-
-        return :
-        True and False
         """
 
         if 'percent' in settings:
@@ -251,38 +227,35 @@ class Touch(Core):
             raise Exception('Action is not available on ui automator')
 
     def fling(self, *argument, **settings):
-        """Scroll interanction on Android device.
+        """Fling interanction on Android device.
 
-        HOW TO CALL IN ROBOT FRAMEWORK:
-        how to user without action:
-          | Fling
-        how to use fling horizontal:
-           | Fling            | action=horizontal forward
-           | Fling            | max_swipes=1   action=horizontal to begining
-           | Fling            | action=horizontal backward
-           | Fling            | action=horizontal to end
+        This keyword is used to perform fling to spesific ui object.
 
-        how to use scroll vertical:
-           | Fling            | action=vertical forward
-           | Fling            | max_swipes=1   action=vertical to begining
-           | Fling            | action=vertical backward
-           | Fling            | action=vertical to end
+        **Example:**
 
-        Define device on the first time:
-            | ${device_1}=  Scan Current Device  |    ${emulator}
+        How to user without action:
 
-        how to use fling horizontal with device:
+        || Fling
 
-        how to use scroll horizontal:
-           | Fling    | action=horizontal forward    device=${device_1}
-           | Fling    | max_swipes=1   action=horizontal to begining   device=${device_1}
-           | Fling    | action=horizontal backward    device=${device_1}
-           | Fling    | action=horizontal to end      device=${device_1}
+        How to use fling horizontal:
 
-         how to use scroll vertical:
-           | Fling      | action=vertical forward
-           | Fling      | max_swipes=1   action=vertical to begining
-           | Fling      | action=vertical backward
-           | Fling      | action=vertical to end
+        || Fling            | action=horizontal forward
+
+        || Fling            | max_swipes=1   action=horizontal to begining
+
+        || Fling            | action=horizontal backward
+
+        || Fling            | action=horizontal to end
+
+        How to use scroll vertical:
+
+        || Fling            | action=vertical forward
+
+        || Fling            | max_swipes=1   action=vertical to begining
+
+        || Fling            | action=vertical backward
+
+        || Fling            | action=vertical to end
+
          """
         return self.__check_action_device_fling(self, *argument, **settings)
