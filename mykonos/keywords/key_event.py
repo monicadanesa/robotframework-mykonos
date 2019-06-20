@@ -3,28 +3,25 @@ from mykonos.core.core import Core
 
 
 class KeyEvent(Core):
-    """Devine all global variable."""
-
     def __init__(self):
-        """Call device from Core."""
         self.device_mobile = self.device()
 
     def press_keycode(self, *argument, **settings):
-        """Press key on android device.
+        """Press key on device.
 
-        keysupport :
-        home, back, left, right
-        up, down, center, menu
-        search, enter, delete(or del)
-        recent(recent apps), volume_up, volume_down
-        volume_mute, camera, power
+        This keyword is used to press key on device.
 
-        HOW TO CALL IN ROBOT FRAMEWORK
-        | Press Keycode                  |back
+        **Key Support:**
 
-        With device:
-        | ${device}=  Scan Current Device     |  ${emulator}
-        | Press Keycode                       |device=${device}  |back
+        * home, back, left, right
+        * up, down, center, menu
+        * search, enter, delete(or del)
+        * recent(recent apps), volume_up, volume_down
+        * volume_mute, camera, power
+
+        **Example:**
+
+        || Press Keycode                  |back
         """
         if 'locator' in settings:
             locator = settings['locator']
@@ -46,15 +43,15 @@ class KeyEvent(Core):
                 return self.device_mobile.press(*argument, **settings)
 
     def long_press(self, *args, **setting):
-        """Long press of Android.
+        """Long press on device.
 
-        HOW TO CALL IN ROBOT FRAMEWORK
-        | Long Press                  |back  |timer=100
-        With device:
-        | ${device}=  Scan Current Device  |  ${emulator}
-        | Long Press                       |device=${device}  |back  |timer=100
+        This keyword is used to press key on device with optional duration.
 
-        Return:
+        **Example:**
+
+        || Long Press                  |back  |timer=100
+
+        **Return:**
         True or False
         """
         try:

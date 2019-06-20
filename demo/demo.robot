@@ -1,17 +1,15 @@
 *** Settings ***
 Library    ../mykonos/
-
 *** Variables ***
 ${emulator}               192.168.56.103:5555
 ${apk}                    com.android.messaging/com.android.messaging.ui.conversationlist.ConversationListActivity
-${apk_2}                  com.android.gallery3d/com.android.gallery3d.app.GalleryActivity
 ${sender_number}          0812345678
 ${message}                helllo
 
 *** keywords ***
 Scan Device and Open Application Messaging
     [Arguments]                                               ${input_emulator}     ${input_apk}
-    Reset App                                                 ${input_emulator}
+    Reset App                                                 ${input_emulator}     ${input_apk}
     Open App                                                  ${input_emulator}     ${input_apk}
 
 Click Plus Icon on the Messaging Menu
@@ -25,12 +23,11 @@ Press Enter
     Press Keycode                                             enter
 
 Input Message on the Text Area
-    [Arguments]                                             ${input_message}
-    Input Text                                              resourceId=com.android.messaging:id/compose_message_text      input=${input_message}
+    [Arguments]                                               ${input_message}
+    Input Text                                                resourceId=com.android.messaging:id/compose_message_text      input=${input_message}
 
 Click Button Send
-    Click Element                                          resourceId=com.android.messaging:id/self_send_icon
-
+    Click Element                                             resourceId=com.android.messaging:id/self_send_icon
 
 *** Test Cases ***
 Test Case Input Phone Number on Application Messaging
@@ -41,5 +38,5 @@ Test Case Input Phone Number on Application Messaging
     Input Message on the Text Area                            ${message}
     Click Button Send
     Page Should Contain Text                                  text=${message}
-    Fling             action=horizontal forward
+    Quit App                                                  ${emulator}       ${apk}
     Close App
