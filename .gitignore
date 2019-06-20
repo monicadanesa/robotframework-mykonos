@@ -14,5 +14,7 @@ sample.robot
 mykonos/build
 mykonos.egg-info
 dist
-build
 sample.py
+docs/build/
+_static
+_templates

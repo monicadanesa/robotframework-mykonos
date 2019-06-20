@@ -9,29 +9,23 @@ class LocatorElement(Core):
         self.device_mobile = self.device()
 
     def get_locator(self, *argument, **settings):
-        """ access locator from device
-        selector support :
-        text, textContains, textMatches, textStartsWith
-        className, classNameMatches
-        description,descriptionContains,descriptionMatches,descriptionStartsWith
-        checkable, checked, clickable, longClickable
-        scrollable, enabled,focusable, focused, selected
-        packageName, packageNameMatches
-        resourceId, resourceIdMatches
-        index, instance
-        example :
-        cls = LocatorElement()
-        locator = cls.get_locator(text='')
+        """Access locator from device.
 
-        HOW TO CALL IN ROBOT FRAMEWORK
+        **selector support:**
 
-        without device:
-        | ${locator}= Get Locator           | text=sample text
+        * text, textContains, textMatches, textStartsWith
+        * className, classNameMatches
+        * description,descriptionContains,descriptionMatches,descriptionStartsWith
+        * checkable, checked, clickable, longClickable
+        * scrollable, enabled,focusable, focused, selected
+        * packageName, packageNameMatches
+        * resourceId, resourceIdMatches
+        * index, instance
 
-        with device:
-        Define device on the first time:
-        | ${device_1}=  Scan Current Device  |    ${emulator}
-        | ${locator}= Get Locator            | text=sample text  |  device=${device_1}
+
+        **Example:**
+
+        || ${locator}= Get Locator           | text=sample text
 
         """
         if 'device' in settings:
@@ -42,84 +36,81 @@ class LocatorElement(Core):
             return self.device_mobile(*argument, **settings)
 
     def get_child(self, parent, *argument, **settings):
-        """ access child locator from device
-        example:
-        cls = LocatorElement()
-        parent = cls.get_locator(text='')
-        child = cls.get_child(parent, text='')
+        """Access child locator from device.
 
-        HOW TO CALL IN ROBOT FRAMEWORK
-        | ${locator}=  Get Locator        | text=sample text
-        | ${child}=   Get Child           | parent=${locator}  text=sample text
+        **Example:**
+
+        || ${locator}=  Get Locator        | text=sample text
+
+        || ${child}=   Get Child           | parent=${locator}  text=sample text
         """
         return parent.child(*argument, **settings)
 
     def get_sibling(self, parent, *argument, **settings):
-        """ access sibling locator from device
-        example:
-        cls = LocatorElement()
-        parent = cls.get_locator(text='')
-        sibling = cls.get_sibling(parent, text='')
+        """Access sibling locator from device.
 
-        HOW TO CALL IN ROBOT FRAMEWORK
-        | ${locator}=  Get Locator        | text=sample text
-        | ${child}=   Get Sibiling        | parent=${locator}  text=sample text
+        **Example:**
+
+        || ${locator}=  Get Locator        | text=sample text
+
+        || ${sibling}=   Get Sibiling      | parent=${locator}  text=sample text
         """
         return parent.sibling(*argument, **settings)
 
     def left_position(self, parent, *argument, **settings):
-        """ access left position from device
-        example:
-        cls = LocatorElement()
-        parent = cls.get_locator(text='')
-        left = cls.left_postion(parent, text='')
+        """Access left position from device.
 
-        HOW TO CALL IN ROBOT FRAMEWORK
-        | ${locator}=  Get Locator        | text=sample text
-        | ${left}=     Left Position      | parent=${locator}  text=sample text
+        **Example:**
+
+        || ${locator}=  Get Locator        | text=sample text
+
+        || ${left}=     Left Position      | parent=${locator}  text=sample text
         """
         return parent.left(*argument, **settings)
 
     def right_position(self, parent, *argument, **settings):
-        """ access left position from device
-        example:
-        cls = LocatorElement()
-        parent = cls.get_locator(text='')
-        right = cls.right_postion(parent, text='')
+        """Access left position from device.
 
-        HOW TO CALL IN ROBOT FRAMEWORK
-        | ${locator}=  Get Locator        | text=sample text
-        | ${right}=    Right Position     | parent=${locator}  text=sample text
+        **Example:**
+
+        || ${locator}=  Get Locator        | text=sample text
+
+        || ${right}=    Right Position     | parent=${locator}  text=sample text
         """
         return parent.right(*argument, **settings)
 
     def up_position(self, parent, *argument, **settings):
-        """ access left position from device
-        example:
-        cls = LocatorElement()
-        parent = cls.get_locator(text='')
-        up = cls.up_postion(parent, text='')
+        """Access left position from device.
 
-        HOW TO CALL IN ROBOT FRAMEWORK
-        | ${locator}=  Get Locator        | text=sample text
-        | ${up}=    Up Position           | parent=${locator}  text=sample text
+        **Example:**
+
+        || ${locator}=  Get Locator        | text=sample text
+
+        || ${up}=    Up Position           | parent=${locator}  text=sample text
         """
         return parent.up(*argument, **settings)
 
     def down_position(self, parent, *argument, **settings):
-        """ access left position from device
-        HOW TO CALL IN ROBOT FRAMEWORK
-        | ${locator}=  Get Locator        | text=sample text
-        | ${down}=    Down Position       | parent=${locator}  text=sample text
+        """Access left position from device.
+
+        **Example:**
+
+        || ${locator}=  Get Locator        | text=sample text
+
+        || ${down}=    Down Position       | parent=${locator}  text=sample text
         """
         return parent.down(*argument, **settings)
 
     def get_locator_by_index(self, *argument, **settings):
-        """Get Element locator by index on device
-        HOW TO CALL IN ROBOT FRAMEWORK
-        |  Get Locator By Index           | text=sample_text   | index=1
-        | ${locator}=  Get Locator        | text=sample text
-        | Get Locator By Index            | locator=${locator} | index=1
+        """Get Element locator by index on device.
+
+        **Example:**
+
+        || Get Locator By Index           | text=sample_text   | index=1
+
+        || ${locator}=  Get Locator        | text=sample text
+
+        || Get Locator By Index            | locator=${locator} | index=1
         """
         index = int(settings['index'])
         del settings['index']
@@ -140,8 +131,10 @@ class LocatorElement(Core):
 
     def handlers(self, action, function):
         """Call customized function on device.
-        HOW TO CALL IN ROBOT FRAMEWORK
-        | Handlers                  | action=on   | function=sample_function
+
+        **Example:**
+
+        || Handlers                  | action=on   | function=sample_function
         """
         if 'on' in action:
             return self.device_mobile.handlers.on(function)
@@ -162,13 +155,18 @@ class WatcherElement(Core):
 
     def watcher(self, **settings):
         """Watcher is registered when a selector cannot be find.
-        name=name of watcher
-        WHEN, className=sample_class
-        WHEN, packageName=sample_package
-        HOW TO CALL IN ROBOT FRAMEWORK
 
-        | ${sample_watcher}=   Watcher   name=sample_watcher  | className=sample_class
-        | Click Element        watcher=${sample_watcher}      | text=sample_text
+        name=name of watcher
+
+        WHEN, className=sample_class
+
+        WHEN, packageName=sample_package
+
+        **Example:**
+
+        || ${sample_watcher}=name=sample_watcher  | className=sample_class
+
+        || Click Element   | watcher=${sample_watcher}      | text=sample_text
         """
         name_watcher = settings['name']
         del settings['name']
@@ -177,19 +175,31 @@ class WatcherElement(Core):
 
     def watcher_action(self, action, **settings):
         """Watcher Action is used to running the action on the watcher.
-        run=Force to run all watchers
-        remove=Remvoe watchers
-        reset=Reset all triggered watchers
-        list=List all watchers
-        triggered=Check if there is any watcher triggered
-        HOW TO CALL IN ROBOT FRAMEWORK
 
-        | Watcher Action       action=run
-        | Watcher Action       action=remove
-        | Watcher Action       action=remove    name=sample_watcher
-        | Watcher Action       action=reset
-        | Watcher Action       action=list
-        | Watcher Action       action=triggered
+        run=Force to run all watchers
+
+        remove=Remvoe watchers
+
+        reset=Reset all triggered watchers
+
+        list=List all watchers
+
+        triggered=Check if there is any watcher triggered
+
+
+        **Example:**
+
+        || Watcher Action  | action=run
+
+        || Watcher Action  | action=remove
+
+        || Watcher Action  | action=remove | name=sample_watcher
+
+        || Watcher Action  | action=reset
+
+        || Watcher Action  | action=list
+
+        || Watcher Action  | action=triggered
         """
         if 'run' in action:
             return self.device_mobile.watchers.run()
