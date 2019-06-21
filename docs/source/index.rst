@@ -14,7 +14,7 @@ Installation
 
 Usage
 #####
- * Download and Install android emulator, base on the guidance `Genymotion <https://www.genymotion.com/>`_ or `Andoroid Emulator <https://github.com/codepath/android_guides/wiki/Installing-Android-SDK-Tools>`_.
+ * Download and Install android emulator, base on the guidance `Genymotion <https://www.genymotion.com/>`_ or `Android Emulator <https://github.com/codepath/android_guides/wiki/Installing-Android-SDK-Tools>`_.
  * Make sure emulator is available by checking with `adb devices`, for more detail info please check the adb command on `ADB Shell <http://adbshell.com/commands/adb-devices>`_ guidance.
  * Make sure Robot Framework is able to run by execute `robot --version` and it will get Robot Framework version as a result.
  * Create a file (**sample.robot**).
