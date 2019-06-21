@@ -304,11 +304,11 @@ class GetConditions(Core):
                 device = settings['device']
                 del settings['device']
 
-                return device(*argument, **settings).info['element']
+                return device(*argument, **settings).info[element]
             else:
-                return self.device_mobile(*argument, **settings).info['element']
+                return self.device_mobile(*argument, **settings).info[element]
 
-    def get_element_info(self, *argument, **settings):
+    def get_element(self, *argument, **settings):
         """Get element info of device .
         This keyword is used to get element info of device.
 
@@ -542,35 +542,6 @@ class ExpectedConditions(Core):
             else:
                 return self.device_mobile(*argument, **settings).exists
 
-    def text_should_be_visible(self, *argument, **settings):
-        """Text should be visible.
-
-        The keyword is used to identify text visible.
-
-        **Example:**
-
-        || Text Should Be Visible | text=sample text
-
-        **Return:**
-
-        True or False
-        """
-        text = self.get_conditions.get_text(*argument, **settings)
-
-        if 'locator' in settings:
-            locator = settings['locator']
-            if locator.info['visibleBounds'] is True:
-                return True
-            else:
-                raise False
-        else:
-            if 'device' in settings:
-                device = settings['device']
-                del settings['device']
-                return device(*argument, **settings).info['visibleBounds']
-            else:
-                return self.device_mobile(*argument, **settings).info['visibleBounds']
-
     def text_should_be_enabled(self, *argument, **settings):
         """Text should be enabled.
 
@@ -578,7 +549,7 @@ class ExpectedConditions(Core):
 
         **Example:**
 
-        || Element Should Be Enabled | text=sample text
+        || Text Should Be Enabled | text=sample text
 
         **Return:**
 
@@ -594,11 +565,10 @@ class ExpectedConditions(Core):
                 return False
         else:
             if 'device' in settings:
-                device = settings['device']
+                device_mobile = settings['device']
                 del settings['device']
-                return device(*argument, **settings).enabled
-            else:
-                return self.device_mobile(*argument, **settings).enabled
+
+            return self.device_mobile(*argument, **settings).enabled
 
     def text_should_be_disabled(self, *argument, **settings):
         """Text should be disabled.
@@ -623,11 +593,10 @@ class ExpectedConditions(Core):
                 return False
         else:
             if 'device' in settings:
-                device = settings['device']
+                device_mobile = settings['device']
                 del settings['device']
-                return device(*argument, **settings).enabled
-            else:
-                return self.device_mobile(*argument, **settings).enabled
+
+            return self.device_mobile(*argument, **settings).enabled
 
     def element_should_contain_text(self, *argument, **settings):
         """Element should contain text.
@@ -644,17 +613,22 @@ class ExpectedConditions(Core):
         """
         if 'locator' in settings:
             locator = settings['locator']
-            if locator.info['text'] is True:
-                return True
-            else:
+
+            try:
+                if locator.info['text'] is not None:
+                    return True
+            except Exception:
                 return False
         else:
             if 'device' in settings:
-                device = settings['device']
+                device_mobile = settings['device']
                 del settings['device']
-                return self.device(*argument, **settings).info['text']
-            else:
-                return self.device_mobile(*argument, **settings).info['text']
+
+            try:
+                if self.device_mobile(*argument, **settings).info['text'] is not None:
+                    return True
+            except Exception:
+                return False
 
     def element_should_not_contain_text(self, *argument, **settings):
         """Element should contain text.
@@ -671,17 +645,25 @@ class ExpectedConditions(Core):
         """
         if 'locator' in settings:
             locator = settings['locator']
-            if locator.info['text'] is False:
-                return True
-            else:
+
+            try:
+                if locator.info['text'] is None:
+                    return True
                 return False
+            except Exception as error:
+                return True
+
         else:
             if 'device' in settings:
-                device = settings['device']
+                device_mobile = settings['device']
                 del settings['device']
-                return self.device(*argument, **settings).info['text']
-            else:
-                return self.device_mobile(*argument, **settings).info['text']
+
+            try:
+                if self.device_mobile(*argument, **settings).info['text'] is None:
+                    return True
+                return False
+            except Exception as error:
+                return True
 
     def check_element_visible(self, *argument, **settings):
         """Check element visible.
@@ -698,17 +680,26 @@ class ExpectedConditions(Core):
         """
         if 'locator' in settings:
             locator = settings['locator']
-            if locator.info['visibleBounds'] is True:
+
+            try:
+                if locator.info['visibleBounds'] is None:
+                    return False
                 return True
-            else:
-                return False
+            except Exception as error:
+                return ("Exception Error: {0}".format(error))
+
         else:
             if 'device' in settings:
-                device = settings['device']
+                device_mobile = settings['device']
                 del settings['device']
-                return self.device(*argument, **settings).info['visibleBounds']
-            else:
-                return self.device_mobile(*argument, **settings).info['visibleBounds']
+
+            try:
+                if self.device_mobile(*argument, **settings).info['visibleBounds'] is None:
+                    return False
+                return True
+            except Exception as error:
+                return ("Exception Error: {0}".format(error))
+
 
     def check_element_non_visible(self, *argument, **settings):
         """Check element non visible.
@@ -725,14 +716,22 @@ class ExpectedConditions(Core):
         """
         if 'locator' in settings:
             locator = settings['locator']
-            if locator.info['visibleBounds'] is False:
-                return True
-            else:
+
+            try:
+                if locator.info['visibleBounds'] is None:
+                    return True
                 return False
+            except Exception as error:
+                return ("Exception Error: {0}".format(error))
+
         else:
             if 'device' in settings:
-                device = settings['device']
+                device_mobile = settings['device']
                 del settings['device']
-                return self.device(*argument, **settings).info['visibleBounds']
-            else:
-                return self.device_mobile(*argument, **settings).info['visibleBounds']
+
+            try:
+                if self.device_mobile(*argument, **settings).info['visibleBounds'] is None:
+                    return True
+                return False
+            except Exception as error:
+                return ("Exception Error: {0}".format(error))
