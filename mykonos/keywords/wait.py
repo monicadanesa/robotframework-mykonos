@@ -15,14 +15,14 @@ class Wait(Core):
 
     || Wait Until Element Is Exists | className= sample class
         """
-        element = self.get_conditions.get_element(*argument, **settings)
 
         if 'locator' in settings:
             locator = settings['locator']
-            if locator[element].wait.exists(timeout=1000):
+
+            if locator.wait.exists(timeout=1000):
                 return True
             else:
-                raise ValueError('Locator Not Found')
+                return False
         else:
             if 'device' in settings:
                 device = settings['device']

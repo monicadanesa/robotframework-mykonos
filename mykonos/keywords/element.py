@@ -304,11 +304,11 @@ class GetConditions(Core):
                 device = settings['device']
                 del settings['device']
 
-                return device(*argument, **settings).info['element']
+                return device(*argument, **settings).info[element]
             else:
-                return self.device_mobile(*argument, **settings).info['element']
+                return self.device_mobile(*argument, **settings).info[element]
 
-    def get_element_info(self, *argument, **settings):
+    def get_element(self, *argument, **settings):
         """Get element info of device .
         This keyword is used to get element info of device.
 
