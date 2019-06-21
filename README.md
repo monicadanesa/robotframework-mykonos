@@ -69,8 +69,13 @@ Below is the sample test case for testing an Application Messaging (sample.robot
         Close App
 
 Run The Test
------
+------------
 Run the test case by execute `robot sample.robot` on your terminal.
+
+Documentation Detail
+--------------------
+[Mykonos Documentation] (https://mykonos.readthedocs.io/en/latest/)
+
 
 Contribution
 -------------
