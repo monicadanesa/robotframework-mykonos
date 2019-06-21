@@ -6,3 +6,12 @@ sphinx-autodoc-typehints
 
 mock
 autodoc
+alog
+ipykernel
+uiautomator
+pyyaml
+pytest
+pytest-html
+robotframework
+pytest-mock
+rinohtype
