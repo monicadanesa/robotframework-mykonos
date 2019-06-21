@@ -38,8 +38,7 @@ class Wait(Core):
 
         || Wait Until Page Contains | className=sample class
         """
-        element = self.get_conditions.get_element(*argument, **settings) or self.get_element(*argument, **settings)
-        if 'locator' in settings:
+        element = self.get_conditions.get_element(*argument, **settings)
             locator = settings['locator']
             if locator[element].wait.exists(timeout=time):
                 return True
