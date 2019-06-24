@@ -90,4 +90,4 @@ Contributors
 
 Credit
 -------------
-Thanks to [uiautomator](https://github.com/xiaocong/uiautomator)'s and [thewife] (https://github.com/pythonjokeun/thewife) author to inspire us to make this library.
+Thanks to [uiautomator](https://github.com/xiaocong/uiautomator)'s and [thewife](https://github.com/pythonjokeun/thewife) author to inspire us to make this library.
