@@ -10,7 +10,7 @@ class ManagementDevice(Core):
     adb_stop = ' adb shell am force-stop '
     adb_grep_pid = 'adb shell pgrep '
     adb_kill = 'adb shell pkill '
-    adb_pm_clear = ' shell pm clear '
+    adb_pm_clear = 'shell pm clear'
     adb_key_event = 'adb shell input keyevent '
     adb_pull = 'adb pull '
     adb_push = 'adb push '

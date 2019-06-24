@@ -39,18 +39,21 @@ class Wait(Core):
         || Wait Until Page Contains | className=sample class
         """
         element = self.get_conditions.get_element(*argument, **settings)
+
+        locator = settings['locator']
+        if 'locator' in settings:
             locator = settings['locator']
+            del settings['locator']
             if locator[element].wait.exists(timeout=time):
                 return True
             else:
                 return False
+        if 'device' in settings:
+            device = settings['device']
+            del settings['device']
+            return device(*argument, **settings).wait.exists(timeout=time)
         else:
-            if 'device' in settings:
-                device = settings['device']
-                del settings['device']
-                return device(*argument, **settings).wait.exists(timeout=time)
-            else:
-                return self.device_mobile(*argument, **settings).wait.exists(timeout=time)
+            return self.device_mobile(*argument, **settings).wait.exists(timeout=time)
 
     def wait_until_page_does_not_contains(self, time=1000, *argument, **settings):
         """This keyword is used to wait until page is not contain spesific element.
