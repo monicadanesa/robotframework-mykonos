@@ -74,7 +74,7 @@ Run the test case by execute `robot sample.robot` on your terminal.
 
 Documentation Detail
 --------------------
-[Mykonos Documentation](https://mykonos.readthedocs.io/en/latest/)
+[Mykonos Documentation](https://mykonos.readthedocs.io/)
 
 Contribution
 -------------
