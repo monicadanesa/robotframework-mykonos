@@ -15,6 +15,7 @@ class ManagementDevice(Core):
     adb_pull = 'adb pull '
     adb_push = 'adb push '
     adb_activity = 'adb shell dumpsys activity | grep '
+    adb_check_version = 'adb shell getprop ro.build.version.release'
 
     def __init__(self):
         """Devine all global variable."""
@@ -209,3 +210,8 @@ class ManagementDevice(Core):
         reconect = os.system('adb reconnect')
 
         return result
+
+    def get_android_version(self):
+        out = self.__shell_pipe(cmd=self.adb_check_version)
+        last = str(out).find('\\n')
+        return str(out)[2:last]

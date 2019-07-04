@@ -1,7 +1,7 @@
 *** Settings ***
 Library    ../mykonos/
 *** Variables ***
-${emulator}               192.168.56.103:5555
+${emulator}               192.168.56.106:5555
 ${apk}                    com.android.messaging/com.android.messaging.ui.conversationlist.ConversationListActivity
 ${sender_number}          0812345678
 ${message}                helllo
