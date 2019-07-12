@@ -21,15 +21,36 @@ class ManagementDevice(Core):
         """Devine all global variable."""
         self.index = 0
 
+    def get_devices(self):
+        list = []
+        cmd = 'adb devices'
+        p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        out, err = p.communicate()
+        byte_decode = out.decode()
+
+        # Get Index
+        start = [i+1 for i in range(len(byte_decode)) if byte_decode.find('\n', i) == i]
+        end = [i for i in range(len(byte_decode)) if byte_decode.find('\t', i) == i]
+
+        if len(start) < len(end):
+            total = len(start)
+        else:
+            total = len(end)
+
+        for i in range(0, total):
+            list.append(byte_decode[start[i]:end[i]])
+
+        return list
+
     def scan_current_device(self,  *args, **settings):
         """Scan current device on the workstation, and consume to open application.
 
         **Example:**
 
-        ||  Scan Current Device                        |  emulator=emulator-554
+        ||  Scan Current Device                        |  emulator-554
         """
-        os.system('adb devices')
-        return self.device(*args, **settings)
+
+        return self.device(*args)
 
     def open_app(self, device, package):
         """Open Application on device.
@@ -212,6 +233,12 @@ class ManagementDevice(Core):
         return result
 
     def get_android_version(self):
-        out = self.__shell_pipe(cmd=self.adb_check_version)
-        last = str(out).find('\\n')
-        return str(out)[2:last]
+        device = self.get_devices()
+
+        if len(device) == 1:
+            out = self.__shell_pipe(cmd=self.adb_check_version)
+            yield(out.decode().replace('\n', ''))
+        else:
+            for i in device:
+                out = self.__shell_pipe(cmd='adb -s %s shell getprop ro.build.version.release'%i)
+                yield(out.decode().replace('\n', ''))

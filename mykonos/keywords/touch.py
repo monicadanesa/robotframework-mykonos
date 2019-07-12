@@ -1,5 +1,5 @@
 from mykonos.core.core import Core
-
+from mykonos.keywords.decorators import Decorators
 
 class Touch(Core):
     def __init__(self):
@@ -155,6 +155,7 @@ class Touch(Core):
         else:
             return self.device_mobile().drag(sx, sy, ex, ey, steps)
 
+    @Decorators.android_version
     def scroll(self, *argument, **settings):
         """Scroll interanction on device.
 
@@ -192,6 +193,7 @@ class Touch(Core):
          """
         return self.__check_action_device_scroll(self, *argument, **settings)
 
+    @Decorators.android_version
     def pinch(self, *argument, **settings):
         """Pinch interaction on Device
 
@@ -226,6 +228,7 @@ class Touch(Core):
         else:
             raise Exception('Action is not available on ui automator')
 
+    @Decorators.android_version
     def fling(self, *argument, **settings):
         """Fling interanction on Android device.
 
