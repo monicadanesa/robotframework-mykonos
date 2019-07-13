@@ -232,13 +232,18 @@ class ManagementDevice(Core):
 
         return result
 
-    def get_android_version(self):
-        device = self.get_devices()
+    def get_android_version(self, **settings):
+        get_device = self.get_devices()
 
-        if len(device) == 1:
-            out = self.__shell_pipe(cmd=self.adb_check_version)
+        if 'device' in settings:
+            device = settings['device']
+            out = self.__shell_pipe(cmd='adb -s %s shell getprop ro.build.version.release'%device)
             yield(out.decode().replace('\n', ''))
         else:
-            for i in device:
-                out = self.__shell_pipe(cmd='adb -s %s shell getprop ro.build.version.release'%i)
+            if len(get_device) == 1:
+                out = self.__shell_pipe(cmd=self.adb_check_version)
                 yield(out.decode().replace('\n', ''))
+            else:
+                for i in get_device:
+                    out = self.__shell_pipe(cmd='adb -s %s shell getprop ro.build.version.release'%i)
+                    yield(out.decode().replace('\n', ''))

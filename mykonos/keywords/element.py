@@ -1,4 +1,5 @@
 from mykonos.core.core import Core
+from mykonos.keywords.management_device import ManagementDevice
 from mykonos.keywords.decorators import Decorators
 
 class GlobalElement(Core):
@@ -178,6 +179,7 @@ class Click(Core):
 
     def __init__(self):
         self.device_mobile = self.device()
+        self.management_device = ManagementDevice()
 
     @Decorators.android_version
     def click_element(self, *argument, **settings):
@@ -199,7 +201,10 @@ class Click(Core):
                 device = settings['device']
                 del settings['device']
 
-                return device(*argument, **settings).click()
+                get_device = self.management_device.scan_current_device(device)
+
+                return get_device(*argument, **settings).click()
+
             elif 'watcher' in settings:
                 watcher = settings['watcher']
                 del settings['watcher']
