@@ -1,4 +1,4 @@
-Mykonos
+RobotFramework - Mykonos
 ==================================================
 
 Introduction
