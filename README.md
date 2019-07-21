@@ -1,3 +1,5 @@
+![MyKonos](https://user-images.githubusercontent.com/23183123/61592548-c8c66980-abfe-11e9-9763-e180fb12ab40.png)
+
 RobotFramework - Mykonos
 ==================================================
 
