@@ -1,5 +1,6 @@
 from mykonos.core.core import Core
-
+from mykonos.keywords.management_device import ManagementDevice
+from mykonos.keywords.decorators import Decorators
 
 class GlobalElement(Core):
     def __init__(self):
@@ -39,6 +40,7 @@ class GlobalElement(Core):
         else:
             return self.device_mobile.open.quick_settings()
 
+    @Decorators.android_version
     def clear_text(self, *argument, **settings):
         """Clear text on the text field base on locator.
 
@@ -59,6 +61,7 @@ class GlobalElement(Core):
             else:
                 return self.device_mobile(*argument, **settings).clear_text()
 
+    @Decorators.android_version
     def input_text(self, *argument, **settings):
         """Input text on the text field base on locator.
 
@@ -84,6 +87,7 @@ class GlobalElement(Core):
             else:
                 return self.device_mobile(*argument, **settings).set_text(input)
 
+    @Decorators.android_version
     def count_elements(self, *argument, **settings):
         """Count total element from the page.
 
@@ -175,7 +179,9 @@ class Click(Core):
 
     def __init__(self):
         self.device_mobile = self.device()
+        self.management_device = ManagementDevice()
 
+    @Decorators.android_version
     def click_element(self, *argument, **settings):
         """Click on UI base on locator.
 
@@ -185,23 +191,30 @@ class Click(Core):
 
         ||  Click Element                    | className=sample class
         """
+
         if 'locator' in settings:
             locator = settings['locator']
             return locator.click()
+
         else:
             if 'device' in settings:
                 device = settings['device']
                 del settings['device']
 
-                return device(*argument, **settings).click()
+                get_device = self.management_device.scan_current_device(device)
+
+                return get_device(*argument, **settings).click()
+
             elif 'watcher' in settings:
                 watcher = settings['watcher']
                 del settings['watcher']
 
                 return watcher.click(*argument, **settings)
             else:
+                print(settings)
                 return self.device_mobile(*argument, **settings).click()
 
+    @Decorators.android_version
     def long_click_element(self, *argument, **settings):
         """Long click on UI base on locator.
 
@@ -275,6 +288,7 @@ class GetConditions(Core):
             else:
                 return self.device_mobile(*argument, **settings).info['text']
 
+    @Decorators.android_version
     def get_element_attribute(self, *argument, **settings):
         """Get element attribute keyword of device.
 
@@ -416,6 +430,7 @@ class ExpectedConditions(Core):
         self.device_mobile = self.device()
         self.get_conditions = GetConditions()
 
+    @Decorators.android_version
     def page_should_contain_element(self, *argument, **settings):
         """Page should contain element.
         The keyword is used to verify the page is contains locator element.
@@ -444,6 +459,7 @@ class ExpectedConditions(Core):
             else:
                 return self.device_mobile(*argument, **settings).exists
 
+    @Decorators.android_version
     def page_should_contain_text(self, *argument, **settings):
         """Page should contain text.
         The keyword is used to verify the page is contains text.
@@ -479,6 +495,7 @@ class ExpectedConditions(Core):
 
         return device
 
+    @Decorators.android_version
     def page_should_not_contain_element(self, *argument, **settings):
         """Page should not contain element.
 
@@ -511,6 +528,7 @@ class ExpectedConditions(Core):
                 else:
                     raise True
 
+    @Decorators.android_version
     def page_should_not_contain_text(self, *argument, **settings):
         """Page should not contain text.
 
@@ -542,6 +560,7 @@ class ExpectedConditions(Core):
             else:
                 return self.device_mobile(*argument, **settings).exists
 
+    @Decorators.android_version
     def text_should_be_enabled(self, *argument, **settings):
         """Text should be enabled.
 
@@ -570,6 +589,7 @@ class ExpectedConditions(Core):
 
             return self.device_mobile(*argument, **settings).enabled
 
+    @Decorators.android_version
     def text_should_be_disabled(self, *argument, **settings):
         """Text should be disabled.
 
@@ -598,6 +618,7 @@ class ExpectedConditions(Core):
 
             return self.device_mobile(*argument, **settings).enabled
 
+    @Decorators.android_version
     def element_should_contain_text(self, *argument, **settings):
         """Element should contain text.
 
@@ -630,6 +651,7 @@ class ExpectedConditions(Core):
             except Exception:
                 return False
 
+    @Decorators.android_version
     def element_should_not_contain_text(self, *argument, **settings):
         """Element should contain text.
 
@@ -665,6 +687,7 @@ class ExpectedConditions(Core):
             except Exception as error:
                 return True
 
+    @Decorators.android_version
     def check_element_visible(self, *argument, **settings):
         """Check element visible.
 
@@ -700,7 +723,7 @@ class ExpectedConditions(Core):
             except Exception as error:
                 return ("Exception Error: {0}".format(error))
 
-
+    @Decorators.android_version
     def check_element_non_visible(self, *argument, **settings):
         """Check element non visible.
 

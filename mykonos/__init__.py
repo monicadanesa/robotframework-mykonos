@@ -1,7 +1,6 @@
 import os
 from mykonos.locator import LocatorElement, WatcherElement
-from mykonos.keywords import ManagementDevice, GlobalElement, KeyEvent, Touch, Click, GetConditions, ExpectedConditions, Wait
-
+from mykonos.keywords import ManagementDevice, GlobalElement, KeyEvent, Touch, Click, GetConditions, ExpectedConditions, Wait, Decorators
 
 class mykonos(
     ManagementDevice,
@@ -13,7 +12,8 @@ class mykonos(
     Click,
     GetConditions,
     ExpectedConditions,
-    Wait
+    Wait,
+    Decorators
 ):
 
     def __init__(self):
