@@ -87,7 +87,7 @@ Contributors
 -------------
  * Monica Danesa ([Monica Danesa](https://github.com/monicadanesa)) <br />
  * Ahmad Andriana Khadafi ([Andriana Khadafi](https://github.com/d4f1))
-  * Ichsan Hariadi ([Ichsan Hariadi](https://github.com/pythonjokeun))
+ * Ichsan Hariadi ([Ichsan Hariadi](https://github.com/pythonjokeun))
 
 Credit
 -------------
