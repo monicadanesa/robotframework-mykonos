@@ -1,5 +1,6 @@
 from mykonos.core.core import Core
 from mykonos.keywords.element import GetConditions
+from mykonos.keywords.decorators import Decorators
 
 
 class Wait(Core):
@@ -8,6 +9,7 @@ class Wait(Core):
         self.device_mobile = self.device()
         self.get_conditions = GetConditions()
 
+    @Decorators.android_version
     def wait_until_page_contains(self, error=None, time=1000, *argument, **settings):
         """This keyword is used to wait until page is contain spesific element.
 
@@ -36,6 +38,7 @@ class Wait(Core):
             except Exception as error:
                 return ("Exception Error: {0}".format(error))
 
+    @Decorators.android_version
     def wait_until_element_is_exists(self, time=1000, error=None, *argument, **settings):
         """This keyword is used to wait until spesific element is exists.
 
@@ -65,6 +68,7 @@ class Wait(Core):
             except Exception as error:
                 return ("Exception Error: {0}".format(error))
 
+    @Decorators.android_version
     def wait_until_page_does_not_contains(self, time=1000, *argument, **settings):
         """This keyword is used to wait until page is not contain spesific element.
 

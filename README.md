@@ -8,7 +8,7 @@ Mykonos is a complete test automation tools for Android Device using Robot Frame
 Installation
 ------------
 
-     pip install git+https://github.com/monicadanesa/mykonos
+     pip install mykonos
 
 Usage
 -----
@@ -87,6 +87,7 @@ Contributors
 -------------
  * Monica Danesa ([Monica Danesa](https://github.com/monicadanesa)) <br />
  * Ahmad Andriana Khadafi ([Andriana Khadafi](https://github.com/d4f1))
+  * Ichsan Hariadi ([Ichsan Hariadi](https://github.com/pythonjokeun))
 
 Credit
 -------------

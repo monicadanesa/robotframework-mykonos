@@ -38,3 +38,10 @@ def test_pull_file():
     device.pull.return_value = True
     result = device.pull(local=MagicMock(), remote=MagicMock())
     assert result == True
+
+def test_get_android_version():
+    device = ManagementDevice()
+    device.get_android_version = MagicMock()
+    device.get_android_version.return_value = '9'
+    result = device.get_android_version()
+    assert result == '9'
