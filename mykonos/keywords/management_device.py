@@ -4,7 +4,6 @@ from mykonos.core.core import Core
 
 
 class ManagementDevice(Core):
-
     adb_s = 'adb -s '
     adb_start = ' shell am start -W '
     adb_stop = ' adb shell am force-stop '
@@ -15,6 +14,7 @@ class ManagementDevice(Core):
     adb_pull = 'adb pull '
     adb_push = 'adb push '
     adb_activity = 'adb shell dumpsys activity | grep '
+    adb_disable = 'shell pm disable'
     adb_check_version = 'adb shell getprop ro.build.version.release'
 
     def __init__(self):
@@ -27,7 +27,6 @@ class ManagementDevice(Core):
         p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         out, err = p.communicate()
         byte_decode = out.decode()
-
         # Get Index
         start = [i+1 for i in range(len(byte_decode)) if byte_decode.find('\n', i) == i]
         end = [i for i in range(len(byte_decode)) if byte_decode.find('\t', i) == i]
@@ -36,29 +35,21 @@ class ManagementDevice(Core):
             total = len(start)
         else:
             total = len(end)
-
         for i in range(0, total):
             list.append(byte_decode[start[i]:end[i]])
-
         return list
 
     def scan_current_device(self,  *args, **settings):
         """Scan current device on the workstation, and consume to open application.
-
         **Example:**
-
         ||  Scan Current Device                        |  emulator-554
         """
-
         return self.device(*args)
 
     def open_app(self, device, package):
         """Open Application on device.
-
         This keyword is used to open new applications.
-
         **Example:**
-
         ||  Open Application      |  device=emulator-554   | package=sample_apk
         """
         try:
@@ -72,22 +63,16 @@ class ManagementDevice(Core):
 
     def quit_app(self, device, package):
         """Quit application on device.
-
         This keyword is used to close application without kill a session.
-
         **Example:**
-
         ||  Quit App      |  device=emulator-554   | package=sample_apk
         """
         package = self._substring_package(package)
         cl = os.system(self.adb_kill + package)
         return cl
-
     def close_all_app(self, device):
         """Close all tasks on device, and kill all application sessions.
-
         **Example:**
-
         || Close All App      |  device=emulator-554   |
         """
         try:
@@ -104,16 +89,12 @@ class ManagementDevice(Core):
         end_package_name = str(top_activity).find("/")
         pid = str(top_activity)[start_pid:end_pid]
         package = str(top_activity)[end_pid+1:end_package_name]
-
         return package
 
     def reset_app(self, device, package):
         """Reset Application on Device.
-
         This keyword is used to reset the current application while sesion is keep alive.
-
         **Example:**
-
         || Reset Application   |  emulator=emulator-554 | package=sample_apk
         """
         try:
@@ -124,11 +105,8 @@ class ManagementDevice(Core):
 
     def hide_keyboard(self):
         """Hide Keyword on Device.
-
         This keyword is used to hide keyboard device.
-
         **Example:**
-
         || Hide keyboard      |
         """
         rs = os.system(self.adb_key_event+'111')
@@ -136,24 +114,17 @@ class ManagementDevice(Core):
 
     def pull(self, **settings):
         """Pull file from Device.
-
         This Keyword is used to retrieves file from device.
-
         **Example:**
-
         || Pull         | local=sample_path  | remote=sample_location
-
-
         || Pull         | local=sample_path  |
         """
         local = settings['local']
-
         if 'remote' in settings:
             remote = settings['remote']
             rs = os.system(self.adb_pull + local + remote)
         else:
             rs = os.system(self.adb_pull + local)
-
         if rs != 0:
             return False
         else:
@@ -161,17 +132,13 @@ class ManagementDevice(Core):
 
     def push(self, **settings):
         """Push file into Device.
-
         This keyword is used to put file in spesific path of device.
-
         **Example:**
-
         || Push         | local=sample_path  | remote=sample_location
         """
         local = settings['local']
         remote = settings['remote']
         rs = os.system(self.adb_push + local + ' ' + remote)
-
         if rs != 0:
             return False
         else:
@@ -188,7 +155,6 @@ class ManagementDevice(Core):
         end = str(out).find('/')
         slice_1 = str(out)[start:end]
         result = str(slice_1)[str(slice_1).find(':')+1:]
-
         return result
 
     def __get_old_package(self):
@@ -200,41 +166,30 @@ class ManagementDevice(Core):
 
     def switch_application(self, device, new_app):
         """Switch application the devices.
-
         This keywords return previous active application
         and it can be used in the next application.
-
         **Example:**
-
         || Switch Application      | device=sample_device  | new_app=sample_app
-
         """
         old = self.__get_old_package()
         new = new_app.info['currentPackageName']
         current = self.device().info['currentPackageName']
         result = self.open_app(device, old)
-
         return result
 
     def close_app(self):
         """Close Application the device.
-
         This keywords is used to close the current application and kill session on device.
-
         **Example:**
-
         || Close App        |
         """
         package = self.__get_current_package()
-
-        result = os.system(self.adb_stop + package)
-        reconect = os.system('adb reconnect')
-
+        result = os.system(self.adb_disable + package)
+        # reconect = os.system('adb reconnect')
         return result
 
     def get_android_version(self, **settings):
         get_device = self.get_devices()
-
         if 'device' in settings:
             device = settings['device']
             out = self.__shell_pipe(cmd='adb -s %s shell getprop ro.build.version.release'%device)
