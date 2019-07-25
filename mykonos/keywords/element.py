@@ -288,7 +288,6 @@ class GetConditions(Core):
             else:
                 return self.device_mobile(*argument, **settings).info['text']
 
-    @Decorators.android_version
     def get_element_attribute(self, *argument, **settings):
         """Get element attribute keyword of device.
 
