@@ -1,4 +1,6 @@
-Mykonos
+![MyKonos](https://user-images.githubusercontent.com/23183123/61592548-c8c66980-abfe-11e9-9763-e180fb12ab40.png)
+
+RobotFramework - Mykonos
 ==================================================
 
 Introduction
@@ -87,7 +89,7 @@ Contributors
 -------------
  * Monica Danesa ([Monica Danesa](https://github.com/monicadanesa)) <br />
  * Ahmad Andriana Khadafi ([Andriana Khadafi](https://github.com/d4f1))
-  * Ichsan Hariadi ([Ichsan Hariadi](https://github.com/pythonjokeun))
+ * Ichsan Hariadi ([Ichsan Hariadi](https://github.com/pythonjokeun))
 
 Credit
 -------------

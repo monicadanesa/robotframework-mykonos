@@ -288,7 +288,6 @@ class GetConditions(Core):
             else:
                 return self.device_mobile(*argument, **settings).info['text']
 
-    @Decorators.android_version
     def get_element_attribute(self, *argument, **settings):
         """Get element attribute keyword of device.
 
@@ -430,7 +429,6 @@ class ExpectedConditions(Core):
         self.device_mobile = self.device()
         self.get_conditions = GetConditions()
 
-    @Decorators.android_version
     def page_should_contain_element(self, *argument, **settings):
         """Page should contain element.
         The keyword is used to verify the page is contains locator element.
@@ -443,11 +441,11 @@ class ExpectedConditions(Core):
 
         True or False
         """
-        element = self.get_conditions.get_element(*argument, **settings)
+        # element = self.get_conditions.get_element(*argument, **settings)
 
         if 'locator' in settings:
             locator = settings['locator']
-            if locator[element].exists:
+            if locator.exists:
                 return True
             else:
                 raise ValueError('locator not found')
@@ -459,7 +457,6 @@ class ExpectedConditions(Core):
             else:
                 return self.device_mobile(*argument, **settings).exists
 
-    @Decorators.android_version
     def page_should_contain_text(self, *argument, **settings):
         """Page should contain text.
         The keyword is used to verify the page is contains text.
@@ -495,7 +492,7 @@ class ExpectedConditions(Core):
 
         return device
 
-    @Decorators.android_version
+
     def page_should_not_contain_element(self, *argument, **settings):
         """Page should not contain element.
 
@@ -509,11 +506,11 @@ class ExpectedConditions(Core):
 
         True or False
         """
-        element = self.get_conditions.get_element(*argument, **settings)
+        # element = self.get_conditions.get_element(*argument, **settings)
 
         if 'locator' in settings:
             locator = settings['locator']
-            found = locator[element].exists
+            found = locator.exists
             if found is False:
                 return True
             else:
@@ -522,13 +519,18 @@ class ExpectedConditions(Core):
             if 'device' in settings:
                 device = settings['device']
                 del settings['device']
-                found = self.__get_device_global(*argument, **settings).exists
+                found = device(*argument, **settings).exists
                 if found is True:
                     return False
                 else:
-                    raise True
+                    return True
+            else:
+                found = self.device_mobile(*argument, **settings).exists
+                if found is True:
+                    return False
+                else:
+                    return True
 
-    @Decorators.android_version
     def page_should_not_contain_text(self, *argument, **settings):
         """Page should not contain text.
 
@@ -560,7 +562,7 @@ class ExpectedConditions(Core):
             else:
                 return self.device_mobile(*argument, **settings).exists
 
-    @Decorators.android_version
+
     def text_should_be_enabled(self, *argument, **settings):
         """Text should be enabled.
 
@@ -589,7 +591,6 @@ class ExpectedConditions(Core):
 
             return self.device_mobile(*argument, **settings).enabled
 
-    @Decorators.android_version
     def text_should_be_disabled(self, *argument, **settings):
         """Text should be disabled.
 
@@ -618,7 +619,6 @@ class ExpectedConditions(Core):
 
             return self.device_mobile(*argument, **settings).enabled
 
-    @Decorators.android_version
     def element_should_contain_text(self, *argument, **settings):
         """Element should contain text.
 
@@ -651,7 +651,6 @@ class ExpectedConditions(Core):
             except Exception:
                 return False
 
-    @Decorators.android_version
     def element_should_not_contain_text(self, *argument, **settings):
         """Element should contain text.
 
@@ -687,7 +686,6 @@ class ExpectedConditions(Core):
             except Exception as error:
                 return True
 
-    @Decorators.android_version
     def check_element_visible(self, *argument, **settings):
         """Check element visible.
 
@@ -723,7 +721,6 @@ class ExpectedConditions(Core):
             except Exception as error:
                 return ("Exception Error: {0}".format(error))
 
-    @Decorators.android_version
     def check_element_non_visible(self, *argument, **settings):
         """Check element non visible.
 
