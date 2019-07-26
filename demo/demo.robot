@@ -1,7 +1,7 @@
 *** Settings ***
 Library    ../mykonos/
 *** Variables ***
-${emulator}               192.168.56.106:5555
+${emulator}               192.168.56.115:5555
 ${apk}                    com.android.messaging/com.android.messaging.ui.conversationlist.ConversationListActivity
 ${sender_number}          0812345678
 ${message}                helllo
@@ -13,7 +13,9 @@ Scan Device and Open Application Messaging
     Open App                                                  ${input_emulator}     ${input_apk}
 
 Click Plus Icon on the Messaging Menu
-    Click Element                                             resourceId=com.android.messaging:id/start_new_conversation_button
+    [Arguments]                                               ${input_emulator}
+    :FOR        ${device}       in                            @{devices}
+    \ Click Element                                             resourceId=com.android.messaging:id/start_new_conversation_button     device=${device}
 
 Type Sender Number
     [Arguments]                                               ${input_sender_number}
@@ -33,10 +35,10 @@ Click Button Send
 Test Case Input Phone Number on Application Messaging
     Scan Device and Open Application Messaging                ${emulator}       ${apk}
     Click Plus Icon on the Messaging Menu
-    Type Sender Number                                        ${sender_number}
-    Press Enter
-    Input Message on the Text Area                            ${message}
-    Click Button Send
-    Page Should Contain Text                                  text=${message}
-    Quit App                                                  ${emulator}       ${apk}
-    Close App
+    # Type Sender Number                                        ${sender_number}
+    # Press Enter
+    # Input Message on the Text Area                            ${message}
+    # Click Button Send
+    # Page Should Contain Text                                  text=${message}
+    # Quit App                                                  ${emulator}       ${apk}
+    # Close App
