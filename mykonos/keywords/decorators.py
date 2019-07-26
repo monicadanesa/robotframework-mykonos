@@ -52,7 +52,6 @@ class Decorators(object):
                         func(self, text=text, *argument, **settings)
                 else:
                     func(self, *argument, **settings)
-            else:
-                print('device is more than 1, define the device or check using parallel tests')
+
 
         return wrapper

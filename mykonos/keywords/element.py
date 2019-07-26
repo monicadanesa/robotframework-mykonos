@@ -311,7 +311,7 @@ class GetConditions(Core):
 
         if 'locator' in settings:
             locator = settings['locator']
-            return locator.info['element']
+            return locator.info[element]
         else:
             if 'device' in settings:
                 device = settings['device']
