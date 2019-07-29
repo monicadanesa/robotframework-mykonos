@@ -14,7 +14,7 @@ class ManagementDevice(Core):
     adb_pull = 'adb pull '
     adb_push = 'adb push '
     adb_activity = 'adb shell dumpsys activity | grep '
-    adb_disable = 'shell pm disable'
+    adb_disable = 'adb shell pm disable'
     adb_check_version = 'adb shell getprop ro.build.version.release'
 
     def __init__(self):
@@ -184,7 +184,7 @@ class ManagementDevice(Core):
         || Close App        |
         """
         package = self.__get_current_package()
-        result = os.system(self.adb_disable + package)
+        result = os.system(self.adb_stop + package)
         # reconect = os.system('adb reconnect')
         return result
 
