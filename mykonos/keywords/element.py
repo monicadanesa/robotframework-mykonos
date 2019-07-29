@@ -266,6 +266,32 @@ class GetConditions(Core):
     def __init__(self):
         self.device_mobile = self.device()
 
+    def get_info(self, value=None):
+        """Get Info of Device.
+
+        **Example:**
+
+        ||  Get Device         |
+        ||  Get Device         |  displayRotation  
+
+        **Return:**
+        { u'displayRotation': 0,
+          u'displaySizeDpY': 640,
+          u'displaySizeDpX': 360,
+          u'currentPackageName': u'com.android.launcher',
+          u'productName': u'takju',
+          u'displayWidth': 720,
+          u'sdkInt': 18,
+          u'displayHeight': 1184,
+          u'naturalOrientation': True
+        }
+        """
+        if value is None:
+            return self.device().info
+        else:
+            return self.device().info[value]
+
+
     def get_text(self, *argument, **settings):
         """Get text from element base on locator.
 
@@ -362,7 +388,7 @@ class GetConditions(Core):
 
         Coordinate x(int)
         """
-        bound = self.get_conditions.get_element_attribute(element='bounds', *argument, **settings)
+        bound = self.get_element_attribute(element='bounds', *argument, **settings)
 
         bottom = bound['bottom']
         top = bound['top']
