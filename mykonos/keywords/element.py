@@ -271,8 +271,7 @@ class GetConditions(Core):
 
         **Example:**
 
-        ||  Get Device         |
-        ||  Get Device         |  displayRotation  
+        ||  Get Device         |  displayRotation
 
         **Return:**
         { u'displayRotation': 0,
