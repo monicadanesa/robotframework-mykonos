@@ -8,6 +8,8 @@ class Touch(Core):
     def __get_device_global(self, *argument, **settings):
         if 'locator' in settings:
             device = settings['locator']
+            del settings['locator']
+            
         else:
             if 'device' in settings:
                 device = settings['device']

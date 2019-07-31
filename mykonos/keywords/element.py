@@ -1,6 +1,6 @@
 from mykonos.core.core import Core
 from mykonos.keywords.management_device import ManagementDevice
-from mykonos.keywords.decorators import Decorators
+from mykonos.keywords.decorators import Decorators, Parallel
 
 class GlobalElement(Core):
     def __init__(self):
@@ -61,7 +61,6 @@ class GlobalElement(Core):
             else:
                 return self.device_mobile(*argument, **settings).clear_text()
 
-    @Decorators.android_version
     def input_text(self, *argument, **settings):
         """Input text on the text field base on locator.
 
@@ -87,7 +86,6 @@ class GlobalElement(Core):
             else:
                 return self.device_mobile(*argument, **settings).set_text(input)
 
-    @Decorators.android_version
     def count_elements(self, *argument, **settings):
         """Count total element from the page.
 
@@ -266,7 +264,8 @@ class GetConditions(Core):
     def __init__(self):
         self.device_mobile = self.device()
 
-    def get_info(self, value=None):
+    @Parallel.device_check
+    def get_info(self, device=None, value=None):
         """Get Info of Device.
 
         **Example:**
@@ -285,10 +284,12 @@ class GetConditions(Core):
           u'naturalOrientation': True
         }
         """
-        if value is None:
-            return self.device().info
-        else:
-            return self.device().info[value]
+        print(self.device(device).info)
+
+        # if value is None:
+        #     return self.device(device).info
+        # else:
+        #     return self.device(device).info[value]
 
 
     def get_text(self, *argument, **settings):
@@ -447,6 +448,32 @@ class GetConditions(Core):
         """
         get_device = self.device()
         return get_device.info['displayHeight']
+
+    def get_position(self, position=0, *argument, **settings):
+        """Get Position of element.
+
+        This keyword is used to get position of device element.
+
+        **Example:**
+
+        || Get Position       |  className=sample   | position=1
+
+        **Return:**
+
+        Width of device(int)
+        """
+        if 'locator' in settings:
+            locator = settings['locator']
+            del settings['locator']
+            return locator[position]
+        else:
+            if 'device' in settings:
+                device = settings['device']
+                del settings['device']
+
+                return device(*argument, **settings)[position]
+            else:
+                return self.device_mobile(*argument, **settings)[position]
 
 
 class ExpectedConditions(Core):
