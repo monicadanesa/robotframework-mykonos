@@ -1,3 +1,4 @@
+from robot.libraries.BuiltIn import BuiltIn
 from mykonos.core.core import Core
 from mykonos.keywords.management_device import ManagementDevice
 from mykonos.keywords.decorators import Decorators, Parallel
@@ -179,8 +180,8 @@ class Click(Core):
         self.device_mobile = self.device()
         self.management_device = ManagementDevice()
 
-    @Decorators.android_version
-    def click_element(self, *argument, **settings):
+    @Parallel.device_check
+    def click_element(self, device=None, *argument, **settings):
         """Click on UI base on locator.
 
         This keyword is used to click button or element of device.
@@ -195,9 +196,7 @@ class Click(Core):
             return locator.click()
 
         else:
-            if 'device' in settings:
-                device = settings['device']
-                del settings['device']
+            if device != None:
 
                 get_device = self.management_device.scan_current_device(device)
 
@@ -284,12 +283,13 @@ class GetConditions(Core):
           u'naturalOrientation': True
         }
         """
-        print(self.device(device).info)
 
-        # if value is None:
-        #     return self.device(device).info
-        # else:
-        #     return self.device(device).info[value]
+        if value is None:
+            result = self.device(device).info
+        else:
+            result = self.device(device).info[value]
+
+        return result
 
 
     def get_text(self, *argument, **settings):

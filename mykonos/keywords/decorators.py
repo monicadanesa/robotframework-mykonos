@@ -1,5 +1,7 @@
-from mykonos.keywords.management_device import ManagementDevice
 import types
+import multiprocessing
+from mykonos.keywords.management_device import ManagementDevice
+
 
 
 
@@ -75,7 +77,6 @@ class Decorators(object):
 
         return wrapper
 
-
 class Parallel(object):
 
     def __init__(self):
@@ -89,7 +90,18 @@ class Parallel(object):
                 devices_pararel = settings['devices_pararel']
                 del settings['devices_pararel']
 
-                for device in devices_pararel:
-                    func(self, device, *argument, **settings)
+                list = []
+                if isinstance(devices_pararel, str):
+                    return func(self, device=devices_pararel, *argument, **settings)
+                else:
+                    # result = [list.append(func(self, device=d, *argument, **settings)) for d in devices_pararel]
+                    for d in devices_pararel:
+                        list.append(func(self, device=d, *argument, **settings))
+
+                    return list
+
+            else:
+                return func(self, device=None, *argument, **settings)
+
 
         return wrapper
