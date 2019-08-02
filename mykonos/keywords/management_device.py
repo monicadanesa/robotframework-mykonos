@@ -16,6 +16,7 @@ class ManagementDevice(Core):
     adb_activity = 'adb shell dumpsys activity | grep '
     adb_disable = 'adb shell pm disable'
     adb_check_version = 'adb shell getprop ro.build.version.release'
+    adb_devices = 'adb devices | grep -v devices | grep device | cut -f 1'
 
     def __init__(self):
         """Devine all global variable."""

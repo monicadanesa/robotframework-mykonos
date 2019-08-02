@@ -41,8 +41,9 @@ class GlobalElement(Core):
         else:
             return self.device_mobile.open.quick_settings()
 
+    @Parallel.device_check
     @Decorators.android_version
-    def clear_text(self, *argument, **settings):
+    def clear_text(self, device=None, *argument, **settings):
         """Clear text on the text field base on locator.
 
         This keywords is used to clear text field.
@@ -62,7 +63,9 @@ class GlobalElement(Core):
             else:
                 return self.device_mobile(*argument, **settings).clear_text()
 
-    def input_text(self, *argument, **settings):
+    @Parallel.device_check
+    @Decorators.android_version
+    def input_text(self, device=None, *argument, **settings):
         """Input text on the text field base on locator.
 
         This keywords is used to input text into text field.
