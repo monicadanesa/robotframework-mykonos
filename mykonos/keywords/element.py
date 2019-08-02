@@ -90,7 +90,8 @@ class GlobalElement(Core):
             else:
                 return self.device_mobile(*argument, **settings).set_text(input)
 
-    def count_elements(self, *argument, **settings):
+    @Parallel.device_check
+    def count_elements(self, device=None, *argument, **settings):
         """Count total element from the page.
 
         This keywords is used to count total element on the device page.
@@ -113,7 +114,11 @@ class GlobalElement(Core):
 
             return watcher.count
         else:
-            return self.device_mobile(*argument, **settings).count
+            if device is not None:
+                get_device = self.management_device.scan_current_device(device)
+                return get_device(*argument, **settings).count
+            else:
+                return self.device_mobile(*argument, **settings).count
 
     def turn_on_screen(self, **settings):
         """Turn on Screen Device.
