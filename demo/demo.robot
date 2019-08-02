@@ -1,7 +1,7 @@
 *** Settings ***
 Library    ../mykonos/
 *** Variables ***
-@{emulator}               192.168.56.118:5555
+@{emulator}               192.168.56.118:5555   192.168.56.119:5555
 ${apk}                    com.android.messaging/com.android.messaging.ui.conversationlist.ConversationListActivity
 ${sender_number}          0812345678
 ${message}                helllo
@@ -34,7 +34,6 @@ Click Button Send
 
 *** Test Cases ***
 Test Case Input Phone Number on Application Messaging
-    ${result}=  Get Info                                        devices_pararel=@{emulator}   value=currentPackageName
     Click Element                                               text=Messaging     devices_pararel=@{emulator}
     Click Element                                               resourceId=com.android.messaging:id/start_new_conversation_button     devices_pararel=@{emulator}
     # Scan Device and Open Application Messaging                ${emulator}       ${apk}

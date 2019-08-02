@@ -3,8 +3,6 @@ import multiprocessing
 from mykonos.keywords.management_device import ManagementDevice
 
 
-
-
 class Setup():
 
     def __init__(self):
