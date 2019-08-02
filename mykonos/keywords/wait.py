@@ -1,6 +1,6 @@
 from mykonos.core.core import Core
 from mykonos.keywords.element import GetConditions
-from mykonos.keywords.decorators import Decorators
+from mykonos.keywords.decorators import Decorators, Parallel
 
 
 class Wait(Core):
@@ -10,7 +10,8 @@ class Wait(Core):
         self.get_conditions = GetConditions()
 
     @Decorators.android_version
-    def wait_until_page_contains(self, error=None, time=1000, *argument, **settings):
+    @Parallel.device_check
+    def wait_until_page_contains(self, device=None, error=None, time=1000, *argument, **settings):
         """This keyword is used to wait until page is contain spesific element.
 
         **Example:**

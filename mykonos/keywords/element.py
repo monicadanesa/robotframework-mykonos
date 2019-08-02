@@ -5,8 +5,10 @@ from mykonos.keywords.decorators import Decorators, Parallel
 
 class GlobalElement(Core):
     def __init__(self):
-        self.device_mobile = self.device()
         self.get = GetConditions()
+        self.device_mobile = self.device()
+        self.management_device = ManagementDevice()
+
 
     def open_notification(self, **settings):
         """Open notification a device.
@@ -41,8 +43,9 @@ class GlobalElement(Core):
         else:
             return self.device_mobile.open.quick_settings()
 
+    @Parallel.device_check
     @Decorators.android_version
-    def clear_text(self, *argument, **settings):
+    def clear_text(self, device=None, *argument, **settings):
         """Clear text on the text field base on locator.
 
         This keywords is used to clear text field.
@@ -62,7 +65,9 @@ class GlobalElement(Core):
             else:
                 return self.device_mobile(*argument, **settings).clear_text()
 
-    def input_text(self, *argument, **settings):
+    @Parallel.device_check
+    # @Decorators.android_version
+    def input_text(self, device=None, *argument, **settings):
         """Input text on the text field base on locator.
 
         This keywords is used to input text into text field.
@@ -79,11 +84,9 @@ class GlobalElement(Core):
             locator = settings['locator']
             return locator.set_text(input)
         else:
-            if 'device' in settings:
-                device = settings['device']
-                del settings['device']
-
-                return device(*argument, **settings).set_text(input)
+            if device is not None:
+                get_device = self.management_device.scan_current_device(device)
+                return get_device(*argument, **settings).set_text(input)
             else:
                 return self.device_mobile(*argument, **settings).set_text(input)
 
