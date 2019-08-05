@@ -1,5 +1,5 @@
 from mykonos.core.core import Core
-from mykonos.keywords.decorators import Decorators
+from mykonos.keywords.decorators import Decorators, Parallel
 
 class Touch(Core):
     def __init__(self):
@@ -9,7 +9,7 @@ class Touch(Core):
         if 'locator' in settings:
             device = settings['locator']
             del settings['locator']
-            
+
         else:
             if 'device' in settings:
                 device = settings['device']
@@ -158,7 +158,8 @@ class Touch(Core):
             return self.device_mobile().drag(sx, sy, ex, ey, steps)
 
     @Decorators.android_version
-    def scroll(self, *argument, **settings):
+    @Parallel.device_check
+    def scroll(self, Device=None, *argument, **settings):
         """Scroll interanction on device.
 
         This keyword is used to perfom scroll on device.
