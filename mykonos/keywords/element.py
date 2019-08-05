@@ -535,7 +535,8 @@ class ExpectedConditions(Core):
         self.device_mobile = self.device()
         self.get_conditions = GetConditions()
 
-    def page_should_contain_element(self, *argument, **settings):
+    @Parallel.device_check
+    def page_should_contain_element(self, device=None, *argument, **settings):
         """Page should contain element.
         The keyword is used to verify the page is contains locator element.
 
@@ -563,7 +564,8 @@ class ExpectedConditions(Core):
             else:
                 return self.device_mobile(*argument, **settings).exists
 
-    def page_should_contain_text(self, *argument, **settings):
+    @Parallel.device_check
+    def page_should_contain_text(self, device=None, *argument, **settings):
         """Page should contain text.
         The keyword is used to verify the page is contains text.
 
@@ -582,9 +584,20 @@ class ExpectedConditions(Core):
             del settings['device']
             return device(*argument, **settings).exists
         else:
-            return self.device_mobile(*argument, **settings).exists
+            if device != None:
+                get_devices = self.management_device.scan_current_device(device)
+                return get_devices(*argument, **settings).exists
 
-    def __get_device_global(self, *argument, **settings):
+            elif 'watcher' in settings:
+                watcher = settings['watcher']
+                del settings['watcher']
+
+                return watcher.exists(*argument, **settings)
+            else:
+                return self.device_mobile(*argument, **settings).exists
+
+    @Parallel.device_check
+    def __get_device_global(self, device=None, *argument, **settings):
         if 'locator' in settings:
             device = settings['locator']
         else:
@@ -598,8 +611,8 @@ class ExpectedConditions(Core):
 
         return device
 
-
-    def page_should_not_contain_element(self, *argument, **settings):
+    @Parallel.device_check
+    def page_should_not_contain_element(self, device=None, *argument, **settings):
         """Page should not contain element.
 
         The keyword is used to verify the page is not contains element.
@@ -637,7 +650,8 @@ class ExpectedConditions(Core):
                 else:
                     return True
 
-    def page_should_not_contain_text(self, *argument, **settings):
+    @Parallel.device_check
+    def page_should_not_contain_text(self, device=None, *argument, **settings):
         """Page should not contain text.
 
         The keyword is used to verify the page is not contains text.
@@ -668,8 +682,8 @@ class ExpectedConditions(Core):
             else:
                 return self.device_mobile(*argument, **settings).exists
 
-
-    def text_should_be_enabled(self, *argument, **settings):
+    @Parallel.device_check
+    def text_should_be_enabled(self, device=None, *argument, **settings):
         """Text should be enabled.
 
         The keyword is used to identify text enable.
@@ -697,7 +711,8 @@ class ExpectedConditions(Core):
 
             return self.device_mobile(*argument, **settings).enabled
 
-    def text_should_be_disabled(self, *argument, **settings):
+    @Parallel.device_check
+    def text_should_be_disabled(self, device=None, *argument, **settings):
         """Text should be disabled.
 
         The keyword is used to identify text disabled.
@@ -725,7 +740,8 @@ class ExpectedConditions(Core):
 
             return self.device_mobile(*argument, **settings).enabled
 
-    def element_should_contain_text(self, *argument, **settings):
+    @Parallel.device_check
+    def element_should_contain_text(self, device=None, *argument, **settings):
         """Element should contain text.
 
         The keyword is used to identify text on element.
@@ -757,7 +773,8 @@ class ExpectedConditions(Core):
             except Exception:
                 return False
 
-    def element_should_not_contain_text(self, *argument, **settings):
+    @Parallel.device_check
+    def element_should_not_contain_text(self, device=None, *argument, **settings):
         """Element should contain text.
 
         The keyword is used to identify text on element.
@@ -792,7 +809,8 @@ class ExpectedConditions(Core):
             except Exception as error:
                 return True
 
-    def check_element_visible(self, *argument, **settings):
+    @Parallel.device_check
+    def check_element_visible(self, device=None, *argument, **settings):
         """Check element visible.
 
         The keyword is used to check element visible.
@@ -827,7 +845,8 @@ class ExpectedConditions(Core):
             except Exception as error:
                 return ("Exception Error: {0}".format(error))
 
-    def check_element_non_visible(self, *argument, **settings):
+    @Parallel.device_check
+    def check_element_non_visible(self, device=None, *argument, **settings):
         """Check element non visible.
 
         The keyword is used to check element non visible.
