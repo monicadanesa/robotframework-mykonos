@@ -255,7 +255,8 @@ class Click(Core):
         else:
             if device != None:
 
-                return self.management_device.scan_current_device(device).click()
+                return self.management_device.scan_current_device(device)(*argument, **settings).click()
+
 
             elif 'watcher' in settings:
                 watcher = settings['watcher']
