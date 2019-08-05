@@ -120,7 +120,8 @@ class GlobalElement(Core):
             else:
                 return self.device_mobile(*argument, **settings).count
 
-    def turn_on_screen(self, **settings):
+    @Parallel.device_check
+    def turn_on_screen(self, device=None, **settings):
         """Turn on Screen Device.
 
         **Example:**
@@ -131,9 +132,14 @@ class GlobalElement(Core):
 
          True or False
         """
-        return self.device(**settings).screen.on()
+        if device is not None:
+            get_device = self.management_device.scan_current_device(device)
+            return get_device(**settings).screen.on()
+        else:
+            return self.device(**settings).screen.on()
 
-    def turn_off_screen(self, **settings):
+    @Parallel.device_check
+    def turn_off_screen(self, device=None, **settings):
         """Turn off Screen Device.
 
         **Example:**
@@ -144,22 +150,41 @@ class GlobalElement(Core):
 
          True or False
         """
-        return self.device(**settings).screen.off()
+        if device is not None:
+            get_device = self.management_device.scan_current_device(device)
+            return get_device(**settings).screen.off()
+        else:
+            return self.device(**settings).screen.off()
 
-    def dump_xml(self, *args):
+    @Parallel.device_check
+    def dump_xml(self, device=None, **settings):
         """Dump hierarchy of ui and will be saved as hierarchy.xml.
 
         **Example:**
 
-        ||  Dump Xml
+        ||  Dump Xml        | file=sample.xml
+
+        With Device /pararel :
+
+        ||  @{emulator} =   |  192.168.1.1              | 192.168.1.2
+        ||  Dump Xml        | file=sample.xml           | devices_pararel=@{emulator}
 
         **Return:**
 
         xml file of device
         """
-        return self.device().dump(*args)
 
-    def capture_screen(self, file=None):
+        if 'file' in settings:
+            file = settings['file']
+            del settings['file']
+
+        if device is not None:
+            return self.management_device.scan_current_device(device).dump(file)
+        else:
+            return self.device().dump(file)
+
+    @Parallel.device_check
+    def capture_screen(self, file=None, device=None):
         """Capture screen of device testing.
 
         **Example:**
@@ -175,11 +200,18 @@ class GlobalElement(Core):
         screen capture of device(*.png)
         """
         if file is not None:
-            return self.device().screenshot(file+'.png')
+            if device is not None:
+                return self.device().screenshot(file+'.png')
+            else:
+                return self.management_device.scan_current_device(device).screenshot(file+'.png')
         else:
-            self.index += 1
-            filename = 'mykonos-screenshot-%d.png' % self.index
-            return self.device().screenshot(filename)
+            index = 0
+            index += 1
+            filename = 'mykonos-screenshot-%d.png' % index
+            if device is not None:
+                return self.device().screenshot(filename)
+            else:
+                return self.management_device.scan_current_device(device).screenshot(filename)
 
 
 class Click(Core):
