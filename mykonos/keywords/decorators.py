@@ -85,7 +85,7 @@ class Parallel(object):
         def wrapper(self, *argument, **settings):
 
             if 'devices_parallel' in settings:
-                devices_paralel = settings['devices_parallel']
+                devices_parallel = settings['devices_parallel']
                 del settings['devices_parallel']
 
                 list = []
