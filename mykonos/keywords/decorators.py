@@ -84,13 +84,13 @@ class Parallel(object):
 
         def wrapper(self, *argument, **settings):
 
-            if 'devices_pararel' in settings:
-                devices_pararel = settings['devices_pararel']
-                del settings['devices_pararel']
+            if 'devices_parallel' in settings:
+                devices_paralel = settings['devices_parallel']
+                del settings['devices_parallel']
 
                 list = []
-                if isinstance(devices_pararel, str):
-                    return func(self, device=devices_pararel, *argument, **settings)
+                if isinstance(devices_parallel, str):
+                    return func(self, device=devices_parallel, *argument, **settings)
                 else:
                     for d in devices_pararel:
                         list.append(func(self, device=d, *argument, **settings))
