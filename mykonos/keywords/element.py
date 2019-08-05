@@ -10,41 +10,48 @@ class GlobalElement(Core):
         self.management_device = ManagementDevice()
 
 
-    def open_notification(self, **settings):
+    def open_notification(self, device=None, **settings):
         """Open notification a device.
 
         This keywords is used to open notification of device
 
         **Example:**
+        || Open notification
 
-        || Open notification      |
+        With Device/ Pararel :
+        ||  @{emulator} =      |  192.168.1.1    | 192.168.1.2
+        || Open notification   |device_pararel=@{emulator}
+
 
         """
 
-        if 'device' in settings:
-            device = settings['device']
-            return device.open.notification()
+        if device is not None:
+            get_device = self.management_device.scan_current_device(device)
+            return get_device().open.notification()
         else:
             return self.device_mobile.open.notification()
 
-    def open_quick_settings(self, **settings):
+    def open_quick_settings(self, device=None, **settings):
         """Open Quick Setting a device.
 
         This keywords is used to open setting of device
 
         **Example:**
 
-        || Open Quick setting      |
+        || Open Quick setting  |
+
+        With Device/ Pararel :
+        ||  @{emulator} =      |  192.168.1.1    | 192.168.1.2
+        || Open Quick setting  |  device_pararel= @{emulator}
 
         """
-        if 'device' in settings:
-            device = settings['device']
-            return device.open.quick_settings()
+        if device is not None:
+            get_device = self.management_device.scan_current_device(device)
+            return get_device().open.quick_settings()
         else:
             return self.device_mobile.open.quick_settings()
 
     @Parallel.device_check
-    @Decorators.android_version
     def clear_text(self, device=None, *argument, **settings):
         """Clear text on the text field base on locator.
 
@@ -53,20 +60,22 @@ class GlobalElement(Core):
         **Example:**
 
         ||Clear Text        |  className=sample class
+
+        With Device/ Pararel :
+        ||  @{emulator} =      |  192.168.1.1    | 192.168.1.2
+        ||  Clear Text         | className=sample class     |device_pararel= @{emulator}
         """
         if 'locator' in settings:
             locator = settings['locator']
             return locator.clear_text()
         else:
-            if 'device' in settings:
-                device = settings['device']
-                del settings['device']
-                return device(*argument, **settings).clear_text()
+            if 'device' is not None:
+                get_device = self.management_device.scan_current_device(device)
+                return get_device(*argument, **settings).clear_text()
             else:
                 return self.device_mobile(*argument, **settings).clear_text()
 
     @Parallel.device_check
-    # @Decorators.android_version
     def input_text(self, device=None, *argument, **settings):
         """Input text on the text field base on locator.
 
@@ -75,6 +84,10 @@ class GlobalElement(Core):
         **Example:**
 
         || Input Text        |  className=sample class    input=text
+
+        With Device/ Pararel :
+        ||  @{emulator} =      |  192.168.1.1    | 192.168.1.2
+        ||  Input Text         |  className=sample class | input=text  | device_pararel=@{emulator}
 
         """
         input = settings['input']
@@ -99,6 +112,10 @@ class GlobalElement(Core):
         **Example:**
 
         || Count Elements          |  className=sample class
+
+        With Device/ Pararel :
+        ||  @{emulator} =   | 192.168.1.1    | 192.168.1.2
+        ||  Count Element   | device_pararel=@{emulator}
 
         **Return:**
 
@@ -238,9 +255,7 @@ class Click(Core):
         else:
             if device != None:
 
-                get_device = self.management_device.scan_current_device(device)
-
-                return get_device(*argument, **settings).click()
+                return self.management_device.scan_current_device(device).click()
 
             elif 'watcher' in settings:
                 watcher = settings['watcher']
@@ -248,7 +263,6 @@ class Click(Core):
 
                 return watcher.click(*argument, **settings)
             else:
-                print(settings)
                 return self.device_mobile(*argument, **settings).click()
 
     @Decorators.android_version
@@ -366,7 +380,7 @@ class GetConditions(Core):
 
          **Example:**
 
-         || Get Element Attribute         |  className=sample  element=text
+         || Get Element Attribute    |  className=sample   | element=text
 
          **Return:**
 
