@@ -92,8 +92,7 @@ class Parallel(object):
                 if isinstance(devices_parallel, str):
                     return func(self, device=devices_parallel, *argument, **settings)
                 else:
-                    for d in devices_pararel:
-                        list.append(func(self, device=d, *argument, **settings))
+                    list = [func(self, device=d, *argument, **settings) for d in devices_parallel]
 
                     return list
 

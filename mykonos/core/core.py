@@ -12,17 +12,6 @@ class Core(object):
         """
         try:
             return Device(*args, **setting)
-            # if 'devices_pararel' in setting:
-            #     devices_pararel = setting['devices_pararel']
-            #     del setting['devices_pararel']
-            #
-            #     list = []
-            #     for device in devices_pararel:
-            #         list.append(Device(device))
-            #
-            #     return list
-            # else:
-            #     return Device(*args, **setting)
 
         except Exception as Argument:
             raise ValueError(Argument)
