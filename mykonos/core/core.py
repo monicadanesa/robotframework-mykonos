@@ -6,12 +6,12 @@ class Core(object):
     how to call :  self.device_mobile = self.device(self.data)
     data is from yaml file
     """
-    def device(self, *args, **data_result):
+    def device(self, *args, **setting):
         """
         Defining main device class, for consumers all management device.
         """
         try:
-            return Device(*args, **data_result)
+            return Device(*args, **setting)
 
         except Exception as Argument:
             raise ValueError(Argument)

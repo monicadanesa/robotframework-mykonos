@@ -17,6 +17,7 @@ mock = "*"
 alog = "*"
 sphinx = "*"
 rinohtype = "*"
+ray = "*"
 
 [requires]
 python_version = "3.7"
