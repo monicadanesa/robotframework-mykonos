@@ -9,7 +9,7 @@ class GlobalElement(Core):
         self.device_mobile = self.device()
         self.management_device = ManagementDevice()
 
-
+    @Parallel.device_check
     def open_notification(self, device=None, **settings):
         """Open notification a device.
 
@@ -20,7 +20,7 @@ class GlobalElement(Core):
 
         With Device/ Pararel :
         ||  @{emulator} =      |  192.168.1.1    | 192.168.1.2
-        || Open notification   |device_pararel=@{emulator}
+        || Open notification   |device_parallel=@{emulator}
 
 
         """
@@ -31,6 +31,7 @@ class GlobalElement(Core):
         else:
             return self.device_mobile.open.notification()
 
+    @Parallel.device_check
     def open_quick_settings(self, device=None, **settings):
         """Open Quick Setting a device.
 
@@ -42,7 +43,7 @@ class GlobalElement(Core):
 
         With Device/ Pararel :
         ||  @{emulator} =      |  192.168.1.1    | 192.168.1.2
-        || Open Quick setting  |  device_pararel= @{emulator}
+        || Open Quick setting  |  device_parallel= @{emulator}
 
         """
         if device is not None:
@@ -63,7 +64,7 @@ class GlobalElement(Core):
 
         With Device/ Pararel :
         ||  @{emulator} =      |  192.168.1.1    | 192.168.1.2
-        ||  Clear Text         | className=sample class     |device_pararel= @{emulator}
+        ||  Clear Text         | className=sample class     |device_parallel= @{emulator}
         """
         if 'locator' in settings:
             locator = settings['locator']
@@ -87,7 +88,7 @@ class GlobalElement(Core):
 
         With Device/ Pararel :
         ||  @{emulator} =      |  192.168.1.1    | 192.168.1.2
-        ||  Input Text         |  className=sample class | input=text  | device_pararel=@{emulator}
+        ||  Input Text         |  className=sample class | input=text  | device_parallel=@{emulator}
 
         """
         input = settings['input']
@@ -115,7 +116,7 @@ class GlobalElement(Core):
 
         With Device/ Pararel :
         ||  @{emulator} =   | 192.168.1.1    | 192.168.1.2
-        ||  Count Element   | device_pararel=@{emulator}
+        ||  Count Element   | device_parallel=@{emulator}
 
         **Return:**
 
@@ -145,6 +146,10 @@ class GlobalElement(Core):
 
         ||  Turn On Screen
 
+        With Device/ Pararel :
+        ||  @{emulator} =   | 192.168.1.1    | 192.168.1.2
+        ||  Turn On Screen  | device_parallel=@{emulator}
+
         **Return:**
 
          True or False
@@ -162,6 +167,10 @@ class GlobalElement(Core):
         **Example:**
 
         ||  Turn Off Screen
+
+        With Device/ Pararel :
+        ||  @{emulator} =   | 192.168.1.1    | 192.168.1.2
+        ||  Turn Off Screen  | device_parallel=@{emulator}
 
         **Return:**
 
@@ -212,6 +221,11 @@ class GlobalElement(Core):
 
         || Capture Screen        | file=sample
 
+        With Device/ Pararel :
+        ||  @{emulator} =   | 192.168.1.1    | 192.168.1.2
+        ||   Capture Screen  | device_parallel=@{emulator}
+        || Capture Screen    | file=sample  | device_parallel=@{emulator}
+
         **Return:**
 
         screen capture of device(*.png)
@@ -246,6 +260,10 @@ class Click(Core):
         **Example:**
 
         ||  Click Element                    | className=sample class
+
+        With Device/ Pararel :
+        ||  @{emulator} =   | 192.168.1.1    | 192.168.1.2
+        ||  Click Element                    | className=sample class  | device_parallel=@{emulator}
         """
 
         if 'locator' in settings:
@@ -253,7 +271,7 @@ class Click(Core):
             return locator.click()
 
         else:
-            if device != None:
+            if device is not None:
                 get_devices = self.management_device.scan_current_device(device)
                 return get_devices(*argument, **settings).click()
 
@@ -266,28 +284,32 @@ class Click(Core):
                 return self.device_mobile(*argument, **settings).click()
 
     @Decorators.android_version
-    def long_click_element(self, *argument, **settings):
+    def long_click_element(self, device=None, *argument, **settings):
         """Long click on UI base on locator.
 
         This keyword is used to long click button or element of device.
 
 
         **Example:**
-
         ||  Long Click Element                 | className=sample class
+
+        With Device/ Pararel :
+        ||  @{emulator} =   | 192.168.1.1    | 192.168.1.2
+        ||  Long Click Element               | className=sample class  | device_parallel=@{emulator}
+
         """
         if 'locator' in settings:
             locator = settings['locator']
             return locator.long_click()
         else:
-            if 'device' in settings:
-                device = settings['device']
-                del settings['device']
-                return device(*argument, **locator).long_click()
+            if device is not None:
+                get_devices = self.management_device.scan_current_device(device)
+                return get_devices.long_click()
             else:
                 return self.device_mobile(*argument, **settings).long_click()
 
-    def click_a_point(self, *argument, **settings):
+    @Decorators.android_version
+    def click_a_point(self, device=None, *argument, **settings):
         """Click into pointer target location.
 
          This keyword is used to click location  based on pointer X and Y.
@@ -295,6 +317,10 @@ class Click(Core):
          **Example:**
 
          ||  CLick A Point      |x=10   |y=20
+
+         With Device/ Pararel :
+         ||  @{emulator} =   | 192.168.1.1    | 192.168.1.2
+         ||  CLick A Point   |x=10   |y=20    | device_parallel=@{emulator}
 
         """
         if 'x' in settings and 'y' in settings:
@@ -305,10 +331,9 @@ class Click(Core):
         else:
             raise ValueError('pointer x or y is refused')
 
-        if 'device' in settings:
-            device = settings['device']
-            del settings['device']
-            return device(*argument, **settings).click(x, y)
+        if device is not None:
+            get_devices = self.management_device.scan_current_device(device)
+            return get_devices.click(x, y)
         else:
             return self.device_mobile().click(x, y)
 
@@ -316,6 +341,7 @@ class Click(Core):
 class GetConditions(Core):
     def __init__(self):
         self.device_mobile = self.device()
+        self.management_device = ManagementDevice()
 
     @Parallel.device_check
     def get_info(self, device=None, value=None):
@@ -323,7 +349,11 @@ class GetConditions(Core):
 
         **Example:**
 
-        ||  Get Device         |  displayRotation
+        ||  Get Info         |  value=displayRotation
+
+         With Device/ Pararel :
+         ||  @{emulator} =   | 192.168.1.1    | 192.168.1.2
+         ||  Get Info        | value=displayRotation | device_parallel=@{emulator}
 
         **Return:**
         { u'displayRotation': 0,
@@ -345,13 +375,17 @@ class GetConditions(Core):
 
         return result
 
-
-    def get_text(self, *argument, **settings):
+    @Parallel.device_check
+    def get_text(self, device=None, *argument, **settings):
         """Get text from element base on locator.
 
         **Example:**
 
         ||  Get Text         |  className=sample class
+
+         With Device/ Pararel :
+         ||  @{emulator} =   | 192.168.1.1    | 192.168.1.2
+         ||  Get Text        | className=sample class | device_parallel=@{emulator}
 
         **Return:**
         String
@@ -360,15 +394,14 @@ class GetConditions(Core):
             locator = settings['locator']
             return locator.info['text']
         else:
-            if 'device' in settings:
-                device = settings['device']
-                del settings['device']
-
-                return device(*argument, **settings).info['text']
+            if device is not None:
+                get_devices = self.management_device.scan_current_device(device)
+                return get_devices(*argument, **settings).info['text']
             else:
                 return self.device_mobile(*argument, **settings).info['text']
 
-    def get_element_attribute(self, *argument, **settings):
+    @Parallel.device_check
+    def get_element_attribute(self, device=None, *argument, **settings):
         """Get element attribute keyword of device.
 
         **List of Elements:**
@@ -393,15 +426,14 @@ class GetConditions(Core):
             locator = settings['locator']
             return locator.info[element]
         else:
-            if 'device' in settings:
-                device = settings['device']
-                del settings['device']
-
-                return device(*argument, **settings).info[element]
+            if device is not None:
+                get_devices = self.management_device.scan_current_device(device)
+                return get_devices(*argument, **settings).info[element]
             else:
                 return self.device_mobile(*argument, **settings).info[element]
 
-    def get_element(self, *argument, **settings):
+    @Parallel.device_check
+    def get_element(self, device=None, *argument, **settings):
         """Get element info of device .
         This keyword is used to get element info of device.
 
@@ -422,15 +454,18 @@ class GetConditions(Core):
          'sdkInt': 25,
          'naturalOrientation': True}
         """
-        if 'device' in settings:
-            device = settings['device']
-            del settings['device']
-
-            return device(*argument, **settings).info
+        if 'locator' in settings:
+            locator = settings['locator']
+            return locator.info
         else:
-            return self.device_mobile(*argument, **settings).info
+            if device is not None:
+                get_devices = self.management_device.scan_current_device(device)
+                return get_devices(*argument, **settings).info
+            else:
+                return self.device_mobile(*argument, **settings).info
 
-    def get_element_by_coordinate_x(self, *argument, **settings):
+    @Parallel.device_check
+    def get_element_by_coordinate_x(self, device=None, *argument, **settings):
         """Get element by coordinate X.
         This keyword is used to get coordinate X of device.
 
@@ -442,13 +477,17 @@ class GetConditions(Core):
 
         Coordinate x(int)
         """
-        bound = self.get_element_attribute(element='bounds', *argument, **settings)
+        if device is not None:
+            get_devices = self.management_device.scan_current_device(device)
+            print(get_devices)
+            # bound = self.get_element_attribute(element='bounds', device=get_devices, *argument, **settings)
 
-        bottom = bound['bottom']
-        top = bound['top']
-        elm_x = (top+bottom)+top
-
-        return elm_x
+        else:
+            bound = self.get_element_attribute(element='bounds', *argument, **settings)
+            bottom = bound['bottom']
+            top = bound['top']
+            elm_x = (top+bottom)+top
+            return elm_x
 
     def get_element_by_coordinate_y(self, *argument, **settings):
         """Get element by coordinate Y.
