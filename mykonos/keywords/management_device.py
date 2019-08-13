@@ -56,6 +56,7 @@ class ManagementDevice(Core):
         try:
             os.system(self.adb_s + device + self.adb_start + package + '')
             return self.device(device)
+
         except ValueError:
             raise ValueError('open device is failed')
 
@@ -115,8 +116,12 @@ class ManagementDevice(Core):
         || Reset Application   |  emulator=emulator-554 | package=sample_apk
         """
         try:
-            reset = self.__shell_pipe(cmd='adb -s %s shell pm clear %s' % (device, package))
-            # reset = os.system('adb -s'+device+' shell pm clear '+package)
+            if len(device) == 1:
+                reset = self.__shell_pipe(cmd='adb -s %s shell pm clear %s' % (device, package))
+            else:
+                for i in device:
+                    reset = self.__shell_pipe(cmd='adb -s %s shell pm clear %s' % (i, package))
+
             return reset
         except ValueError:
             raise ValueError('reset apps is failed')
@@ -202,7 +207,11 @@ class ManagementDevice(Core):
         || Close App        | devices=${emulator} | package=Package Activity
         """
         try:
-            closed = self.__shell_pipe(cmd='adb -s %s shell am force-stop %s' % (device, package))
+            if len(device) == 1:
+                closed = self.__shell_pipe(cmd='adb -s %s shell am force-stop %s' % (device, package))
+            else:
+                for i in device:
+                    closed = self.__shell_pipe(cmd='adb -s %s shell am force-stop %s' % (i, package))
             # closed = os.system('adb -s '+device+' shell am force-stop '+package)
             return closed
         except ValueError:
