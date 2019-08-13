@@ -2,7 +2,7 @@
 Library    ../mykonos/
 *** Variables ***
 @{emulator}               192.168.56.127:5555   192.168.56.125:5555
-${apk}                    com.android.messaging/com.android.messaging.ui.conversationlist.ConversationListActivity
+${apk}                    com.android.mms
 ${sender_number}          0812345678
 ${message}                helllo
 ${emulator}               192.168.56.127:5555
@@ -34,10 +34,10 @@ Click Button Send
 
 *** Test Cases ***
 Test Case Input Phone Number on Application Messaging
-    Reset App                                                     device=${emulator}    package=${apk}
-    # Open App                                                      device=@{emulator}     package=${apk}
-    # Click Element                                                 className=android.widget.TextView     devices_parallel=@{emulator}    index=0  text=Messaging
-    # Click Element                                                 resourceId=com.android.messaging:id/start_new_conversation_button     devices_parallel=@{emulator}
+    Reset App                                                     device=192.168.56.127:5555    package=${apk}
+    Open App                                                      device=@{emulator}     package=${apk}
+    Click Element                                                 className=android.widget.TextView     devices_parallel=@{emulator}    index=0  text=Messaging
+    Click Element                                                 resourceId=com.android.messaging:id/start_new_conversation_button     devices_parallel=@{emulator}
     # Scan Device and Open Application Messaging                ${emulator}       ${apk}
     # Click Plus Icon on the Messaging Menu
     # Type Sender Number                                        ${sender_number}
