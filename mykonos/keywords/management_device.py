@@ -54,15 +54,8 @@ class ManagementDevice(Core):
         ||  Open Application      |  device=emulator-554   | package=sample_apk
         """
         try:
-            if isinstance(device, str):
-                open = self.__shell_pipe(cmd='adb -s %s shell am start -W %s' % (device, package))
-            else:
-                for i in device:
-                    open = self.__shell_pipe(cmd='adb -s %s shell am start -W %s' % (i, package))
-
+            open = self.__shell_pipe(cmd='adb -s %s shell am start -W %s' % (device, package))
             return open
-
-
         except ValueError:
             raise ValueError('open device is failed')
 
@@ -122,12 +115,7 @@ class ManagementDevice(Core):
         || Reset Application   |  emulator=emulator-554 | package=sample_apk
         """
         try:
-            if isinstance(device, str):
-                reset = self.__shell_pipe(cmd='adb -s %s shell pm clear %s' % (device, package))
-            else:
-                for i in device:
-                    reset = self.__shell_pipe(cmd='adb -s %s shell pm clear %s' % (i, package))
-
+            reset = self.__shell_pipe(cmd='adb -s %s shell pm clear %s' % (device, package))
             return reset
         except ValueError:
             raise ValueError('reset apps is failed')
@@ -213,12 +201,7 @@ class ManagementDevice(Core):
         || Close App        | devices=${emulator} | package=Package Activity
         """
         try:
-            if isinstance(device, str):
-                closed = self.__shell_pipe(cmd='adb -s %s shell am force-stop %s' % (device, package))
-            else:
-                for i in device:
-                    closed = self.__shell_pipe(cmd='adb -s %s shell am force-stop %s' % (i, package))
-            # closed = os.system('adb -s '+device+' shell am force-stop '+package)
+            closed = self.__shell_pipe(cmd='adb -s %s shell am force-stop %s' % (device, package))
             return closed
         except ValueError:
             raise ValueError('device not found')
