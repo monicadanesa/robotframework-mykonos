@@ -1,12 +1,12 @@
 import os
 import subprocess
 from mykonos.core.core import Core
-
+from mykonos.keywords.management_device_utils import DeviceUtils
 
 class ManagementDevice(Core):
     adb_s = 'adb -s '
     adb_start = ' shell am start -W '
-    adb_stop = ' adb shell am force-stop '
+    adb_stop = ' shell am force-stop '
     adb_grep_pid = 'adb shell pgrep '
     adb_kill = 'adb shell pkill '
     adb_pm_clear = 'shell pm clear'
@@ -14,8 +14,9 @@ class ManagementDevice(Core):
     adb_pull = 'adb pull '
     adb_push = 'adb push '
     adb_activity = 'adb shell dumpsys activity | grep '
-    adb_disable = 'shell pm disable'
+    adb_disable = 'adb shell pm disable'
     adb_check_version = 'adb shell getprop ro.build.version.release'
+    adb_devices = 'adb devices | grep -v devices | grep device | cut -f 1'
 
     def __init__(self):
         """Devine all global variable."""
@@ -53,8 +54,8 @@ class ManagementDevice(Core):
         ||  Open Application      |  device=emulator-554   | package=sample_apk
         """
         try:
-            os.system(self.adb_s + device + self.adb_start + package + '')
-            return self.device(device)
+            open = self.__shell_pipe(cmd='adb -s %s shell am start -W %s' % (device, package))
+            return open
         except ValueError:
             raise ValueError('open device is failed')
 
@@ -70,6 +71,7 @@ class ManagementDevice(Core):
         package = self._substring_package(package)
         cl = os.system(self.adb_kill + package)
         return cl
+
     def close_all_app(self, device):
         """Close all tasks on device, and kill all application sessions.
         **Example:**
@@ -81,8 +83,7 @@ class ManagementDevice(Core):
         except ValueError:
             raise ValueError('device can not be opened')
 
-    def __get_current_package(self):
-        cmd = "adb shell dumpsys activity | grep top-activity | awk '{ print $8 }'"
+    def __append_current_package(self, cmd):
         top_activity = self.__shell_pipe(cmd)
         start_pid = str(top_activity).find("'")
         end_pid = str(top_activity).find(":")
@@ -91,6 +92,22 @@ class ManagementDevice(Core):
         package = str(top_activity)[end_pid+1:end_package_name]
         return package
 
+
+    def __get_current_package(self, **settings):
+        get_device = self.get_devices()
+        if 'device' in settings:
+            device = settings['device']
+            out = self.__shell_pipe(cmd="adb -s %s shell dumpsys activity | grep top-activity | awk '{ print $8 }'")
+            self.__append_current_package(out)
+        else:
+            if len(get_device) == 1:
+                out = self.__shell_pipe(cmd="adb shell dumpsys activity | grep top-activity | awk '{ print $8 }'")
+                self.__append_current_package(out)
+            else:
+                for i in get_device:
+                    out = self.__shell_pipe(cmd="adb -s %s shell dumpsys activity | grep top-activity | awk '{ print $8 }'")
+                    self.__append_current_package(out)
+
     def reset_app(self, device, package):
         """Reset Application on Device.
         This keyword is used to reset the current application while sesion is keep alive.
@@ -98,7 +115,7 @@ class ManagementDevice(Core):
         || Reset Application   |  emulator=emulator-554 | package=sample_apk
         """
         try:
-            reset = os.system('adb -s'+device+' shell pm clear '+package)
+            reset = self.__shell_pipe(cmd='adb -s %s shell pm clear %s' % (device, package))
             return reset
         except ValueError:
             raise ValueError('reset apps is failed')
@@ -177,16 +194,17 @@ class ManagementDevice(Core):
         result = self.open_app(device, old)
         return result
 
-    def close_app(self):
+    def close_app(self, device, package):
         """Close Application the device.
         This keywords is used to close the current application and kill session on device.
         **Example:**
-        || Close App        |
+        || Close App        | devices=${emulator} | package=Package Activity
         """
-        package = self.__get_current_package()
-        result = os.system(self.adb_disable + package)
-        # reconect = os.system('adb reconnect')
-        return result
+        try:
+            closed = self.__shell_pipe(cmd='adb -s %s shell am force-stop %s' % (device, package))
+            return closed
+        except ValueError:
+            raise ValueError('device not found')
 
     def get_android_version(self, **settings):
         get_device = self.get_devices()

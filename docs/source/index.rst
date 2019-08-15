@@ -10,7 +10,7 @@ Introduction
 Installation
 ############
 
-     pip install git+https://github.com/monicadanesa/mykonos
+     pip install mykonos
 
 Usage
 #####
