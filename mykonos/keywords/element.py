@@ -415,6 +415,10 @@ class GetConditions(Core):
 
          || Get Element Attribute    |  className=sample   | element=text
 
+          With Device/ Pararel :
+          ||  @{emulator} =           | 192.168.1.1    | 192.168.1.2
+          || Get Element Attribute    | className=sample class | device_parallel=@{emulator}
+
          **Return:**
 
          Attribute from element device
@@ -439,7 +443,11 @@ class GetConditions(Core):
 
          **Example:**
 
-        || Get Element    |
+        || Get Element    ||
+
+      With Device/ Pararel :
+      ||  @{emulator} =     || 192.168.1.1    | 192.168.1.2
+      ||  Get Element       || device_parallel=@{emulator}
 
         **Return:**
 
@@ -471,25 +479,29 @@ class GetConditions(Core):
 
          **Example:**
 
-        || Get Element By Coordinate X  |  className=sample class
+         || Get Element By Coordinate X  |  className=sample class
+
+      With Device/ Pararel :
+          ||  @{emulator} =     || 192.168.1.1    | 192.168.1.2
+          ||  Get Element By Coordinate X     || device_parallel=@{emulator} || className=sample class
 
         **Return:**
 
         Coordinate x(int)
         """
         if device is not None:
-            get_devices = self.management_device.scan_current_device(device)
-            print(get_devices)
-            # bound = self.get_element_attribute(element='bounds', device=get_devices, *argument, **settings)
-
+            bound = self.get_element_attribute(element='bounds', devices_parallel=device)
         else:
             bound = self.get_element_attribute(element='bounds', *argument, **settings)
-            bottom = bound['bottom']
-            top = bound['top']
-            elm_x = (top+bottom)+top
-            return elm_x
 
-    def get_element_by_coordinate_y(self, *argument, **settings):
+        bottom = bound['bottom']
+        top = bound['top']
+        elm_x = (top+bottom)+top
+
+        return elm_x
+
+    @Parallel.device_check
+    def get_element_by_coordinate_y(self, device=None, *argument, **settings):
         """Get element by coordinate Y.
 
         This keyword is used to get coordinate Y of device.
@@ -498,19 +510,29 @@ class GetConditions(Core):
 
         || Get Element By Coordinate Y  |  className=sample class
 
+      With Device/ Pararel :
+        ||  @{emulator} =     || 192.168.1.1    | 192.168.1.2
+        ||  Get Element By Coordinate Y     || device_parallel=@{emulator} || className=sample class
+
         **Return:**
 
         Coordinate y(int)
         """
-        bound = self.get_element_attribute(element='bounds', *argument, **settings)
-        display_height = self.get_height()
-        height = display_height
+
+        if device is not None:
+            bound = self.get_element_attribute(element='bounds', devices_parallel=device)
+            display_height = self.get_height(devices_parallel=device)
+        else:
+            bound = self.get_element_attribute(element='bounds', *argument, **settings)
+            display_height = self.get_height()
+
         left = bound['left']
         right = bound['right']
-        elm_y = height-(right+left)
+        elm_y = display_height-(right+left)
         return elm_y
 
-    def get_width(self):
+    @Parallel.device_check
+    def get_width(self, device=None):
         """Get width from display of device.
 
         This keyword is used to get widh of device,
@@ -519,14 +541,23 @@ class GetConditions(Core):
 
         || Get Width
 
+      With Device/ Pararel :
+        ||  @{emulator} =     || 192.168.1.1    | 192.168.1.2
+        || Get Width          || device_parallel=@{emulator}
+
         **Return:**
 
         Width of device(int)
         """
-        get_device = self.device()
-        return get_device.info['displayWidth']
+        if device is None:
+            get_device = self.device().info['displayWidth']
+            return get_device
+        else:
+            get_devices = self.management_device.scan_current_device(device).info['displayWidth']
+            return get_devices
 
-    def get_height(self):
+    @Parallel.device_check
+    def get_height(self, device=None):
         """Get height from display of device.
 
         This keyword is used to get widh of device.
@@ -535,21 +566,34 @@ class GetConditions(Core):
 
         || Get Height
 
+      With Device/ Pararel :
+        ||  @{emulator} =     || 192.168.1.1    | 192.168.1.2
+        || Get Height          || device_parallel=@{emulator}
+
         **Return:**
 
-        Width of device(int)
+        Height of device(int)
         """
-        get_device = self.device()
-        return get_device.info['displayHeight']
+        if device is None:
+            get_device = self.device().info['displayHeight']
+            return get_device
+        else:
+            get_devices = self.management_device.scan_current_device(device).info['displayHeight']
+            return get_devices
 
-    def get_position(self, position=0, *argument, **settings):
+    @Parallel.device_check
+    def get_position(self, position=0, device=None, *argument, **settings):
         """Get Position of element.
 
         This keyword is used to get position of device element.
 
         **Example:**
 
-        || Get Position       |  className=sample   | position=1
+        || Get Position      ||  className=sample   || position=1
+
+      With Device/ Pararel :
+        ||  @{emulator} =    || 192.168.1.1    || 192.168.1.2
+        || Get Position      || device_parallel=@{emulator} || className=sample || position=1 
 
         **Return:**
 
@@ -560,11 +604,9 @@ class GetConditions(Core):
             del settings['locator']
             return locator[position]
         else:
-            if 'device' in settings:
-                device = settings['device']
-                del settings['device']
-
-                return device(*argument, **settings)[position]
+            if device is not None:
+                devices = self.management_device.scan_current_device(device)
+                return devices(*argument, **settings)[position]
             else:
                 return self.device_mobile(*argument, **settings)[position]
 
