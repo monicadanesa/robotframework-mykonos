@@ -593,7 +593,7 @@ class GetConditions(Core):
 
       With Device/ Pararel :
         ||  @{emulator} =    || 192.168.1.1    || 192.168.1.2
-        || Get Position      || device_parallel=@{emulator} || className=sample || position=1 
+        || Get Position      || device_parallel=@{emulator} || className=sample || position=1
 
         **Return:**
 
@@ -615,6 +615,7 @@ class ExpectedConditions(Core):
     def __init__(self):
         self.device_mobile = self.device()
         self.get_conditions = GetConditions()
+        self.management_device = ManagementDevice()
 
     @Parallel.device_check
     def page_should_contain_element(self, device=None, *argument, **settings):
@@ -629,19 +630,15 @@ class ExpectedConditions(Core):
 
         True or False
         """
-        # element = self.get_conditions.get_element(*argument, **settings)
 
         if 'locator' in settings:
             locator = settings['locator']
-            if locator.exists:
-                return True
-            else:
-                raise ValueError('locator not found')
+            del settings['locator']
+            return locator.exists
         else:
-            if 'device' in settings:
-                device = settings['device']
-                del settings['device']
-                return device(*argument, **settings).exists
+            if device is not None:
+                devices = self.management_device.scan_current_device(device)
+                return devices(*argument, **settings).exists
             else:
                 return self.device_mobile(*argument, **settings).exists
 
@@ -658,14 +655,13 @@ class ExpectedConditions(Core):
 
         True or False
         """
-        text = settings['text']
 
-        if 'device' in settings:
-            device = settings['device']
-            del settings['device']
-            return device(*argument, **settings).exists
+        if 'locator' in settings:
+            locator = settings['locator']
+            del settings['locator']
+            return locator.exists
         else:
-            if device != None:
+            if device is not None:
                 get_devices = self.management_device.scan_current_device(device)
                 return get_devices(*argument, **settings).exists
 
@@ -706,30 +702,21 @@ class ExpectedConditions(Core):
 
         True or False
         """
-        # element = self.get_conditions.get_element(*argument, **settings)
-
         if 'locator' in settings:
             locator = settings['locator']
-            found = locator.exists
-            if found is False:
-                return True
-            else:
-                return False
+            del settings['locator']
+            result = locator.exists
         else:
-            if 'device' in settings:
-                device = settings['device']
-                del settings['device']
-                found = device(*argument, **settings).exists
-                if found is True:
-                    return False
-                else:
-                    return True
+            if device is not None:
+                devices = self.management_device.scan_current_device(device)
+                result = devices(*argument, **settings).exists
             else:
-                found = self.device_mobile(*argument, **settings).exists
-                if found is True:
-                    return False
-                else:
-                    return True
+                result = self.device_mobile(*argument, **settings).exists
+
+        if result is True:
+            return False
+        else:
+            return True
 
     @Parallel.device_check
     def page_should_not_contain_text(self, device=None, *argument, **settings):
@@ -746,22 +733,21 @@ class ExpectedConditions(Core):
         True or False
 
         """
-        text = self.get_conditions.get_text(*argument, **settings)
-
         if 'locator' in settings:
             locator = settings['locator']
-            found = locator[text].exists
-            if found is False:
-                return True
-            else:
-                return False
+            del settings['locator']
+            result = locator.exists
         else:
-            if 'device' in settings:
-                device = settings['device']
-                del settings['device']
-                return device(*argument, **settings).exists
+            if device is not None:
+                devices = self.management_device.scan_current_device(device)
+                result = devices(*argument, **settings).exists
             else:
-                return self.device_mobile(*argument, **settings).exists
+                result = self.device_mobile(*argument, **settings).exists
+
+        if result is True:
+            return False
+        else:
+            return True
 
     @Parallel.device_check
     def text_should_be_enabled(self, device=None, *argument, **settings):
@@ -777,20 +763,21 @@ class ExpectedConditions(Core):
 
         True or False
         """
-        element = self.get_conditions.get_element()
-        enabled = element['enabled']
         if 'locator' in settings:
             locator = settings['locator']
-            if locator.info['enabled'] is True:
-                return True
-            else:
-                return False
+            del settings['locator']
+            result = locator.info['enabled']
         else:
-            if 'device' in settings:
-                device_mobile = settings['device']
-                del settings['device']
+            if device is not None:
+                devices = self.management_device.scan_current_device(device)
+                result = devices(*argument, **settings).info['enabled']
+            else:
+                result = self.device_mobile(*argument, **settings).info['enabled']
 
-            return self.device_mobile(*argument, **settings).enabled
+        if result is not True:
+            return False
+        else:
+            return True
 
     @Parallel.device_check
     def text_should_be_disabled(self, device=None, *argument, **settings):
@@ -806,20 +793,20 @@ class ExpectedConditions(Core):
 
         True or False
         """
-        element = self.get_conditions.get_element()
-        enabled = element['enabled']
         if 'locator' in settings:
             locator = settings['locator']
-            if locator.info['enabled'] is False:
-                return True
-            else:
-                return False
+            result = locator.info['enabled']
         else:
-            if 'device' in settings:
-                device_mobile = settings['device']
-                del settings['device']
+            if device is not None:
+                devices = self.management_device.scan_current_device(device)
+                result = devices(*argument, **settings).info['enabled']
+            else:
+                result = self.device_mobile(*argument, **settings).info['enabled']
 
-            return self.device_mobile(*argument, **settings).enabled
+        if result is True:
+            return False
+        else:
+            return True
 
     @Parallel.device_check
     def element_should_contain_text(self, device=None, *argument, **settings):
@@ -905,26 +892,22 @@ class ExpectedConditions(Core):
         True or False
         """
         if 'locator' in settings:
-            locator = settings['locator']
-
-            try:
-                if locator.info['visibleBounds'] is None:
-                    return False
-                return True
-            except Exception as error:
-                return ("Exception Error: {0}".format(error))
+            result = settings['locator']
+            del settings['locator']
 
         else:
-            if 'device' in settings:
-                device_mobile = settings['device']
-                del settings['device']
+            if device is not None:
+                devices = self.management_device.scan_current_device(device)
+                result = devices(*argument, **settings)
+            else:
+                result = self.device_mobile(*argument, **settings)
 
-            try:
-                if self.device_mobile(*argument, **settings).info['visibleBounds'] is None:
-                    return False
+        try:
+            check_element_visible = result.info['visibleBounds']
+            if check_element_visible is not None:
                 return True
-            except Exception as error:
-                return ("Exception Error: {0}".format(error))
+        except Exception as error:
+            return False
 
     @Parallel.device_check
     def check_element_non_visible(self, device=None, *argument, **settings):
@@ -942,22 +925,16 @@ class ExpectedConditions(Core):
         """
         if 'locator' in settings:
             locator = settings['locator']
-
-            try:
-                if locator.info['visibleBounds'] is None:
-                    return True
-                return False
-            except Exception as error:
-                return ("Exception Error: {0}".format(error))
-
+            del settings['locator']
         else:
-            if 'device' in settings:
-                device_mobile = settings['device']
-                del settings['device']
-
-            try:
-                if self.device_mobile(*argument, **settings).info['visibleBounds'] is None:
-                    return True
+            if device is not None:
+                devices = self.management_device.scan_current_device(device)
+                result = devices(*argument, **settings)
+            else:
+                result = self.device_mobile(*argument, **settings)
+        try:
+            check_element_visible = result.info['visibleBounds']
+            if check_element_visible is not None:
                 return False
-            except Exception as error:
-                return ("Exception Error: {0}".format(error))
+        except Exception as error:
+            return True

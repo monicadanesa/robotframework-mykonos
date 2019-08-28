@@ -7,20 +7,16 @@ class Touch(Core):
         self.device_mobile = self.device()
         self.management_device = ManagementDevice()
 
-    def __get_device_global(self, *argument, **settings):
+    def __get_device_global(self, device=None, *argument, **settings):
         if 'locator' in settings:
             device = settings['locator']
         else:
-            if 'device' in settings:
-                device = settings['device']
-                del settings['device']
-
-                device = device(*argument, **settings)
+            if device is not None:
+                devices = self.management_device.scan_current_device(device)
             else:
-                device = self.device_mobile(*argument, **settings)
+                devices = self.device_mobile(*argument, **settings)
 
-        return device
-
+        return devices
 
     @Parallel.device_check
     def scroll(self, device=None, *argument, **settings):
@@ -110,22 +106,22 @@ class Touch(Core):
         else:
             return self.__get_device_scroll(self, *argument, **settings).fling()
 
-    def swipe(self, sx, sy, ex, ey, steps, **settings):
+    @Parallel.device_check
+    def swipe(self, sx, sy, ex, ey, steps=10, device=None, **settings):
         """Geasture swipe with interanction on device.
         Swipe from (sx, sy) to (ex, ey).
         **Example:**
         || Swipe        | sx=10  sy=10  ex=20   ey=20   |  steps=100
-        """
+    """
 
-        if 'device' in settings:
-            device = settings['device']
-
-            del settings['device']
-            return device.swipe(sx, sy, ex, ey, steps)
+        if device is not None:
+            devices = self.management_device.scan_current_device(device)
+            return devices.swipe(sx, sy, ex, ey, steps)
         else:
             return self.device_mobile.swipe(sx, sy, ex, ey, steps)
 
-    def swipe_with_direction(self, *argument, **settings):
+    @Parallel.device_check
+    def swipe_with_direction(self, device=None, *argument, **settings):
         """Gesture swipe with direction on device.
         Swipe with direction : right, left, up and down
         **Example:**
@@ -141,33 +137,36 @@ class Touch(Core):
             steps = settings['steps']
             del settings['steps']
 
-        dvc = self.__get_device_global(*argument, **settings)
+        if device is not None:
+            dvc = self.management_device.scan_current_device(device)
+        else:
+            dvc = self.device_mobile()
 
         if 'right' in direction:
-            return dvc.swipe.right(steps=1)
+            return dvc(*argument, **settings).swipe.right(steps=1)
         elif 'left' in direction:
-            return dvc.swipe.left(steps=1)
+            return dvc(*argument, **settings).swipe.left(steps=1)
         elif 'up' in direction:
-            return dvc.swipe.up(steps=1)
+            return dvc(*argument, **settings).swipe.up(steps=1)
         elif 'down' in direction:
-            return dvc.swipe.down(steps=1)
+            return dvc(*argument, **settings).swipe.down(steps=1)
 
-    def drag_screen(self, sx, sy, ex, ey, steps, *argument, **settings):
+    @Parallel.device_check
+    def drag_screen(self, sx, sy, ex, ey, steps, device=None):
         """Geasture drag interanction on device.
         This keyword is used to drag another point ui object to another point ui object.
         **Example:**
         || Drag Screen    | sx=189 | sy=210 | ex=954 | ey=336   |  steps=100
         """
-        device = settings['device']
 
         if device is not None:
-            return device(*argument, **settings).drag(sx, sy, ex, ey, steps)
+            devices = self.management_device.scan_current_device(device)
+            return device().drag(sx, sy, ex, ey, steps)
         else:
             return self.device_mobile().drag(sx, sy, ex, ey, steps)
 
-
-    @Decorators.android_version
-    def pinch(self, *argument, **settings):
+    @Parallel.device_check
+    def pinch(self, device=None, *argument, **settings):
         """Pinch interaction on Device
         **Example:**
         || Pinch      | steps=100     action=In    percent=100
@@ -188,16 +187,19 @@ class Touch(Core):
             action = settings['action']
             del settings['action']
 
-            device = self.__get_device_global(*argument, **settings)
+            if device is not None:
+                dvc = self.management_device.scan_current_device(device)
+            else:
+                dvc = self.device_mobile()
 
             if 'In' in action:
-                return device.pinch.In(percent=10, steps=10)
+                return dvc.pinch.In(percent=10, steps=10)
             elif 'Out' in action:
-                return device.pinch.Out(percent=10, steps=10)
+                return dvc.pinch.Out(percent=10, steps=10)
         else:
             raise Exception('Action is not available on ui automator')
 
-    @Decorators.android_version
+    @Parallel.device_check
     def fling(self, *argument, **settings):
         """Fling interanction on Android device.
         This keyword is used to perform fling to spesific ui object.
@@ -215,4 +217,32 @@ class Touch(Core):
         || Fling            | action=vertical backward
         || Fling            | action=vertical to end
          """
-        return self.__check_action_device_fling(self, *argument, **settings)
+        if device is not None:
+            dvc = self.management_device.scan_current_device(device)
+        else:
+            dvc = self.device_mobile()
+
+        if 'action' in settings:
+            action = settings['action']
+            del settings['action']
+
+            if 'horizontal forward' in action:
+                return dvc.fling.horiz.forward(max_swipes=10)
+            elif 'horizontal to begining' in action:
+                return dvc.fling.horiz.toBeginning(max_swipes=10)
+            elif 'horizontal backward' in action:
+                return dvc.fling.horiz.backward(max_swipes=10)
+            elif 'horizontal to end' in action:
+                return dvc.fling.horiz.toEnd(max_swipes=10)
+            elif 'vertical backward' in action:
+                return dvc.fling.vert.backward(max_swipes=10)
+            elif 'vertical to end' in action:
+                return dvc.fling.vert.toEnd(max_swipes=10)
+            elif 'vertical forward' in action:
+                return dvc.fling.vert.forward(max_swipes=10)
+            elif 'vertical to begining' in action:
+                return dvc.fling.vert.toBeginning(max_swipes=10)
+            else:
+                raise Exception('Action is not available on ui automator')
+        else:
+            return dvc.fling()
