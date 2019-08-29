@@ -3,8 +3,9 @@ from mykonos.core.core import Core
 from mykonos.keywords.management_device import ManagementDevice
 from mykonos.keywords.decorators import Decorators, Parallel
 from mykonos.keywords.runonfailure import RunOnFailureKeywords
+from mykonos.keywords.keywordgroup import KeywordGroup
 
-class GlobalElement(Core):
+class GlobalElement(Core, KeywordGroup):
     def __init__(self):
         self.get = GetConditions()
         self.device_mobile = self.device()

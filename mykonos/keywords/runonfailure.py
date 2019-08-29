@@ -1,7 +1,8 @@
 from robot.libraries import BuiltIn
 from decorator import decorator
+from mykonos.keywords.keywordgroup import KeywordGroup
 
-class RunOnFailureKeywords(object):
+class RunOnFailureKeywords(KeywordGroup):
 
     def __init__(self):
         self.BUILTIN = BuiltIn.BuiltIn()
@@ -16,7 +17,7 @@ class RunOnFailureKeywords(object):
         new_keyword_text = new_keyword if new_keyword is not None else "Nothing"
 
         self.run_on_failure_keyword = new_keyword
-        self._info('%s will be run on failure.' % new_keyword_text)
+        # self._info('%s will be run on failure.' % new_keyword_text)
 
         return old_keyword_text
 

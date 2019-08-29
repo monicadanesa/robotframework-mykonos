@@ -1,8 +1,9 @@
 from mykonos.core.core import Core
 from mykonos.keywords.management_device import ManagementDevice
 from mykonos.keywords.decorators import Decorators, Parallel
+from mykonos.keywords.keywordgroup import KeywordGroup
 
-class Touch(Core):
+class Touch(Core, KeywordGroup):
     def __init__(self):
         self.device_mobile = self.device()
         self.management_device = ManagementDevice()
