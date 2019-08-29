@@ -626,6 +626,10 @@ class ExpectedConditions(Core):
 
         || Page Should Contain Element | className=sample class
 
+        With Device/ Pararel :
+        || @{emulator} =      |  192.168.1.1    | 192.168.1.2
+        || Page Should Contain Element   |device_parallel=@{emulator}
+
         **Return:**
 
         True or False
@@ -650,6 +654,10 @@ class ExpectedConditions(Core):
         **Example:**
 
         || Page Should Contain Text | text=sample text
+
+        With Device/ Pararel :
+        || @{emulator} =      |  192.168.1.1    | 192.168.1.2
+        || Page Should Contain Text   |device_parallel=@{emulator}
 
         **Return:**
 
@@ -698,6 +706,10 @@ class ExpectedConditions(Core):
 
         || Page Should Not Contain Element | className=sample element
 
+        With Device/ Pararel :
+        || @{emulator} =      |  192.168.1.1    | 192.168.1.2
+        || Page Should Not Contain Element   |device_parallel=@{emulator}
+
         **Return:**
 
         True or False
@@ -727,6 +739,11 @@ class ExpectedConditions(Core):
         **Example:**
 
         || Page Should Contain Text | text=sample text
+
+        With Device/ Pararel :
+        || @{emulator} =      |  192.168.1.1    | 192.168.1.2
+        || Page Should Contain Text   |device_parallel=@{emulator}
+
 
         **Return:**
 
@@ -759,6 +776,10 @@ class ExpectedConditions(Core):
 
         || Text Should Be Enabled | text=sample text
 
+        With Device/ Pararel :
+        || @{emulator} =      |  192.168.1.1    | 192.168.1.2
+        || Text Should Be Enabled   |device_parallel=@{emulator}
+
         **Return:**
 
         True or False
@@ -789,6 +810,10 @@ class ExpectedConditions(Core):
 
         || Element Should Be Disabled | text=sample text
 
+        With Device/ Pararel :
+        || @{emulator} =      |  192.168.1.1    | 192.168.1.2
+        || Element Should Be Disabled   |device_parallel=@{emulator}
+
         **Return:**
 
         True or False
@@ -809,75 +834,6 @@ class ExpectedConditions(Core):
             return True
 
     @Parallel.device_check
-    def element_should_contain_text(self, device=None, *argument, **settings):
-        """Element should contain text.
-
-        The keyword is used to identify text on element.
-
-        **Example:**
-
-        || Element Should Contain Text | className=class | text=sample text
-
-        **Return:**
-
-        True or False
-        """
-        if 'locator' in settings:
-            locator = settings['locator']
-
-            try:
-                if locator.info['text'] is not None:
-                    return True
-            except Exception:
-                return False
-        else:
-            if 'device' in settings:
-                device_mobile = settings['device']
-                del settings['device']
-
-            try:
-                if self.device_mobile(*argument, **settings).info['text'] is not None:
-                    return True
-            except Exception:
-                return False
-
-    @Parallel.device_check
-    def element_should_not_contain_text(self, device=None, *argument, **settings):
-        """Element should contain text.
-
-        The keyword is used to identify text on element.
-
-        **Example:**
-
-        || Element Should Not Contain Text | className=class | text=sample text
-
-        **Return:**
-
-        True or False
-        """
-        if 'locator' in settings:
-            locator = settings['locator']
-
-            try:
-                if locator.info['text'] is None:
-                    return True
-                return False
-            except Exception as error:
-                return True
-
-        else:
-            if 'device' in settings:
-                device_mobile = settings['device']
-                del settings['device']
-
-            try:
-                if self.device_mobile(*argument, **settings).info['text'] is None:
-                    return True
-                return False
-            except Exception as error:
-                return True
-
-    @Parallel.device_check
     def check_element_visible(self, device=None, *argument, **settings):
         """Check element visible.
 
@@ -886,6 +842,9 @@ class ExpectedConditions(Core):
         **Example:**
 
         || Check Element Visible | className=sampleclassName
+        With Device/ Pararel :
+        ||  @{emulator} =      |  192.168.1.1    | 192.168.1.2
+        || Check Element Visible   |device_parallel=@{emulator}
 
         **Return:**
 
@@ -918,6 +877,10 @@ class ExpectedConditions(Core):
         **Example:**
 
         || Check Element Non Visible | className=sampleclassName
+
+        With Device/ Pararel :
+        ||  @{emulator} =      |  192.168.1.1    | 192.168.1.2
+        || Check Element Non Visible   |device_parallel=@{emulator}
 
         **Return:**
 
