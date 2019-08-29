@@ -1,10 +1,10 @@
 from robot.libraries import BuiltIn
-BUILTIN = BuiltIn.BuiltIn()
 from decorator import decorator
 
 class RunOnFailureKeywords(object):
 
     def __init__(self):
+        self.BUILTIN = BuiltIn.BuiltIn()
         self.run_on_failure_keyword = None
         self.running_on_failure_routine = False
 
@@ -27,7 +27,7 @@ class RunOnFailureKeywords(object):
             return
         self.running_on_failure_routine = True
         try:
-            BUILTIN.run_keyword(self.run_on_failure_keyword)
+            self.BUILTIN.run_keyword(self.run_on_failure_keyword)
         except Exception as err:
             self.run_on_failure_error(err)
         finally:

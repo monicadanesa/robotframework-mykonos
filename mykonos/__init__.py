@@ -1,8 +1,9 @@
 import os
-from mykonos.locator import LocatorElement, WatcherElement
-from mykonos.keywords import ManagementDevice, GlobalElement, KeyEvent, Touch, Click, GetConditions, ExpectedConditions, Wait, Decorators
 from mykonos.keywords import Parallel
 from mykonos.keywords.runonfailure import RunOnFailureKeywords
+from mykonos.locator import LocatorElement, WatcherElement
+from mykonos.keywords import ManagementDevice, GlobalElement, KeyEvent, Touch, Click, GetConditions, ExpectedConditions, Wait, Decorators
+
 
 class mykonos(
     ManagementDevice,
