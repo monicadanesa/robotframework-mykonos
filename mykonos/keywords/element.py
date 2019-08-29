@@ -2,6 +2,7 @@ from robot.libraries.BuiltIn import BuiltIn
 from mykonos.core.core import Core
 from mykonos.keywords.management_device import ManagementDevice
 from mykonos.keywords.decorators import Decorators, Parallel
+from mykonos.keywords.runonfailure import RunOnFailureKeywords
 
 class GlobalElement(Core):
     def __init__(self):
@@ -243,7 +244,6 @@ class GlobalElement(Core):
                 return self.device().screenshot(filename)
             else:
                 return self.management_device.scan_current_device(device).screenshot(filename)
-
 
 class Click(Core):
 

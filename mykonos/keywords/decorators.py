@@ -1,6 +1,8 @@
 import types
 import multiprocessing
 from mykonos.keywords.management_device import ManagementDevice
+from robot.libraries import BuiltIn
+BUILTIN = BuiltIn.BuiltIn()
 
 
 class Setup():
@@ -101,3 +103,14 @@ class Parallel(object):
 
 
         return wrapper
+
+# class RunOnFailureKeywords(object):
+#     def __init__(self):
+#
+#     def keyword_check_status(func):
+#
+#         def wrapper(self, *argument, **settings):
+#
+#             if 'keyword' in settings:
+#                 keyword = settings['keyword']
+#                 del settings['keyword']
