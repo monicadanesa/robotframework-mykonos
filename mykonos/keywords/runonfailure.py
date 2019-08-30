@@ -17,15 +17,13 @@ class RunOnFailureKeywords(KeywordGroup):
         new_keyword_text = new_keyword if new_keyword is not None else "Nothing"
 
         self.run_on_failure_keyword = new_keyword
-        # self._info('%s will be run on failure.' % new_keyword_text)
-
         return old_keyword_text
 
     def run_on_failure(self):
         if self.run_on_failure_keyword is None:
-            return
+            return False
         elif self.running_on_failure_routine:
-            return
+            return True
         self.running_on_failure_routine = True
         try:
             self.BUILTIN.run_keyword(self.run_on_failure_keyword)
@@ -36,7 +34,7 @@ class RunOnFailureKeywords(KeywordGroup):
 
     def run_on_failure_error(self, err):
         err = "Keyword '%s' couldn't be run on failure: %s" % (self.run_on_failure_keyword, err)
-        if hasattr(self, '_warn'):
-            self._warn(err)
-            return
-        raise Exception(err)
+        # if hasattr(self, '_warn'):
+        #     self._warn(err)
+        #     return
+        # raise Exception(err)
