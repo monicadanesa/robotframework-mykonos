@@ -1,6 +1,5 @@
 import sys
 import inspect
-from decorator import decorator
 
 def _run_on_failure_decorator(method, *args, **kwargs):
     try:

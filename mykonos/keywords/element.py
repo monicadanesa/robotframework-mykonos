@@ -2,10 +2,8 @@ from robot.libraries.BuiltIn import BuiltIn
 from mykonos.core.core import Core
 from mykonos.keywords.management_device import ManagementDevice
 from mykonos.keywords.decorators import Decorators, Parallel
-from mykonos.keywords.runonfailure import RunOnFailureKeywords
-from mykonos.keywords.keywordgroup import KeywordGroup
 
-class GlobalElement(Core, KeywordGroup):
+class GlobalElement(Core):
     def __init__(self):
         self.get = GetConditions()
         self.device_mobile = self.device()
@@ -212,7 +210,7 @@ class GlobalElement(Core, KeywordGroup):
             return self.device().dump(file)
 
     @Parallel.device_check
-    def capture_screen(self, file=None, device=None):
+    def capture_screen(self, file=None, location=None, device=None):
         """Capture screen of device testing.
 
         **Example:**
@@ -234,17 +232,17 @@ class GlobalElement(Core, KeywordGroup):
         """
         if file is not None:
             if device is not None:
-                return self.device().screenshot(file+'.png')
+                return self.device().screenshot(location+file+'.png')
             else:
-                return self.management_device.scan_current_device(device).screenshot(file+'.png')
+                return self.management_device.scan_current_device(device).screenshot(location+file+'.png')
         else:
             index = 0
             index += 1
             filename = 'mykonos-screenshot-%d.png' % index
             if device is not None:
-                return self.device().screenshot(filename)
+                return self.device().screenshot(location+filename)
             else:
-                return self.management_device.scan_current_device(device).screenshot(filename)
+                return self.management_device.scan_current_device(device).screenshot(location+filename)
 
 class Click(Core):
 

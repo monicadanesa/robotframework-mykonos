@@ -1,5 +1,4 @@
 from robot.libraries import BuiltIn
-from decorator import decorator
 from mykonos.keywords.keywordgroup import KeywordGroup
 
 class RunOnFailureKeywords(KeywordGroup):
