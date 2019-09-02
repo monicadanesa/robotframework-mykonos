@@ -223,8 +223,8 @@ class GlobalElement(Core):
 
         With Device/ Pararel :
         ||  @{emulator} =   | 192.168.1.1    | 192.168.1.2
-        ||   Capture Screen  | device_parallel=@{emulator}
-        || Capture Screen    | file=sample  | device_parallel=@{emulator}
+        || Capture Screen  | location='sample/location/'    |  device_parallel=@{emulator}
+        || Capture Screen    | flocation='sample/location/'   | ile=sample  | device_parallel=@{emulator}
 
         **Return:**
 
