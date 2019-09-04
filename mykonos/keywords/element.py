@@ -1,8 +1,14 @@
-from robot.libraries.BuiltIn import BuiltIn
-from mykonos.core.core import Core
-from mykonos.keywords.management_device import ManagementDevice
-from mykonos.keywords.decorators import Decorators, Parallel
 import os
+import re
+import shutil
+from html import unescape
+from robot.api import logger
+from robot.libraries.BuiltIn import BuiltIn
+
+from mykonos.core.core import Core
+from mykonos.keywords.decorators import Decorators, Parallel
+from mykonos.keywords.management_device import ManagementDevice
+
 
 class GlobalElement(Core):
     def __init__(self):
@@ -10,6 +16,7 @@ class GlobalElement(Core):
         self.device_mobile = self.device()
         self.management_device = ManagementDevice()
         self.built_in = BuiltIn()
+        self.index = 0
 
     @Parallel.device_check
     def open_notification(self, device=None, **settings):
@@ -224,22 +231,47 @@ class GlobalElement(Core):
 
         With Device/ Pararel :
         ||  @{emulator} =   | 192.168.1.1    | 192.168.1.2
-        || Capture Screen  | location='sample/location/'    |  device_parallel=${emulator}
-        || Capture Screen    | flocation='sample/location/'   | file=sample  | device_parallel=@{emulator}
+        || Capture Screen   | device_parallel=${emulator}
+        || Capture Screen   | file=sample  | device_parallel=@{emulator}
 
         **Return:**
 
         screen capture of device(*.png)
         """
+        file = self._get_file_capture_screen(file, device)
+        get_curent_path = os.getcwd()
+        xml_path = self._get_output_xml(get_curent_path)
+        location_xml = os.path.dirname(xml_path)
+        html_file = '</td></tr><tr><td colspan="3"><a href="%s">''<img src="%s" width="400px"></a>' % (file, file)
+        html_convert_file = unescape(html_file)
+        try:
+            if location_xml != os.path.dirname(file):
+                shutil.move(os.path.abspath(file), location_xml)
+            else:
+                logger.info('file is not need to move')
+
+            logger.info(html_convert_file, True, False)
+
+        except Exception as error:
+            raise ValueError('file cannot be moved')
+
+    def _get_output_xml(self, get_curent_path):
+        for r, d, f in os.walk(get_curent_path):
+            for files in f:
+                if re.search("^.*xml", files):
+                    xml_path = os.path.join(r, files)
+                    return xml_path
+
+    def _get_file_capture_screen(self, file=None, device=None):
+        location = os.path.join(os.getcwd(), '')
         if file is not None:
             if device is not None:
                 return self.device().screenshot(location+file+'.png')
             else:
                 return self.management_device.scan_current_device(device).screenshot(location+file+'.png')
         else:
-            index = 0
-            index += 1
-            filename = 'mykonos-screenshot-%d.png' % index
+            self.index += 1
+            filename = 'mykonos-screenshot-%d.png' % self.index
             if device is not None:
                 return self.device().screenshot(location+filename)
             else:
