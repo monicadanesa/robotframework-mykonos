@@ -2,6 +2,7 @@ from robot.libraries.BuiltIn import BuiltIn
 from mykonos.core.core import Core
 from mykonos.keywords.management_device import ManagementDevice
 from mykonos.keywords.decorators import Decorators, Parallel
+import os
 
 class GlobalElement(Core):
     def __init__(self):
@@ -223,8 +224,8 @@ class GlobalElement(Core):
 
         With Device/ Pararel :
         ||  @{emulator} =   | 192.168.1.1    | 192.168.1.2
-        || Capture Screen  | location='sample/location/'    |  device_parallel=@{emulator}
-        || Capture Screen    | flocation='sample/location/'   | ile=sample  | device_parallel=@{emulator}
+        || Capture Screen  | location='sample/location/'    |  device_parallel=${emulator}
+        || Capture Screen    | flocation='sample/location/'   | file=sample  | device_parallel=@{emulator}
 
         **Return:**
 
