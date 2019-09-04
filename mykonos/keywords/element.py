@@ -8,6 +8,7 @@ class GlobalElement(Core):
         self.get = GetConditions()
         self.device_mobile = self.device()
         self.management_device = ManagementDevice()
+        self.built_in = BuiltIn()
 
     @Parallel.device_check
     def open_notification(self, device=None, **settings):
@@ -21,7 +22,6 @@ class GlobalElement(Core):
         With Device/ Pararel :
         ||  @{emulator} =      |  192.168.1.1    | 192.168.1.2
         || Open notification   |device_parallel=@{emulator}
-
 
         """
 
