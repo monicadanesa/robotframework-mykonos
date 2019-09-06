@@ -72,6 +72,8 @@ class Touch(Core):
                 return mobile_device.scroll.vert.toBeginning(**settings)
             elif 'vertical to' in action:
                 return mobile_device.scroll.vert.to(**settings)
+            elif 'to' in action:
+                return mobile_device.scroll.to(**settings)
             else:
                 raise Exception('Action is not available on ui automator')
         else:

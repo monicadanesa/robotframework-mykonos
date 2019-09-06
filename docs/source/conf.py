@@ -23,7 +23,7 @@ copyright = '2019, Monica Danesa and Ahmad Andriana Khadafi'
 author = 'Monica Danesa and Ahmad Andriana Khadafi'
 
 # The full version, including alpha/beta/rc tags
-release = '1.3.7'
+release = '1.4.7'
 
 
 # -- General configuration ---------------------------------------------------
