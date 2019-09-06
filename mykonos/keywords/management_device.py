@@ -2,9 +2,9 @@ import os
 import subprocess
 from mykonos.core.core import Core
 from mykonos.keywords.management_device_utils import DeviceUtils
-from mykonos.keywords.keywordgroup import KeywordGroup
+from mykonos.keywords.logging import LoggingKeywords
 
-class ManagementDevice(Core, KeywordGroup):
+class ManagementDevice(Core):
     adb_s = 'adb -s '
     adb_start = ' shell am start -W '
     adb_stop = ' shell am force-stop '
@@ -55,9 +55,11 @@ class ManagementDevice(Core, KeywordGroup):
         ||  Open Application      |  device=emulator-554   | package=sample_apk
         """
         try:
+            self._info("Apps started with the devices :" + device)
             open = self.__shell_pipe(cmd='adb -s %s shell am start -W %s' % (device, package))
             return open
         except ValueError:
+            self._err("Can't be open with :" + device)
             raise ValueError('open device is failed')
 
     def _substring_package(self, package):

@@ -5,6 +5,7 @@ from mykonos.keywords.decorators import Decorators
 from mykonos.keywords.decorators import Parallel
 from mykonos.keywords.key_event import KeyEvent
 from mykonos.keywords.management_device import ManagementDevice
+from mykonos.keywords.logging import LoggingKeywords
 
 
 __all__ = [
@@ -18,4 +19,5 @@ __all__ = [
     "Wait",
     "Decorators"
     "Parallel"
+    "LoggingKeywords"
 ]

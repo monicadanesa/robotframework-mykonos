@@ -4,7 +4,7 @@ import shutil
 from html import unescape
 from robot.api import logger
 from robot.libraries.BuiltIn import BuiltIn
-
+from mykonos.keywords.logging import LoggingKeywords
 from mykonos.core.core import Core
 from mykonos.keywords.decorators import Decorators, Parallel
 from mykonos.keywords.management_device import ManagementDevice
