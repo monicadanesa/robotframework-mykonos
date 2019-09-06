@@ -2,9 +2,8 @@ import os
 import subprocess
 from mykonos.core.core import Core
 from mykonos.keywords.management_device_utils import DeviceUtils
-from mykonos.keywords.keywordgroup import KeywordGroup
 
-class ManagementDevice(Core, KeywordGroup):
+class ManagementDevice(Core):
     adb_s = 'adb -s '
     adb_start = ' shell am start -W '
     adb_stop = ' shell am force-stop '
