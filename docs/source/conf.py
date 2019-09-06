@@ -13,7 +13,7 @@
 import os
 import sys
 sys.path.insert(0, os.path.abspath('../..'))
-sys.setrecursionlimit(1500)
+# sys.setrecursionlimit(1500)
 
 
 # -- Project information -----------------------------------------------------
@@ -23,7 +23,7 @@ copyright = '2019, Monica Danesa and Ahmad Andriana Khadafi'
 author = 'Monica Danesa and Ahmad Andriana Khadafi'
 
 # The full version, including alpha/beta/rc tags
-release = '1.3.5'
+release = '1.4.7'
 
 
 # -- General configuration ---------------------------------------------------

@@ -1,13 +1,22 @@
+import os
+import re
+import shutil
+
+from html import unescape
+from robot.api import logger
 from robot.libraries.BuiltIn import BuiltIn
 from mykonos.core.core import Core
-from mykonos.keywords.management_device import ManagementDevice
 from mykonos.keywords.decorators import Decorators, Parallel
+from mykonos.keywords.management_device import ManagementDevice
+
 
 class GlobalElement(Core):
     def __init__(self):
         self.get = GetConditions()
         self.device_mobile = self.device()
         self.management_device = ManagementDevice()
+        self.built_in = BuiltIn()
+        self.index = 0
 
     @Parallel.device_check
     def open_notification(self, device=None, **settings):
@@ -21,7 +30,6 @@ class GlobalElement(Core):
         With Device/ Pararel :
         ||  @{emulator} =      |  192.168.1.1    | 192.168.1.2
         || Open notification   |device_parallel=@{emulator}
-
 
         """
 
@@ -223,27 +231,51 @@ class GlobalElement(Core):
 
         With Device/ Pararel :
         ||  @{emulator} =   | 192.168.1.1    | 192.168.1.2
-        ||   Capture Screen  | device_parallel=@{emulator}
-        || Capture Screen    | file=sample  | device_parallel=@{emulator}
+        || Capture Screen   | device_parallel=${emulator}
+        || Capture Screen   | file=sample  | device_parallel=@{emulator}
 
         **Return:**
 
         screen capture of device(*.png)
         """
+        file = self._get_file_capture_screen(file, device)
+        get_curent_path = os.getcwd()
+        xml_path = self._get_output_xml(get_curent_path)
+        location_xml = os.path.dirname(xml_path)
+        html_file = '</td></tr><tr><td colspan="3"><a href="%s">''<img src="%s" width="400px"></a>' % (file, file)
+        html_convert_file = unescape(html_file)
+        try:
+            if location_xml != os.path.dirname(file):
+                shutil.move(os.path.abspath(file), location_xml)
+            else:
+                logger.info('file is not need to move')
+
+            logger.info(html_convert_file, True, False)
+
+        except Exception as error:
+            raise ValueError('file cannot be moved')
+
+    def _get_output_xml(self, get_curent_path):
+        for r, d, f in os.walk(get_curent_path):
+            for files in f:
+                if re.search("^.*xml", files):
+                    xml_path = os.path.join(r, files)
+                    return xml_path
+
+    def _get_file_capture_screen(self, file=None, device=None):
+        location = os.path.join(os.getcwd(), '')
         if file is not None:
             if device is not None:
-                return self.device().screenshot(file+'.png')
+                return self.device().screenshot(location+file+'.png')
             else:
-                return self.management_device.scan_current_device(device).screenshot(file+'.png')
+                return self.management_device.scan_current_device(device).screenshot(location+file+'.png')
         else:
-            index = 0
-            index += 1
-            filename = 'mykonos-screenshot-%d.png' % index
+            self.index += 1
+            filename = 'mykonos-screenshot-%d.png' % self.index
             if device is not None:
-                return self.device().screenshot(filename)
+                return self.device().screenshot(location+filename)
             else:
-                return self.management_device.scan_current_device(device).screenshot(filename)
-
+                return self.management_device.scan_current_device(device).screenshot(location+filename)
 
 class Click(Core):
 
@@ -593,7 +625,7 @@ class GetConditions(Core):
 
       With Device/ Pararel :
         ||  @{emulator} =    || 192.168.1.1    || 192.168.1.2
-        || Get Position      || device_parallel=@{emulator} || className=sample || position=1 
+        || Get Position      || device_parallel=@{emulator} || className=sample || position=1
 
         **Return:**
 
@@ -615,6 +647,7 @@ class ExpectedConditions(Core):
     def __init__(self):
         self.device_mobile = self.device()
         self.get_conditions = GetConditions()
+        self.management_device = ManagementDevice()
 
     @Parallel.device_check
     def page_should_contain_element(self, device=None, *argument, **settings):
@@ -625,23 +658,23 @@ class ExpectedConditions(Core):
 
         || Page Should Contain Element | className=sample class
 
+        With Device/ Pararel :
+        || @{emulator} =      |  192.168.1.1    | 192.168.1.2
+        || Page Should Contain Element   |device_parallel=@{emulator}
+
         **Return:**
 
         True or False
         """
-        # element = self.get_conditions.get_element(*argument, **settings)
 
         if 'locator' in settings:
             locator = settings['locator']
-            if locator.exists:
-                return True
-            else:
-                raise ValueError('locator not found')
+            del settings['locator']
+            return locator.exists
         else:
-            if 'device' in settings:
-                device = settings['device']
-                del settings['device']
-                return device(*argument, **settings).exists
+            if device is not None:
+                devices = self.management_device.scan_current_device(device)
+                return devices(*argument, **settings).exists
             else:
                 return self.device_mobile(*argument, **settings).exists
 
@@ -654,18 +687,21 @@ class ExpectedConditions(Core):
 
         || Page Should Contain Text | text=sample text
 
+        With Device/ Pararel :
+        || @{emulator} =      |  192.168.1.1    | 192.168.1.2
+        || Page Should Contain Text   |device_parallel=@{emulator}
+
         **Return:**
 
         True or False
         """
-        text = settings['text']
 
-        if 'device' in settings:
-            device = settings['device']
-            del settings['device']
-            return device(*argument, **settings).exists
+        if 'locator' in settings:
+            locator = settings['locator']
+            del settings['locator']
+            return locator.exists
         else:
-            if device != None:
+            if device is not None:
                 get_devices = self.management_device.scan_current_device(device)
                 return get_devices(*argument, **settings).exists
 
@@ -702,34 +738,29 @@ class ExpectedConditions(Core):
 
         || Page Should Not Contain Element | className=sample element
 
+        With Device/ Pararel :
+        || @{emulator} =      |  192.168.1.1    | 192.168.1.2
+        || Page Should Not Contain Element   |device_parallel=@{emulator}
+
         **Return:**
 
         True or False
         """
-        # element = self.get_conditions.get_element(*argument, **settings)
-
         if 'locator' in settings:
             locator = settings['locator']
-            found = locator.exists
-            if found is False:
-                return True
-            else:
-                return False
+            del settings['locator']
+            result = locator.exists
         else:
-            if 'device' in settings:
-                device = settings['device']
-                del settings['device']
-                found = device(*argument, **settings).exists
-                if found is True:
-                    return False
-                else:
-                    return True
+            if device is not None:
+                devices = self.management_device.scan_current_device(device)
+                result = devices(*argument, **settings).exists
             else:
-                found = self.device_mobile(*argument, **settings).exists
-                if found is True:
-                    return False
-                else:
-                    return True
+                result = self.device_mobile(*argument, **settings).exists
+
+        if result is True:
+            return False
+        else:
+            return True
 
     @Parallel.device_check
     def page_should_not_contain_text(self, device=None, *argument, **settings):
@@ -741,27 +772,31 @@ class ExpectedConditions(Core):
 
         || Page Should Contain Text | text=sample text
 
+        With Device/ Pararel :
+        || @{emulator} =      |  192.168.1.1    | 192.168.1.2
+        || Page Should Contain Text   |device_parallel=@{emulator}
+
+
         **Return:**
 
         True or False
 
         """
-        text = self.get_conditions.get_text(*argument, **settings)
-
         if 'locator' in settings:
             locator = settings['locator']
-            found = locator[text].exists
-            if found is False:
-                return True
-            else:
-                return False
+            del settings['locator']
+            result = locator.exists
         else:
-            if 'device' in settings:
-                device = settings['device']
-                del settings['device']
-                return device(*argument, **settings).exists
+            if device is not None:
+                devices = self.management_device.scan_current_device(device)
+                result = devices(*argument, **settings).exists
             else:
-                return self.device_mobile(*argument, **settings).exists
+                result = self.device_mobile(*argument, **settings).exists
+
+        if result is True:
+            return False
+        else:
+            return True
 
     @Parallel.device_check
     def text_should_be_enabled(self, device=None, *argument, **settings):
@@ -773,24 +808,29 @@ class ExpectedConditions(Core):
 
         || Text Should Be Enabled | text=sample text
 
+        With Device/ Pararel :
+        || @{emulator} =      |  192.168.1.1    | 192.168.1.2
+        || Text Should Be Enabled   |device_parallel=@{emulator}
+
         **Return:**
 
         True or False
         """
-        element = self.get_conditions.get_element()
-        enabled = element['enabled']
         if 'locator' in settings:
             locator = settings['locator']
-            if locator.info['enabled'] is True:
-                return True
-            else:
-                return False
+            del settings['locator']
+            result = locator.info['enabled']
         else:
-            if 'device' in settings:
-                device_mobile = settings['device']
-                del settings['device']
+            if device is not None:
+                devices = self.management_device.scan_current_device(device)
+                result = devices(*argument, **settings).info['enabled']
+            else:
+                result = self.device_mobile(*argument, **settings).info['enabled']
 
-            return self.device_mobile(*argument, **settings).enabled
+        if result is not True:
+            return False
+        else:
+            return True
 
     @Parallel.device_check
     def text_should_be_disabled(self, device=None, *argument, **settings):
@@ -802,93 +842,28 @@ class ExpectedConditions(Core):
 
         || Element Should Be Disabled | text=sample text
 
+        With Device/ Pararel :
+        || @{emulator} =      |  192.168.1.1    | 192.168.1.2
+        || Element Should Be Disabled   |device_parallel=@{emulator}
+
         **Return:**
 
         True or False
         """
-        element = self.get_conditions.get_element()
-        enabled = element['enabled']
         if 'locator' in settings:
             locator = settings['locator']
-            if locator.info['enabled'] is False:
-                return True
+            result = locator.info['enabled']
+        else:
+            if device is not None:
+                devices = self.management_device.scan_current_device(device)
+                result = devices(*argument, **settings).info['enabled']
             else:
-                return False
+                result = self.device_mobile(*argument, **settings).info['enabled']
+
+        if result is True:
+            return False
         else:
-            if 'device' in settings:
-                device_mobile = settings['device']
-                del settings['device']
-
-            return self.device_mobile(*argument, **settings).enabled
-
-    @Parallel.device_check
-    def element_should_contain_text(self, device=None, *argument, **settings):
-        """Element should contain text.
-
-        The keyword is used to identify text on element.
-
-        **Example:**
-
-        || Element Should Contain Text | className=class | text=sample text
-
-        **Return:**
-
-        True or False
-        """
-        if 'locator' in settings:
-            locator = settings['locator']
-
-            try:
-                if locator.info['text'] is not None:
-                    return True
-            except Exception:
-                return False
-        else:
-            if 'device' in settings:
-                device_mobile = settings['device']
-                del settings['device']
-
-            try:
-                if self.device_mobile(*argument, **settings).info['text'] is not None:
-                    return True
-            except Exception:
-                return False
-
-    @Parallel.device_check
-    def element_should_not_contain_text(self, device=None, *argument, **settings):
-        """Element should contain text.
-
-        The keyword is used to identify text on element.
-
-        **Example:**
-
-        || Element Should Not Contain Text | className=class | text=sample text
-
-        **Return:**
-
-        True or False
-        """
-        if 'locator' in settings:
-            locator = settings['locator']
-
-            try:
-                if locator.info['text'] is None:
-                    return True
-                return False
-            except Exception as error:
-                return True
-
-        else:
-            if 'device' in settings:
-                device_mobile = settings['device']
-                del settings['device']
-
-            try:
-                if self.device_mobile(*argument, **settings).info['text'] is None:
-                    return True
-                return False
-            except Exception as error:
-                return True
+            return True
 
     @Parallel.device_check
     def check_element_visible(self, device=None, *argument, **settings):
@@ -899,32 +874,31 @@ class ExpectedConditions(Core):
         **Example:**
 
         || Check Element Visible | className=sampleclassName
+        With Device/ Pararel :
+        ||  @{emulator} =      |  192.168.1.1    | 192.168.1.2
+        || Check Element Visible   |device_parallel=@{emulator}
 
         **Return:**
 
         True or False
         """
         if 'locator' in settings:
-            locator = settings['locator']
-
-            try:
-                if locator.info['visibleBounds'] is None:
-                    return False
-                return True
-            except Exception as error:
-                return ("Exception Error: {0}".format(error))
+            result = settings['locator']
+            del settings['locator']
 
         else:
-            if 'device' in settings:
-                device_mobile = settings['device']
-                del settings['device']
+            if device is not None:
+                devices = self.management_device.scan_current_device(device)
+                result = devices(*argument, **settings)
+            else:
+                result = self.device_mobile(*argument, **settings)
 
-            try:
-                if self.device_mobile(*argument, **settings).info['visibleBounds'] is None:
-                    return False
+        try:
+            check_element_visible = result.info['visibleBounds']
+            if check_element_visible is not None:
                 return True
-            except Exception as error:
-                return ("Exception Error: {0}".format(error))
+        except Exception as error:
+            return False
 
     @Parallel.device_check
     def check_element_non_visible(self, device=None, *argument, **settings):
@@ -936,28 +910,26 @@ class ExpectedConditions(Core):
 
         || Check Element Non Visible | className=sampleclassName
 
+        With Device/ Pararel :
+        ||  @{emulator} =      |  192.168.1.1    | 192.168.1.2
+        || Check Element Non Visible   |device_parallel=@{emulator}
+
         **Return:**
 
         True or False
         """
         if 'locator' in settings:
             locator = settings['locator']
-
-            try:
-                if locator.info['visibleBounds'] is None:
-                    return True
-                return False
-            except Exception as error:
-                return ("Exception Error: {0}".format(error))
-
+            del settings['locator']
         else:
-            if 'device' in settings:
-                device_mobile = settings['device']
-                del settings['device']
-
-            try:
-                if self.device_mobile(*argument, **settings).info['visibleBounds'] is None:
-                    return True
+            if device is not None:
+                devices = self.management_device.scan_current_device(device)
+                result = devices(*argument, **settings)
+            else:
+                result = self.device_mobile(*argument, **settings)
+        try:
+            check_element_visible = result.info['visibleBounds']
+            if check_element_visible is not None:
                 return False
-            except Exception as error:
-                return ("Exception Error: {0}".format(error))
+        except Exception as error:
+            return True

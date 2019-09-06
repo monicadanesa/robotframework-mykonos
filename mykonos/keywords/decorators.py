@@ -1,7 +1,7 @@
 import types
 import multiprocessing
+from functools import wraps
 from mykonos.keywords.management_device import ManagementDevice
-
 
 class Setup():
 
@@ -72,7 +72,6 @@ class Decorators(object):
                 else:
                     func(self, *argument, **settings)
 
-
         return wrapper
 
 class Parallel(object):
@@ -81,7 +80,7 @@ class Parallel(object):
         pass
 
     def device_check(func):
-
+        @wraps(func)
         def wrapper(self, *argument, **settings):
 
             if 'devices_parallel' in settings:
@@ -93,11 +92,8 @@ class Parallel(object):
                     return func(self, device=devices_parallel, *argument, **settings)
                 else:
                     list = [func(self, device=d, *argument, **settings) for d in devices_parallel]
-
                     return list
-
             else:
                 return func(self, device=None, *argument, **settings)
-
 
         return wrapper
