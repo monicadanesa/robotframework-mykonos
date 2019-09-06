@@ -218,7 +218,7 @@ class GlobalElement(Core):
             return self.device().dump(file)
 
     @Parallel.device_check
-    def capture_screen(self, file=None, location=None, device=None):
+    def capture_screen(self, file=None, device=None):
         """Capture screen of device testing.
 
         **Example:**
