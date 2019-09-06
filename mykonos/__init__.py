@@ -1,6 +1,5 @@
 import os
 from mykonos.keywords import Parallel
-from mykonos.keywords.runonfailure import RunOnFailureKeywords
 from mykonos.locator import LocatorElement, WatcherElement
 from mykonos.keywords import ManagementDevice, GlobalElement, KeyEvent, Touch, Click, GetConditions, ExpectedConditions, Wait, Decorators
 
@@ -18,7 +17,6 @@ class mykonos(
     Wait,
     Decorators,
     Parallel,
-    RunOnFailureKeywords
 ):
 
     def __init__(self, run_on_failure="Capture Screen"):
