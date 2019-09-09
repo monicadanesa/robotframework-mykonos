@@ -1,39 +1,32 @@
-import os
-import logging
-from robot.libraries.BuiltIn import BuiltIn
 from robot.api import logger
-from mykonos.core import Core
 
-class LoggingKeywords(Core):
-    LOG_LEVEL_DEBUG = ['DEBUG']
-    LOG_LEVEL_INFO = ['DEBUG', 'INFO']
-    LOG_LEVEL_WARN = ['DEBUG', 'INFO', 'WARN']
-    LOG_LEVEL_ERROR = ['DEBUG', 'INFO', 'WARN', 'ERROR']
+class LoggingKeywords(object):
 
     @property
-    def _debug(self, message):
-        if self._log_level in self.LOG_LEVEL_DEBUG:
-            logger.debug(message)
+    def debug(self, message):
+        logger.debug(message, True, True)
 
-    def _info(self, message):
-        if self._log_level in self.LOG_LEVEL_INFO:
-            logger.info(message)
+    def info(self, message):
+        logger.info(message, True, True)
 
-    def _warn(self, message):
-        if self._log_level in self.LOG_LEVEL_WARN:
-            logger.info(message)
+    def info_html(self, message):
+        logger.info(message, True, False)
 
-    def _err(self, message):
-        if self._log_level in self.LOG_LEVEL_ERR:
-            logger.err(message)
+    def warn(self, message):
+        logger.warn(message, True, True)
 
-    def _log(self, message, level='INFO'):
+    def error(self, message):
+        logger.error(message, True, True)
+
+    def log(self, message, level='INFO', also_console=True):
         level = level.upper()
         if (level == 'INFO'):
-            self._info(message)
+            self.info(message)
+        elif (level == 'INFO_HTML'):
+            self.info(message)
         elif (level == 'DEBUG'):
-            self._debug(message)
+            self.debug(message)
         elif (level == 'WARN'):
-            self._warn(message)
+            self.warn(message)
         elif (level == 'ERROR'):
-            self._err(message)
+            self.error(message)

@@ -55,12 +55,11 @@ class ManagementDevice(Core):
         ||  Open Application      |  device=emulator-554   | package=sample_apk
         """
         try:
-            self._info("Apps started with the devices :" + device)
+            self.log("Apps started with the devices : %s" % (device), level='INFO')
             open = self.__shell_pipe(cmd='adb -s %s shell am start -W %s' % (device, package))
             return open
         except ValueError:
-            self._err("Can't be open with :" + device)
-            raise ValueError('open device is failed')
+            self.log(device + "%s can't be opened" % (device), level='INFO')
 
     def _substring_package(self, package):
         return package.split('/')[0]

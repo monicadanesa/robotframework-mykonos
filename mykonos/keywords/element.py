@@ -8,6 +8,7 @@ from mykonos.keywords.logging import LoggingKeywords
 from mykonos.core.core import Core
 from mykonos.keywords.decorators import Decorators, Parallel
 from mykonos.keywords.management_device import ManagementDevice
+from mykonos.keywords.logging import LoggingKeywords
 
 
 class GlobalElement(Core):
@@ -248,12 +249,12 @@ class GlobalElement(Core):
             if location_xml != os.path.dirname(file):
                 shutil.move(os.path.abspath(file), location_xml)
             else:
-                logger.info('file is not need to move')
+                self.info('File screenshoot attached on: %s' % (file))
 
-            logger.info(html_convert_file, True, False)
+            self.info_html(html_convert_file)
 
         except Exception as error:
-            raise ValueError('file cannot be moved')
+            self.info('File cannot be moved')
 
     def _get_output_xml(self, get_curent_path):
         for r, d, f in os.walk(get_curent_path):
@@ -297,23 +298,25 @@ class Click(Core):
         ||  @{emulator} =   | 192.168.1.1    | 192.168.1.2
         ||  Click Element                    | className=sample class  | device_parallel=@{emulator}
         """
-
-        if 'locator' in settings:
-            locator = settings['locator']
-            return locator.click()
-
-        else:
-            if device is not None:
-                get_devices = self.management_device.scan_current_device(device)
-                return get_devices(*argument, **settings).click()
-
-            elif 'watcher' in settings:
-                watcher = settings['watcher']
-                del settings['watcher']
-
-                return watcher.click(*argument, **settings)
+        try:
+            if 'locator' in settings:
+                locator = settings['locator']
+                return locator.click()
             else:
-                return self.device_mobile(*argument, **settings).click()
+                if device is not None:
+                    get_devices = self.management_device.scan_current_device(device)
+                    return get_devices(*argument, **settings).click()
+
+                elif 'watcher' in settings:
+                    watcher = settings['watcher']
+                    del settings['watcher']
+
+                    return watcher.click(*argument, **settings)
+                else:
+                    return self.device_mobile(*argument, **settings).click()
+            self.info('Locator %s has been clicked' % (locator))
+        except ValueError:
+            self.error('Locator %s is failure to be clicked' % (locator))
 
     @Decorators.android_version
     def long_click_element(self, device=None, *argument, **settings):
