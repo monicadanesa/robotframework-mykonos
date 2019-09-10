@@ -40,6 +40,7 @@ class ManagementDevice(Core):
         for i in range(0, total):
             list.append(byte_decode[start[i]:end[i]])
         return list
+        self._info('List current device /n %s' % (list))
 
     def scan_current_device(self,  *args, **settings):
         """Scan current device on the workstation, and consume to open application.
@@ -55,11 +56,11 @@ class ManagementDevice(Core):
         ||  Open Application      |  device=emulator-554   | package=sample_apk
         """
         try:
-            self.log("Apps started with the devices : %s" % (device), level='INFO')
+            self._log("Tests already started: %s" % (device), level='INFO')
             open = self.__shell_pipe(cmd='adb -s %s shell am start -W %s' % (device, package))
             return open
         except ValueError:
-            self.log(device + "%s can't be opened" % (device), level='INFO')
+            self._log("%s can't be opened" % (device), level='INFO')
 
     def _substring_package(self, package):
         return package.split('/')[0]
@@ -73,6 +74,7 @@ class ManagementDevice(Core):
         package = self._substring_package(package)
         cl = os.system(self.adb_kill + package)
         return cl
+        self._log('%s already quited' % (device), level="INFO")
 
     def close_all_app(self, device):
         """Close all tasks on device, and kill all application sessions.

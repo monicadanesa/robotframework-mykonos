@@ -219,7 +219,7 @@ class GlobalElement(Core):
             return self.device().dump(file)
 
     @Parallel.device_check
-    def capture_screen(self, file=None, location=None, device=None):
+    def capture_screen(self, device=None, file=None, location=None):
         """Capture screen of device testing.
 
         **Example:**
@@ -249,12 +249,12 @@ class GlobalElement(Core):
             if location_xml != os.path.dirname(file):
                 shutil.move(os.path.abspath(file), location_xml)
             else:
-                self.info('File screenshoot attached on: %s' % (file))
+                self._info('File screenshoot attached on: %s' % (file))
 
-            self.info_html(html_convert_file)
+            self._info_html(html_convert_file)
 
         except Exception as error:
-            self.info('File cannot be moved')
+            self._info('File cannot be moved')
 
     def _get_output_xml(self, get_curent_path):
         for r, d, f in os.walk(get_curent_path):
@@ -314,9 +314,9 @@ class Click(Core):
                     return watcher.click(*argument, **settings)
                 else:
                     return self.device_mobile(*argument, **settings).click()
-            self.info('Locator %s has been clicked' % (locator))
+            self._info('Locator %s has been clicked' % (locator))
         except ValueError:
-            self.error('Locator %s is failure to be clicked' % (locator))
+            self._error('Locator %s is failure to be clicked' % (locator))
 
     @Decorators.android_version
     def long_click_element(self, device=None, *argument, **settings):
