@@ -314,9 +314,9 @@ class Click(Core):
                     return watcher.click(*argument, **settings)
                 else:
                     return self.device_mobile(*argument, **settings).click()
-            self._info('Locator %s has been clicked' % (locator))
+            self.info('Locator %s has been clicked' % (locator))
         except ValueError:
-            self._error('Locator %s is failure to be clicked' % (locator))
+            self.error('Locator %s is failure to be clicked' % (locator))
 
     @Decorators.android_version
     def long_click_element(self, device=None, *argument, **settings):

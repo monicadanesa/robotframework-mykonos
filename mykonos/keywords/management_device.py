@@ -56,11 +56,11 @@ class ManagementDevice(Core):
         ||  Open Application      |  device=emulator-554   | package=sample_apk
         """
         try:
-            self._log("Tests already started: %s" % (device), level='INFO')
+            self.log("Tests already started: %s" % (device), level='INFO')
             open = self.__shell_pipe(cmd='adb -s %s shell am start -W %s' % (device, package))
             return open
         except ValueError:
-            self._log("%s can't be opened" % (device), level='INFO')
+            self.log("%s can't be opened" % (device), level='INFO')
 
     def _substring_package(self, package):
         return package.split('/')[0]
@@ -74,7 +74,7 @@ class ManagementDevice(Core):
         package = self._substring_package(package)
         cl = os.system(self.adb_kill + package)
         return cl
-        self._log('%s already quited' % (device), level="INFO")
+        self.log('%s already quited' % (device), level="INFO")
 
     def close_all_app(self, device):
         """Close all tasks on device, and kill all application sessions.
