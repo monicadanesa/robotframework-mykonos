@@ -249,12 +249,12 @@ class GlobalElement(Core):
             if location_xml != os.path.dirname(file):
                 shutil.move(os.path.abspath(file), location_xml)
             else:
-                self._info('File screenshoot attached on: %s' % (file))
+                self.info('File screenshoot attached on: %s' % (file))
 
-            self._info_html(html_convert_file)
+            self.info_html(html_convert_file)
 
         except Exception as error:
-            self._info('File cannot be moved')
+            self.info('File cannot be moved')
 
     def _get_output_xml(self, get_curent_path):
         for r, d, f in os.walk(get_curent_path):
