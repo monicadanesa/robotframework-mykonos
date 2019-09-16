@@ -22,6 +22,7 @@ class ManagementDevice(Core):
     def __init__(self):
         """Devine all global variable."""
         self.index = 0
+        self.logging = LoggingKeywords()
 
     def get_devices(self):
         list = []
@@ -40,7 +41,7 @@ class ManagementDevice(Core):
         for i in range(0, total):
             list.append(byte_decode[start[i]:end[i]])
         return list
-        self._info('List current device /n %s' % (list))
+        self.logging.info('List current device /n %s' % (list))
 
     def scan_current_device(self,  *args, **settings):
         """Scan current device on the workstation, and consume to open application.
@@ -56,11 +57,11 @@ class ManagementDevice(Core):
         ||  Open Application      |  device=emulator-554   | package=sample_apk
         """
         try:
-            self.log("Tests already started: %s" % (device), level='INFO')
+            self.logging.log("Tests has been started: %s" % (device), level='INFO')
             open = self.__shell_pipe(cmd='adb -s %s shell am start -W %s' % (device, package))
             return open
         except ValueError:
-            self.log("%s can't be opened" % (device), level='INFO')
+            self.logging.log("%s can't be opened" % (device), level='INFO')
 
     def _substring_package(self, package):
         return package.split('/')[0]
@@ -74,7 +75,7 @@ class ManagementDevice(Core):
         package = self._substring_package(package)
         cl = os.system(self.adb_kill + package)
         return cl
-        self.log('%s already quited' % (device), level="INFO")
+        self.logging.log('%s already quited' % (device), level="INFO")
 
     def close_all_app(self, device):
         """Close all tasks on device, and kill all application sessions.
@@ -85,7 +86,7 @@ class ManagementDevice(Core):
             os.system('adb -s '+device+' shell am kill-all')
             return self.device(device)
         except ValueError:
-            raise ValueError('device can not be opened')
+            self.logging.info('device: "%s" can not closed' % (device))
 
     def __append_current_package(self, cmd):
         top_activity = self.__shell_pipe(cmd)
@@ -95,7 +96,6 @@ class ManagementDevice(Core):
         pid = str(top_activity)[start_pid:end_pid]
         package = str(top_activity)[end_pid+1:end_package_name]
         return package
-
 
     def __get_current_package(self, **settings):
         get_device = self.get_devices()
@@ -121,8 +121,9 @@ class ManagementDevice(Core):
         try:
             reset = self.__shell_pipe(cmd='adb -s %s shell pm clear %s' % (device, package))
             return reset
+            self.logging.info('Device: %s with apps package: %s reseted', (device, package) )
         except ValueError:
-            raise ValueError('reset apps is failed')
+            self.logging.error('Device: %s or Application with package: %s', (device, package))
 
     def hide_keyboard(self):
         """Hide Keyword on Device.
@@ -130,8 +131,13 @@ class ManagementDevice(Core):
         **Example:**
         || Hide keyboard      |
         """
-        rs = os.system(self.adb_key_event+'111')
-        return rs
+        try:
+            rs = os.system(self.adb_key_event+'111')
+            err = 'Keywboard not found %s' % (rs)
+            return rs
+        except Exception as err:
+            raise Exception(err)
+
 
     def pull(self, **settings):
         """Pull file from Device.
@@ -206,9 +212,10 @@ class ManagementDevice(Core):
         """
         try:
             closed = self.__shell_pipe(cmd='adb -s %s shell am force-stop %s' % (device, package))
+            msg = 'Apps with package: %s already closed' % (closed)
             return closed
-        except ValueError:
-            raise ValueError('device not found')
+        except Exception as err:
+            raise Exception(err, msg)
 
     def get_android_version(self, **settings):
         get_device = self.get_devices()
