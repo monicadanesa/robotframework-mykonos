@@ -9,6 +9,7 @@ class Wait(Core):
     def __init__(self):
         self.device_mobile = self.device()
         self.get_conditions = GetConditions()
+        self.logging = LoggingKeywords()
 
     @Decorators.android_version
     @Parallel.device_check
@@ -27,10 +28,10 @@ class Wait(Core):
                 if locator.wait.exists(timeout=time) is False:
                     return False or error
                 return True
-                self.log('locator with name %s is exists' % (locator), level="INFO")
+                self.logging.log('locator with name %s is exists' % (locator), level="INFO")
             except Exception as error:
                 return ("Exception Error: {0}".format(error))
-                self.log('locator with name %s is not exists' % (locator), level="ERROR")
+                self.logging.log('locator with name %s is not exists' % (locator), level="ERROR")
         else:
             if 'device' in settings:
                 device = settings['device']
@@ -39,10 +40,10 @@ class Wait(Core):
                 if self.device_mobile(*argument, **settings).wait.exists(timeout=time) is False:
                     return False or error
                 return True
-                self.log('locator with name %s is exists' % (locator), level="INFO")
+                self.logging.log('locator with name %s is exists' % (locator), level="INFO")
             except Exception as error:
                 return ("Exception Error: {0}".format(error))
-                self.log('locator with name %s is not exists' % (locator), level="ERROR")
+                self.logging.log('locator with name %s is not exists' % (locator), level="ERROR")
 
     @Decorators.android_version
     def wait_until_element_is_exists(self, time=1000, error=None, *argument, **settings):
@@ -61,10 +62,10 @@ class Wait(Core):
                 if locator[element].wait.exists(timeout=time) is False:
                     return False or error
                 return True
-                self.log('locator with name %s is exists' % (locator), level="INFO")
+                self.logging.log('locator with name %s is exists' % (locator), level="INFO")
             except Exception as error:
                 return ("Exception Error: {0}".format(error))
-                self.log('locator with name %s is exists' % (locator), level="INFO")
+                self.logging.log('locator with name %s is exists' % (locator), level="INFO")
         else:
             if 'device' in settings:
                 device = settings['device']
@@ -73,10 +74,10 @@ class Wait(Core):
                 if self.device_mobile(*argument, **settings).wait.exists(timeout=time) is False:
                     return False or error
                 return True
-                self.log('locator with name %s is exists' % (locator), level="INFO")
+                self.logging.log('locator with name %s is exists' % (locator), level="INFO")
             except Exception as error:
                 return ("Exception Error: {0}".format(error))
-                self.log('locator with name %s is not exists' % (locator), level="ERROR")
+                self.logging.log('locator with name %s is not exists' % (locator), level="ERROR")
 
     @Decorators.android_version
     def wait_until_page_does_not_contains(self, time=1000, *argument, **settings):
@@ -93,10 +94,10 @@ class Wait(Core):
                 if locator.wait.gone(timeout=time) is True:
                     return True
                 return False
-                self.log('locator with name %s is exists' % (locator), level="INFO")
+                self.logging.log('locator with name %s is exists' % (locator), level="INFO")
             except Exception as error:
                 return ("Exception Error: {0}".format(error))
-                self.log('locator with name %s is exists' % (locator), level="ERROR")
+                self.logging.log('locator with name %s is exists' % (locator), level="ERROR")
         else:
             if 'device' in settings:
                 device = settings['device']
@@ -105,7 +106,7 @@ class Wait(Core):
                 if self.device_mobile(*argument, **settings).wait.gone(timeout=time) is True:
                     return True
                 return False
-                self.log('locator with name %s is exists' % (locator), level="INFO")
+                self.logging.log('locator with name %s is exists' % (locator), level="INFO")
             except Exception as error:
                 return ("Exception Error: {0}".format(error))
-                self.log('locator with name %s is not exists' % (locator), level="ERROR")
+                self.logging.log('locator with name %s is not exists' % (locator), level="ERROR")
