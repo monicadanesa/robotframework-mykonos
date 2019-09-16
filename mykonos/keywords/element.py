@@ -238,14 +238,14 @@ class GlobalElement(Core):
 
         screen capture of device(*.png)
         """
-        file = self._get_file_capture_screen(file, device)
+        file = self._get_file_capture_screen(file, device, location)
         get_current_path = os.getcwd()
         xml_path = self._get_output_xml(get_current_path)
         html_file = '</td></tr><tr><td colspan="3"><a href="%s">''<img src="%s" width="400px"></a>' % (file, file)
         html_convert_file = unescape(html_file)
         try:
             if location is not None:
-                shutil.move(file, location)
+                logger.info("File with path: %s is no need to moved" % (file))
             else:
                 self._get_output_xml(get_current_path) is None
                 return file
@@ -266,21 +266,22 @@ class GlobalElement(Core):
                     xml_path = os.path.join(r, files)
                     return xml_path
 
-    def _get_file_capture_screen(self, file=None, device=None):
-        location = os.path.join(os.getcwd(), '')
+    def _get_file_capture_screen(self, file=None, device=None, location=None):
+        curr_loc = os.path.join(os.getcwd(), '')
+        curr = datetime.now()
+        curr_time = str(curr.strftime("%d-%m-%Y-%H-%M-%S"))
+        filename = '/mykonos-screenshot-%s.png' % curr_time
+
         if file is not None:
             if device is not None:
-                return self.device().screenshot(location+file+'.png')
+                return self.device().screenshot(curr_loc+location+"/"+file+"-"+curr_time+'.png')
             else:
-                return self.management_device.scan_current_device(device).screenshot(location+file+'.png')
+                return self.management_device.scan_current_device(device).screenshot(curr_loc+location+"/"+file+"-"+curr_time+'.png')
         else:
-            curr = datetime.now()
-            curr_time = str(curr.strftime("%d-%m-%Y-%H-%M-%S"))
-            filename = 'mykonos-screenshot-%s.png' % curr_time
             if device is not None:
-                return self.device().screenshot(location+filename)
+                return self.device().screenshot(curr_loc+location+filename)
             else:
-                return self.management_device.scan_current_device(device).screenshot(location+filename)
+                return self.management_device.scan_current_device(device).screenshot(curr_loc+location+filename)
 
 class Click(Core):
 
