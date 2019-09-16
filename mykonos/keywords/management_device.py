@@ -146,16 +146,19 @@ class ManagementDevice(Core):
         || Pull         | local=sample_path  | remote=sample_location
         || Pull         | local=sample_path  |
         """
-        local = settings['local']
-        if 'remote' in settings:
-            remote = settings['remote']
-            rs = os.system(self.adb_pull + local + remote)
-        else:
-            rs = os.system(self.adb_pull + local)
-        if rs != 0:
-            return False
-        else:
-            return True
+        try:
+            local = settings['local']
+            if 'remote' in settings:
+                remote = settings['remote']
+                rs = os.system(self.adb_pull + local + remote)
+            else:
+                rs = os.system(self.adb_pull + local)
+            if rs != 0:
+                return False
+            else:
+                return True
+        except ValueError:
+            self.logging.error("Local files is not found")
 
     def push(self, **settings):
         """Push file into Device.
@@ -165,11 +168,14 @@ class ManagementDevice(Core):
         """
         local = settings['local']
         remote = settings['remote']
-        rs = os.system(self.adb_push + local + ' ' + remote)
-        if rs != 0:
-            return False
-        else:
-            return True
+        try:
+            rs = os.system(self.adb_push + local + ' ' + remote)
+            if rs != 0:
+                return False
+            else:
+                return True
+        except ValueError:
+            self.logging.error("File with name %s or %s not found" % (local, remote))
 
     def __shell_pipe(self, cmd):
         p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
