@@ -241,7 +241,6 @@ class GlobalElement(Core):
         file = self._get_file_capture_screen(file, device)
         get_current_path = os.getcwd()
         xml_path = self._get_output_xml(get_current_path)
-        # location_xml = os.path.dirname(xml_path)
         html_file = '</td></tr><tr><td colspan="3"><a href="%s">''<img src="%s" width="400px"></a>' % (file, file)
         html_convert_file = unescape(html_file)
         try:
@@ -278,7 +277,6 @@ class GlobalElement(Core):
             curr = datetime.now()
             curr_time = str(curr.strftime("%d-%m-%Y-%H-%M-%S"))
             filename = 'mykonos-screenshot-%s.png' % curr_time
-            print(filename)
             if device is not None:
                 return self.device().screenshot(location+filename)
             else:
