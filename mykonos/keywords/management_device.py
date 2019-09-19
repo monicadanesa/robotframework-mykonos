@@ -47,14 +47,14 @@ class ManagementDevice(Core):
         """
         return self.device(*args)
 
-    def open_app(self, device, package):
+    def open_app(self, devices_parallel, package):
         """Open Application on device.
         This keyword is used to open new applications.
         **Example:**
-        ||  Open Application      |  device=emulator-554   | package=sample_apk
+        ||  Open Application      |  devices_parallel=emulator-554   | package=sample_apk
         """
         try:
-            open = self.__shell_pipe(cmd='adb -s %s shell am start -W %s' % (device, package))
+            open = self.__shell_pipe(cmd='adb -s %s shell am start -W %s' % (devices_parallel, package))
             return open
         except ValueError:
             raise ValueError('open device is failed')
@@ -62,24 +62,24 @@ class ManagementDevice(Core):
     def _substring_package(self, package):
         return package.split('/')[0]
 
-    def quit_app(self, device, package):
+    def quit_app(self, devices_parallel, package):
         """Quit application on device.
         This keyword is used to close application without kill a session.
         **Example:**
-        ||  Quit App      |  device=emulator-554   | package=sample_apk
+        ||  Quit App      | package=sample_apk
         """
         package = self._substring_package(package)
         cl = os.system(self.adb_kill + package)
         return cl
 
-    def close_all_app(self, device):
+    def close_all_app(self, devices_parallel):
         """Close all tasks on device, and kill all application sessions.
         **Example:**
-        || Close All App      |  device=emulator-554   |
+        || Close All App      |  devices_parallel=emulator-554   |
         """
         try:
-            os.system('adb -s '+device+' shell am kill-all')
-            return self.device(device)
+            os.system('adb -s '+devices_parallel+' shell am kill-all')
+            return self.device(devices_parallel)
         except ValueError:
             raise ValueError('device can not be opened')
 
@@ -108,14 +108,14 @@ class ManagementDevice(Core):
                     out = self.__shell_pipe(cmd="adb -s %s shell dumpsys activity | grep top-activity | awk '{ print $8 }'")
                     self.__append_current_package(out)
 
-    def reset_app(self, device, package):
+    def reset_app(self, devices_parallel, package):
         """Reset Application on Device.
         This keyword is used to reset the current application while sesion is keep alive.
         **Example:**
         || Reset Application   |  emulator=emulator-554 | package=sample_apk
         """
         try:
-            reset = self.__shell_pipe(cmd='adb -s %s shell pm clear %s' % (device, package))
+            reset = self.__shell_pipe(cmd='adb -s %s shell pm clear %s' % (devices_parallel, package))
             return reset
         except ValueError:
             raise ValueError('reset apps is failed')
@@ -181,27 +181,27 @@ class ManagementDevice(Core):
         clear_cache = self.__shell_pipe('adb shell pm trim-caches')
         return clear_cache
 
-    def switch_application(self, device, new_app):
+    def switch_application(self, devices_parallel, new_app):
         """Switch application the devices.
         This keywords return previous active application
         and it can be used in the next application.
         **Example:**
-        || Switch Application      | device=sample_device  | new_app=sample_app
+        || Switch Application      | devices_parallel=sample_device  | new_app=sample_app
         """
         old = self.__get_old_package()
         new = new_app.info['currentPackageName']
         current = self.device().info['currentPackageName']
-        result = self.open_app(device, old)
+        result = self.open_app(devices_parallel, old)
         return result
 
-    def close_app(self, device, package):
+    def close_app(self, devices_parallel, package):
         """Close Application the device.
         This keywords is used to close the current application and kill session on device.
         **Example:**
-        || Close App        | devices=${emulator} | package=Package Activity
+        || Close App        | devices_parallel=${emulator} | package=Package Activity
         """
         try:
-            closed = self.__shell_pipe(cmd='adb -s %s shell am force-stop %s' % (device, package))
+            closed = self.__shell_pipe(cmd='adb -s %s shell am force-stop %s' % (devices_parallel, package))
             return closed
         except ValueError:
             raise ValueError('device not found')

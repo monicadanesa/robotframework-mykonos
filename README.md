@@ -27,14 +27,18 @@ Below is the sample test case for testing an Application Messaging (sample.robot
 
 
 *** Settings ***
-    Library                   mykonos
+    Library                                               mykonos
+
 *** Variables ***
-    ${apk}                    com.android.mms
-    ${sender_number}          0812345678
-    ${message}                helllo
-    ${emulator}               192.168.56.131:5555
+    ${apk}                                            com.android.messaging/com.android.messaging.ui.conversationlist.ConversationListActivity
+    ${sender_number}                                  0812345678
+    ${message}                                        helllo
+    ${emulator}                                       192.168.56.131:5555
 
 *** keywords ***
+Open Application
+    Open App                                        devices_parallel=${emulator}     package=${apk}
+
 Click Icon Message
     Click Element                                   text=Messaging    devices_parallel=${emulator}
 
@@ -55,14 +59,18 @@ Input Message
 Click Send Message
     Click Element                                   resourceId=com.android.messaging:id/send_message_button    className=android.widget.ImageButton      devices_parallel=${emulator}
 
+Close Application
+    Close App                                       devices_parallel=${emulator}      package=${apk}
+
 *** Test Cases ***
 Test Case Input Phone Number on Application Messaging
-    Click Icon Message
+    Open Application
     Click Icon New Message
     Input Phone Number                              ${sender_number}
     Press Enter
     Input Message                                   ${message}
     Click Send Message
+    Close Application
 
 
 Run The Test
