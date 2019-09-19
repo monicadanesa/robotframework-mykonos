@@ -1,49 +1,46 @@
 *** Settings ***
 Library    ../mykonos/
+
 *** Variables ***
-@{emulator}               192.168.56.127:5555   192.168.56.125:5555
-${apk}                    com.android.mms
-${sender_number}          0812345678
-${message}                helllo
-${emulator}               192.168.56.127:5555
+${activity_apk}                                   com.android.messaging/com.android.messaging.ui.conversationlist.ConversationListActivity
+${apk}                                            com.android.messaging
+${sender_number}                                  0812345678
+${message}                                        helllo
+${emulator}                                       192.168.56.131:5555
 
 *** keywords ***
-Scan Device and Open Application Messaging
-    [Arguments]                                               ${input_emulator}     ${emulator}
-    Reset App                                                 ${input_emulator}    ${emulator}
-    Open App                                                  ${input_emulator}     ${emulator}
+Open Application
+    Open App                                        devices_parallel=${emulator}     package=${activity_apk}
 
-Click Plus Icon on the Messaging Menu
-    [Arguments]                                               ${input_emulator}
-    :FOR        ${device}       in                            @{devices}
-    \ Click Element                                             resourceId=com.android.messaging:id/start_new_conversation_button     device=${emulator}
+Click Icon Message
+    Click Element                                   text=Messaging    devices_parallel=${emulator}
 
-Type Sender Number
-    [Arguments]                                               ${input_sender_number}
-    Input Text                                                resourceId=com.android.messaging:id/recipient_text_view     input=${input_sender_number}
+Click Icon New Message
+    Click Element                                   resourceId=com.android.messaging:id/start_new_conversation_button   devices_parallel=${emulator}
+
+Input Phone Number
+    [Arguments]                                     ${input_phonenumber}
+    Input Text                                      text=To    devices_parallel=${emulator}   input=${input_phonenumber}
 
 Press Enter
-    Press Keycode                                             enter
+    Press Keycode                                   keys=enter     devices_parallel=${emulator}
 
-Input Message on the Text Area
-    [Arguments]                                               ${input_message}
-    Input Text                                                resourceId=com.android.messaging:id/compose_message_text      input=${input_message}
+Input Message
+    [Arguments]                                     ${input_message}
+    Input Text                                      className=android.widget.EditText   devices_parallel=${emulator}   input=${input_message}
 
-Click Button Send
-    Click Element                                             resourceId=com.android.messaging:id/self_send_icon
+Click Send Message
+    Click Element                                   resourceId=com.android.messaging:id/send_message_button    className=android.widget.ImageButton      devices_parallel=${emulator}
+
+Close Application
+    Close App                                       package=${apk}      devices_parallel=${emulator}
 
 *** Test Cases ***
 Test Case Input Phone Number on Application Messaging
-    Reset App                                                     device=192.168.56.127:5555    package=${apk}
-    Open App                                                      device=@{emulator}     package=${apk}
-    Click Element                                                 className=android.widget.TextView     devices_parallel=@{emulator}    index=0  text=Messaging
-    Click Element                                                 resourceId=com.android.messaging:id/start_new_conversation_button     devices_parallel=@{emulator}
-    # Scan Device and Open Application Messaging                ${emulator}       ${apk}
-    # Click Plus Icon on the Messaging Menu
-    # Type Sender Number                                        ${sender_number}
-    # Press Enter
-    # Input Message on the Text Area                            ${message}
-    # Click Button Send
-    # Page Should Contain Text                                  text=${message}
-    # Quit App                                                  ${emulator}       ${apk}
-    # Close App
+    Open Application
+    Click Icon New Message
+    Input Phone Number                              ${sender_number}
+    Press Enter
+    Input Message                                   ${message}
+    Click Send Message
+    Close Application
