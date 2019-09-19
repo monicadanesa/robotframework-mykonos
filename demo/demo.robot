@@ -1,5 +1,5 @@
 *** Settings ***
-Library    ../mykonos/
+Library    mykonos
 
 *** Variables ***
 ${activity_apk}                                   com.android.messaging/com.android.messaging.ui.conversationlist.ConversationListActivity
