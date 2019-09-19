@@ -1,7 +1,8 @@
 from setuptools import setup
 from setuptools import setup, find_packages
 
-version = '1.4.8'
+
+version = '1.4.9'
 
 setup(
     name='mykonos',
