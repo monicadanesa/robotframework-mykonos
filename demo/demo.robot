@@ -1,12 +1,17 @@
 *** Settings ***
 Library    ../mykonos/
+
 *** Variables ***
-${apk}                    com.android.mms
-${sender_number}          0812345678
-${message}                helllo
-${emulator}               192.168.56.131:5555
+${activity_apk}                                   com.android.messaging/com.android.messaging.ui.conversationlist.ConversationListActivity
+${apk}                                            com.android.messaging
+${sender_number}                                  0812345678
+${message}                                        helllo
+${emulator}                                       192.168.56.131:5555
 
 *** keywords ***
+Open Application
+    Open App                                        devices_parallel=${emulator}     package=${activity_apk}
+
 Click Icon Message
     Click Element                                   text=Messaging    devices_parallel=${emulator}
 
@@ -27,11 +32,15 @@ Input Message
 Click Send Message
     Click Element                                   resourceId=com.android.messaging:id/send_message_button    className=android.widget.ImageButton      devices_parallel=${emulator}
 
+Close Application
+    Close App                                       package=${apk}      devices_parallel=${emulator}
+
 *** Test Cases ***
 Test Case Input Phone Number on Application Messaging
-    Click Icon Message
+    Open Application
     Click Icon New Message
     Input Phone Number                              ${sender_number}
     Press Enter
     Input Message                                   ${message}
     Click Send Message
+    Close Application

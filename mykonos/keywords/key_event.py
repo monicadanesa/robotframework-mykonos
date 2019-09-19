@@ -1,12 +1,16 @@
 import time
 from mykonos.core.core import Core
+from mykonos.keywords.management_device import ManagementDevice
+from mykonos.keywords.decorators import Decorators, Parallel
 
 
 class KeyEvent(Core):
     def __init__(self):
         self.device_mobile = self.device()
+        self.management_device = ManagementDevice()
 
-    def press_keycode(self, *argument, **settings):
+    @Parallel.device_check
+    def press_keycode(self, device=None, *argument, **settings):
         """Press key on device.
 
         This keyword is used to press key on device.
@@ -21,26 +25,29 @@ class KeyEvent(Core):
 
         **Example:**
 
-        || Press Keycode                  |back
+        || Press Keycode                  |keys=back
         """
+        if 'keys' in settings:
+            keys = settings['keys']
+            del settings['keys']
+
         if 'locator' in settings:
             locator = settings['locator']
 
             del settings['locator']
             return locator.press(*argument, **settings)
         else:
-            if 'device' in settings:
-                device = settings['device']
-                del settings['device']
+            if device is not None:
+                get_device = self.management_device.scan_current_device(device)
+                return get_device.press(keys)
 
-                return device.press(*argument, **settings)
             elif 'watcher' in settings:
                 watcher = settings['watcher']
                 del settings['watcher']
 
-                return watcher.press(*argument, **settings)
+                return watcher.press(keyss)
             else:
-                return self.device_mobile.press(*argument, **settings)
+                return self.device_mobile.press(keys)
 
     def long_press(self, *args, **setting):
         """Long press on device.

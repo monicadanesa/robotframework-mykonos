@@ -1,14 +1,18 @@
 import traceback
 from alog import debug, info, error
 from mykonos.core.core import Core
+from mykonos.keywords.management_device import ManagementDevice
+from mykonos.keywords.decorators import Decorators, Parallel
 
 
 class LocatorElement(Core):
 
     def __init__(self):
         self.device_mobile = self.device()
+        self.management_device = ManagementDevice()
 
-    def get_locator(self, *argument, **settings):
+    @Parallel.device_check
+    def get_locator(self, device=None, *argument, **settings):
         """Access locator from device.
 
         **selector support:**
@@ -27,11 +31,14 @@ class LocatorElement(Core):
 
         || ${locator}= Get Locator           | text=sample text
 
+        With Device:
+        ||  @{emulator} =   | 192.168.1.1    | 192.168.1.2
+        || ${locator}= Get Locator           | text=sample text     | devices_parallel=@{emulator}
+
         """
-        if 'device' in settings:
-            device = settings['device']
-            del settings['device']
-            return device(*argument, **settings)
+        if device is not None:
+            get_device = self.management_device.scan_current_device(device)
+            return get_device(*argument, **settings)
         else:
             return self.device_mobile(*argument, **settings)
 
@@ -101,7 +108,8 @@ class LocatorElement(Core):
         """
         return parent.down(*argument, **settings)
 
-    def get_locator_by_index(self, *argument, **settings):
+    @Parallel.device_check
+    def get_locator_by_index(self, device=None, *argument, **settings):
         """Get Element locator by index on device.
 
         **Example:**
@@ -121,11 +129,9 @@ class LocatorElement(Core):
 
             return locator[index]
         else:
-            if 'device' in settings:
-                device = settings['device']
-                del settings['device']
-
-                return device(*argument, **settings)[index]
+            if device is not None:
+                get_device = self.management_device.scan_current_device(device)
+                return get_device(*argument, **settings)[index]
             else:
                 return self.device_mobile(*argument, **settings)[index]
 

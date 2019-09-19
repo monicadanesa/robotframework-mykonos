@@ -29,7 +29,7 @@ class GlobalElement(Core):
 
         With Device/ Pararel :
         ||  @{emulator} =      |  192.168.1.1    | 192.168.1.2
-        || Open notification   |device_parallel=@{emulator}
+        || Open notification   |devices_parallel=@{emulator}
 
         """
 
