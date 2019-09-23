@@ -7,7 +7,7 @@ ${activity_apk}                                   com.android.messaging/com.andr
 ${apk}                                            com.android.messaging
 ${sender_number}                                  0812345678
 ${message}                                        helllo
-@{emulator}                                       192.168.56.131:5555   192.168.56.132:5555
+@{emulator}                                       192.168.56.132:5555
 
 *** keywords ***
 Open Application

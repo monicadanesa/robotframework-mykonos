@@ -373,7 +373,6 @@ class Click(Core):
         else:
             return self.device_mobile().click(x, y)
 
-
 class GetConditions(Core):
     def __init__(self):
         self.device_mobile = self.device()
@@ -645,7 +644,6 @@ class GetConditions(Core):
                 return devices(*argument, **settings)[position]
             else:
                 return self.device_mobile(*argument, **settings)[position]
-
 
 class ExpectedConditions(Core):
     def __init__(self):

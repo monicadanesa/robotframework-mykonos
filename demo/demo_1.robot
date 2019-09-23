@@ -7,11 +7,11 @@ ${activity_apk}                                   com.android.messaging/com.andr
 ${apk}                                            com.android.messaging
 ${sender_number}                                  0812345678
 ${message}                                        helllo
-@{emulator}                                       192.168.56.131:5555   192.168.56.132:5555
+@{emulator}                                       192.168.56.131:5555
 
 *** keywords ***
 Open Application
-    Open App                                        devices_parallel=${emulator}     package=${activity_apk}
+    Open App                                        devices_parallel=${emulator}     package=com.android.gallery3d/com.android.gallery3d.app.GalleryActivity
 
 Click Icon Message
     Click Element                                   text=Messaging    devices_parallel=${emulator}
@@ -34,15 +34,11 @@ Click Send Message
     Click Element                                   resourceId=com.android.messaging:id/send_message_button    className=android.widget.ImageButton      devices_parallel=${emulator}
 
 Close Application
-    Close App                                       package=${apk}      devices_parallel=${emulator}
+    Close App                                       package=com.android.gallery3d      devices_parallel=${emulator}
+
 
 *** Test Cases ***
 Test Case Input Phone Number on Application Messaging
     Log    ${emulator}
     Open Application
-    Click Icon New Message
-    Input Phone Number                              ${sender_number}
-    Press Enter
-    Input Message                                   ${message}
-    Click Send Message
     Close Application
