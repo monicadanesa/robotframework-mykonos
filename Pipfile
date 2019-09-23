@@ -18,6 +18,8 @@ alog = "*"
 sphinx = "*"
 rinohtype = "*"
 ray = "*"
+robotframework-pabot = "*"
+robotremoteserver = "*"
 
 [requires]
 python_version = "3.7"

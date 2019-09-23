@@ -1,0 +1,3 @@
+Second signal will force exit.
+[ ERROR ] No connection - is pabot called with --pabotlib option?
+pabot.PabotLib#_close: threw an exception: is --pabotlib flag used?

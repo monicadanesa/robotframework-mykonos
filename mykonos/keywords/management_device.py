@@ -1,6 +1,7 @@
 import os
 import subprocess
 from mykonos.core.core import Core
+from mykonos.keywords.decorators import Parallel
 from mykonos.keywords.management_device_utils import DeviceUtils
 
 class ManagementDevice(Core):
@@ -47,14 +48,16 @@ class ManagementDevice(Core):
         """
         return self.device(*args)
 
-    def open_app(self, devices_parallel, package):
+    @Parallel.device_check
+    def open_app(self, device, package):
         """Open Application on device.
         This keyword is used to open new applications.
         **Example:**
         ||  Open Application      |  devices_parallel=emulator-554   | package=sample_apk
         """
         try:
-            open = self.__shell_pipe(cmd='adb -s %s shell am start -W %s' % (devices_parallel, package))
+            print(device)
+            open = self.__shell_pipe(cmd='adb -s %s shell am start -W %s' % (device, package))
             return open
         except ValueError:
             raise ValueError('open device is failed')
@@ -194,14 +197,15 @@ class ManagementDevice(Core):
         result = self.open_app(devices_parallel, old)
         return result
 
-    def close_app(self, devices_parallel, package):
+    @Parallel.device_check
+    def close_app(self, device, package):
         """Close Application the device.
         This keywords is used to close the current application and kill session on device.
         **Example:**
         || Close App        | devices_parallel=${emulator} | package=Package Activity
         """
         try:
-            closed = self.__shell_pipe(cmd='adb -s %s shell am force-stop %s' % (devices_parallel, package))
+            closed = self.__shell_pipe(cmd='adb -s %s shell am force-stop %s' % (device, package))
             return closed
         except ValueError:
             raise ValueError('device not found')

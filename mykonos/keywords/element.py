@@ -6,7 +6,7 @@ from html import unescape
 from robot.api import logger
 from robot.libraries.BuiltIn import BuiltIn
 from mykonos.core.core import Core
-from mykonos.keywords.decorators import Decorators, Parallel
+from mykonos.keywords.decorators import Parallel
 from mykonos.keywords.management_device import ManagementDevice
 
 
@@ -321,7 +321,6 @@ class Click(Core):
             else:
                 return self.device_mobile(*argument, **settings).click()
 
-    @Decorators.android_version
     def long_click_element(self, device=None, *argument, **settings):
         """Long click on UI base on locator.
 
@@ -346,7 +345,6 @@ class Click(Core):
             else:
                 return self.device_mobile(*argument, **settings).long_click()
 
-    @Decorators.android_version
     def click_a_point(self, device=None, *argument, **settings):
         """Click into pointer target location.
 
