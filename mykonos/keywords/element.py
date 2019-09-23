@@ -218,7 +218,7 @@ class GlobalElement(Core):
             return self.device().dump(file)
 
     @Parallel.device_check
-    def capture_screen(self, location=None, file=None, device=None):
+    def capture_screen(self, file=None, device=None):
         """Capture screen of device testing.
 
         **Example:**
@@ -238,50 +238,45 @@ class GlobalElement(Core):
 
         screen capture of device(*.png)
         """
-        file = self._get_file_capture_screen(file, device, location)
-        get_current_path = os.getcwd()
-        xml_path = self._get_output_xml(get_current_path)
+        curr = datetime.now()
+        curr_time = str(curr.strftime("%d-%m-%Y-%H-%M-%S"))
+
+        if file is not None:
+            filename = file + '-' + curr_time + '.png'
+        else:
+            filename = 'mykonos-screenshot-%s.png' % curr_time
+
+        if device is not None:
+            get_device = self.management_device.scan_current_device(device)
+        else:
+            get_device = self.device()
+
+        file = get_device.screenshot(filename)
         html_file = '</td></tr><tr><td colspan="3"><a href="%s">''<img src="%s" width="400px"></a>' % (file, file)
         html_convert_file = unescape(html_file)
+        print(html_convert_file)
         try:
-            if location is not None:
-                logger.info("File with path: %s is no need to moved" % (file))
-            else:
-                self._get_output_xml(get_current_path) is None
-                return file
-                if location != (os.path.dirname(file)):
-                    shutil.move(os.path.abspath(file), xml_path)
-                else:
-                    logger.info("file is no need to move")
-
             logger.info(html_convert_file, True, True)
 
         except ValueError:
             logger.info("file %s can't be moved" % (file))
 
-    def _get_output_xml(self, get_current_path):
-        for r, d, f in os.walk(get_current_path):
-            for files in f:
-                if re.search("^.*xml", files):
-                    xml_path = os.path.join(r, files)
-                    return xml_path
-
-    def _get_file_capture_screen(self, file=None, device=None, location=None):
-        curr_loc = os.path.join(os.getcwd(), '')
+    def _get_file_capture_screen(self, file=None, device=None):
         curr = datetime.now()
         curr_time = str(curr.strftime("%d-%m-%Y-%H-%M-%S"))
-        filename = '/mykonos-screenshot-%s.png' % curr_time
 
         if file is not None:
-            if device is not None:
-                return self.device().screenshot(curr_loc+location+"/"+file+"-"+curr_time+'.png')
-            else:
-                return self.management_device.scan_current_device(device).screenshot(curr_loc+location+"/"+file+"-"+curr_time+'.png')
+            filename = file + '-' + curr_time + '.png'
         else:
-            if device is not None:
-                return self.device().screenshot(curr_loc+location+filename)
-            else:
-                return self.management_device.scan_current_device(device).screenshot(curr_loc+location+filename)
+            filename = 'mykonos-screenshot-%s.png' % curr_time
+
+        if device is not None:
+            get_device = self.management_device.scan_current_device(device)
+        else:
+            get_device = self.device()
+
+        return get_device.screenshot(filename)
+
 
 class Click(Core):
 

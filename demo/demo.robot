@@ -1,6 +1,5 @@
 *** Settings ***
 Library    ../mykonos/
-Library    pabot.PabotLib
 
 *** Variables ***
 ${activity_apk}                                   com.android.messaging/com.android.messaging.ui.conversationlist.ConversationListActivity
@@ -38,7 +37,6 @@ Close Application
 
 *** Test Cases ***
 Test Case Input Phone Number on Application Messaging
-    Log    ${emulator}
     Open Application
     Click Icon New Message
     Input Phone Number                              ${sender_number}
@@ -46,3 +44,4 @@ Test Case Input Phone Number on Application Messaging
     Input Message                                   ${message}
     Click Send Message
     Close Application
+    Capture Screen                                  devices_parallel=${emulator}
