@@ -20,3 +20,7 @@ _static
 _templates
 demo/src
 build
+.pabot*
+pabot
+pabot_results
+demo_1.robot

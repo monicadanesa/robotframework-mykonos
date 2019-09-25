@@ -1,14 +1,15 @@
 import os
 import re
+import time
 import shutil
 from datetime import datetime
 from html import unescape
 from robot.api import logger
 from robot.libraries.BuiltIn import BuiltIn
 from mykonos.core.core import Core
-from mykonos.keywords.decorators import Decorators, Parallel
+from mykonos.keywords.decorators import Parallel
 from mykonos.keywords.management_device import ManagementDevice
-
+from robot.libraries.BuiltIn import BuiltIn
 
 class GlobalElement(Core):
     def __init__(self):
@@ -218,8 +219,9 @@ class GlobalElement(Core):
             return self.device().dump(file)
 
     @Parallel.device_check
-    def capture_screen(self, location=None, file=None, device=None):
-        """Capture screen of device testing.
+    def capture_screen(self, device=None):
+        """Capture screen of device testing,
+        the file name will get automatically by the test case name.
 
         **Example:**
 
@@ -232,56 +234,52 @@ class GlobalElement(Core):
         With Device/ Pararel :
         ||  @{emulator} =   | 192.168.1.1    | 192.168.1.2
         || Capture Screen   | device_parallel=${emulator}
-        || Capture Screen   | file=sample  | device_parallel=@{emulator}
+        || Capture Screen   | device_parallel=@{emulator}
 
         **Return:**
 
         screen capture of device(*.png)
         """
-        file = self._get_file_capture_screen(file, device, location)
-        get_current_path = os.getcwd()
-        xml_path = self._get_output_xml(get_current_path)
+        curr = datetime.now()
+        curr_time = str(curr.strftime("%d-%m-%Y-%H-%M-%S"))
+        testname = self.built_in.get_variable_value('${TEST_NAME}').replace(" ", "-")
+        out_dir = self.built_in.get_variable_value('${OUTPUT DIR}')
+        shoot = testname + '-' + curr_time + '.png'
+
+        if device is not None:
+            get_device = self.management_device.scan_current_device(device)
+        else:
+            get_device = self.device()
+
+        file = get_device.screenshot(shoot)
+        if out_dir is not None:
+            shutil.move(os.path.abspath(file), out_dir)
+
         html_file = '</td></tr><tr><td colspan="3"><a href="%s">''<img src="%s" width="400px"></a>' % (file, file)
         html_convert_file = unescape(html_file)
+        print(html_convert_file)
         try:
-            if location is not None:
-                logger.info("File with path: %s is no need to moved" % (file))
-            else:
-                self._get_output_xml(get_current_path) is None
-                return file
-                if location != (os.path.dirname(file)):
-                    shutil.move(os.path.abspath(file), xml_path)
-                else:
-                    logger.info("file is no need to move")
-
             logger.info(html_convert_file, True, True)
 
         except ValueError:
             logger.info("file %s can't be moved" % (file))
 
-    def _get_output_xml(self, get_current_path):
-        for r, d, f in os.walk(get_current_path):
-            for files in f:
-                if re.search("^.*xml", files):
-                    xml_path = os.path.join(r, files)
-                    return xml_path
-
-    def _get_file_capture_screen(self, file=None, device=None, location=None):
-        curr_loc = os.path.join(os.getcwd(), '')
+    def _get_file_capture_screen(self, file=None, device=None):
         curr = datetime.now()
         curr_time = str(curr.strftime("%d-%m-%Y-%H-%M-%S"))
-        filename = '/mykonos-screenshot-%s.png' % curr_time
 
         if file is not None:
-            if device is not None:
-                return self.device().screenshot(curr_loc+location+"/"+file+"-"+curr_time+'.png')
-            else:
-                return self.management_device.scan_current_device(device).screenshot(curr_loc+location+"/"+file+"-"+curr_time+'.png')
+            filename = file + '-' + curr_time + '.png'
         else:
-            if device is not None:
-                return self.device().screenshot(curr_loc+location+filename)
-            else:
-                return self.management_device.scan_current_device(device).screenshot(curr_loc+location+filename)
+            filename = 'mykonos-screenshot-%s.png' % curr_time
+
+        if device is not None:
+            get_device = self.management_device.scan_current_device(device)
+        else:
+            get_device = self.device()
+
+        return get_device.screenshot(filename)
+
 
 class Click(Core):
 
@@ -321,7 +319,6 @@ class Click(Core):
             else:
                 return self.device_mobile(*argument, **settings).click()
 
-    @Decorators.android_version
     def long_click_element(self, device=None, *argument, **settings):
         """Long click on UI base on locator.
 
@@ -346,7 +343,6 @@ class Click(Core):
             else:
                 return self.device_mobile(*argument, **settings).long_click()
 
-    @Decorators.android_version
     def click_a_point(self, device=None, *argument, **settings):
         """Click into pointer target location.
 
@@ -374,7 +370,6 @@ class Click(Core):
             return get_devices.click(x, y)
         else:
             return self.device_mobile().click(x, y)
-
 
 class GetConditions(Core):
     def __init__(self):
@@ -647,7 +642,6 @@ class GetConditions(Core):
                 return devices(*argument, **settings)[position]
             else:
                 return self.device_mobile(*argument, **settings)[position]
-
 
 class ExpectedConditions(Core):
     def __init__(self):

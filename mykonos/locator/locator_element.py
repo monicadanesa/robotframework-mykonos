@@ -2,7 +2,7 @@ import traceback
 from alog import debug, info, error
 from mykonos.core.core import Core
 from mykonos.keywords.management_device import ManagementDevice
-from mykonos.keywords.decorators import Decorators, Parallel
+from mykonos.keywords.decorators import Parallel
 
 
 class LocatorElement(Core):
