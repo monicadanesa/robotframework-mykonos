@@ -49,15 +49,21 @@ class ManagementDevice(Core):
         return self.device(*args)
 
     @Parallel.device_check
-    def open_app(self, device, package):
+    def open_app(self, **settings):
         """Open Application on device.
         This keyword is used to open new applications.
         **Example:**
         ||  Open Application      |  devices_parallel=emulator-554   | package=sample_apk
         """
         try:
-            print(device)
-            open = self.__shell_pipe(cmd='adb -s %s shell am start -W %s' % (device, package))
+            if 'package' in settings:
+                package = settings['package']
+                
+            if 'device' in settings:
+                device = settings['device']
+                open = self.__shell_pipe(cmd='adb -s %s shell am start -W %s' % (device, package))
+            else:
+                open = self.__shell_pipe(cmd='adb -s shell am start -W %s' % (package))
             return open
         except ValueError:
             raise ValueError('open device is failed')
