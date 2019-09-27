@@ -244,18 +244,18 @@ class GlobalElement(Core):
         curr_time = str(curr.strftime("%d-%m-%Y-%H-%M-%S"))
         testname = self.built_in.get_variable_value('${TEST_NAME}').replace(" ", "-")
         shoot = testname + '-' + curr_time + '.png'
+        curr_dir = os.getcwd()
+        out_dir = self.built_in.get_variable_value('${OUTPUT DIR}')
 
         if device is not None:
             get_device = self.management_device.scan_current_device(device)
         else:
             get_device = self.device()
 
-        out_dir = self.built_in.get_variable_value('${OUTPUT DIR}')
-        if location is not None:
-            file = get_device.screenshot(shoot)
+        file = get_device.screenshot(shoot)
+
+        if location == out_dir:
             shutil.move(os.path.abspath(file), out_dir)
-        else:
-            file = get_device.screenshot(shoot)
 
         html_file = '</td></tr><tr><td colspan="3"><a href="%s">''<img src="%s" width="400px"></a>' % (file, file)
         html_convert_file = unescape(html_file)
