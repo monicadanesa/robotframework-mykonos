@@ -256,6 +256,8 @@ class GlobalElement(Core):
 
         if location == out_dir:
             shutil.move(os.path.abspath(file), out_dir)
+        else:
+            logger.info("File : %s no need to moved" % (file))
 
         html_file = '</td></tr><tr><td colspan="3"><a href="%s">''<img src="%s" width="400px"></a>' % (file, file)
         html_convert_file = unescape(html_file)
