@@ -219,7 +219,7 @@ class GlobalElement(Core):
             return self.device().dump(file)
 
     @Parallel.device_check
-    def capture_screen(self, device=None):
+    def capture_screen(self, device=None, location=None):
         """Capture screen of device testing,
         the file name will get automatically by the test case name.
 
@@ -234,7 +234,7 @@ class GlobalElement(Core):
         With Device/ Pararel :
         ||  @{emulator} =   | 192.168.1.1    | 192.168.1.2
         || Capture Screen   | device_parallel=${emulator}
-        || Capture Screen   | device_parallel=@{emulator}
+        || Capture Screen   | location=path | device_parallel=@{emulator}
 
         **Return:**
 
@@ -243,7 +243,6 @@ class GlobalElement(Core):
         curr = datetime.now()
         curr_time = str(curr.strftime("%d-%m-%Y-%H-%M-%S"))
         testname = self.built_in.get_variable_value('${TEST_NAME}').replace(" ", "-")
-        out_dir = self.built_in.get_variable_value('${OUTPUT DIR}')
         shoot = testname + '-' + curr_time + '.png'
 
         if device is not None:
@@ -251,9 +250,12 @@ class GlobalElement(Core):
         else:
             get_device = self.device()
 
-        file = get_device.screenshot(shoot)
-        if out_dir is not None:
+        out_dir = self.built_in.get_variable_value('${OUTPUT DIR}')
+        if location is not None:
+            file = get_device.screenshot(shoot)
             shutil.move(os.path.abspath(file), out_dir)
+        else:
+            file = get_device.screenshot(shoot)
 
         html_file = '</td></tr><tr><td colspan="3"><a href="%s">''<img src="%s" width="400px"></a>' % (file, file)
         html_convert_file = unescape(html_file)
