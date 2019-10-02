@@ -219,7 +219,7 @@ class GlobalElement(Core):
             return self.device().dump(file)
 
     @Parallel.device_check
-    def capture_screen(self, device=None, location=None):
+    def capture_screen(self, device=None):
         """Capture screen of device testing,
         the file name will get automatically by the test case name.
 
@@ -245,7 +245,7 @@ class GlobalElement(Core):
         testname = self.built_in.get_variable_value('${TEST_NAME}').replace(" ", "-")
         shoot = testname + '-' + curr_time + '.png'
         curr_dir = os.getcwd()
-        out_dir = self.built_in.get_variable_value('${OUTPUT DIR}')
+        out_dir = self.built_in.get_variable_value('${OUTPUTDIR}')
 
         if device is not None:
             get_device = self.management_device.scan_current_device(device)
@@ -254,7 +254,7 @@ class GlobalElement(Core):
 
         file = get_device.screenshot(shoot)
 
-        if location == out_dir:
+        if curr_dir != out_dir:
             shutil.move(os.path.abspath(file), out_dir)
         else:
             logger.info("File : %s no need to moved" % (file))
