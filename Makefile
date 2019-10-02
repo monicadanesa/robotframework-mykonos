@@ -1,10 +1,4 @@
 SHELL = /bin/sh
-version:
-
-upgrade:
-	@echo "update to new version"
-	python3 -m twine upload  dist/*
-
 clean:
 	@echo "clean all pyc extension"
 	rm -rf mykonos/core/*.pyc
