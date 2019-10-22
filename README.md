@@ -7,6 +7,12 @@ Introduction
 ------------
 Mykonos is a complete test automation tools for Android Device using Robot Framework and UI Automator (Python), it easy to learn because Mykonos use BDD syntax to write the test cases.
 
+
+Prerequisites
+-------------
+* Download and Install Python3 [Python](https://www.python.org/downloads/)
+* Install latest Robot framework latest  base on the guidance [Robotframework](https://github.com/robotframework/robotframework/blob/master/INSTALL.rst)
+
 Installation
 ------------
 
