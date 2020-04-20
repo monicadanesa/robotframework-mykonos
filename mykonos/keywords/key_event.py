@@ -45,7 +45,7 @@ class KeyEvent(Core):
                 watcher = settings['watcher']
                 del settings['watcher']
 
-                return watcher.press(keyss)
+                return watcher.press(keys)
             else:
                 return self.device_mobile.press(keys)
 

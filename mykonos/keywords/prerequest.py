@@ -7,7 +7,7 @@ class PreRequest(Core):
         self.built_in = BuiltIn()
         self.global_el = GlobalElement()
 
-    def set_test_rail_id(self, test_id=None):
+    def set_test_rail_id(self, *test_id=None):
         """The keyword for set test rail id
 
         ***Example:***

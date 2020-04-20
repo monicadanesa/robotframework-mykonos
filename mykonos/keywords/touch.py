@@ -41,12 +41,12 @@ class Touch(Core):
         if device is not None:
 
             if isinstance(device, str):
-                mobile_device = self.management_device.scan_current_device(device)(scrollable=True)
+                mobile_device = self.management_device.scan_current_device(device)(scrollable=True or False)
             else:
                 mobile_device = []
-                mobile_device.append(self.management_device.scan_current_device(device)(scrollable=True))
+                mobile_device.append(self.management_device.scan_current_device(device)(scrollable=True or False))
         else:
-                mobile_device = self.device_mobile(scrollable=True)
+                mobile_device = self.device_mobile(scrollable=True or False)
 
         if 'action' in settings:
             action = settings['action']

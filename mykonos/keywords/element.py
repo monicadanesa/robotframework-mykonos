@@ -243,7 +243,7 @@ class GlobalElement(Core):
         curr = datetime.now()
         curr_time = str(curr.strftime("%d-%m-%Y-%H-%M-%S"))
         testname = self.built_in.get_variable_value('${TEST_NAME}').replace(" ", "-")
-        shoot = testname + '-' + curr_time + '.png'
+        shoot = testname + '-' + '.png'
         curr_dir = os.getcwd()
         out_dir = self.built_in.get_variable_value('${OUTPUTDIR}')
 
