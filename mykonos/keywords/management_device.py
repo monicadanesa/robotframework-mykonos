@@ -58,7 +58,7 @@ class ManagementDevice(Core):
         try:
             if 'package' in settings:
                 package = settings['package']
-                
+
             if 'device' in settings:
                 device = settings['device']
                 open = self.__shell_pipe(cmd='adb -s %s shell am start -W %s' % (device, package))
@@ -203,15 +203,16 @@ class ManagementDevice(Core):
         result = self.open_app(devices_parallel, old)
         return result
 
-    @Parallel.device_check
-    def close_app(self, device, package):
+    def close_app(self, package, devices_parallel):
         """Close Application the device.
         This keywords is used to close the current application and kill session on device.
         **Example:**
         || Close App        | devices_parallel=${emulator} | package=Package Activity
         """
         try:
-            closed = self.__shell_pipe(cmd='adb -s %s shell am force-stop %s' % (device, package))
+            print(devices_parallel)
+            print(package)
+            closed = self.__shell_pipe(cmd='adb -s '+str(devices_parallel)+' shell am force-stop '+str(package)+'')
             return closed
         except ValueError:
             raise ValueError('device not found')
